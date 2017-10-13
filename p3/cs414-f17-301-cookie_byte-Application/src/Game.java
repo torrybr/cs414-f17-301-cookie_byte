@@ -4,24 +4,25 @@ public class Game {
 	int GameID; 
 	User Player1;
 	User Player2;
-	User Player3;
 	User CurrentTurn;
 	GameStatus status;
 	User Winner;
+	UniqueRandomNumbers rand;
 	
-	public Game (User Player1, User Player2){
+	public Game (int GameID ,User Player1, User Player2){
 		
 		this.Player1 = Player1;
 		this.Player2 = Player2;
-		this.status = GameStatus.INITATIED;
-		this.GameID = setGameID();
-		this.CurrentTurn = setCurrentTurn();
+		this.status = GameStatus.PENNDING;
+		this.GameID = GameID;
+		
+		//Selects player1 or Player2 at random to start
+		if (rand.OfforDef() == 1)
+			this.CurrentTurn = Player1;
+		else
+			this.CurrentTurn = Player2;
 	}
 
-	public int setGameID() {
-	    //Random or in a Sequence
-		return 0;
-	}
 
 	public User getPlayer1() {
 		return Player1;
@@ -43,9 +44,8 @@ public class Game {
 		return CurrentTurn;
 	}
 
-	public User setCurrentTurn() {
-		//will determine at random with random generator
-		return this.Player1;
+	public void setCurrentTurn( User player) {
+		CurrentTurn= player;
 	}
 
 	public GameStatus getStatus() {

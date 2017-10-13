@@ -21,4 +21,10 @@ public class Invite {
 	public void setAcceptance(InvitationStatus acceptance) {
 		Acceptance = acceptance;
 	}
+
+	public String toString() {
+		return "Invite [FromUser=" + FromUser + ", ToUser=" + ToUser + ", GameID=" + GameID + "]";
+	}
+	
+	
 }

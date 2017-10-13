@@ -1,5 +1,5 @@
 
 public enum GameStatus {
 
-	INITATIED,PENNDING,FINISHED
+	PENNDING,FINISHED
 }
