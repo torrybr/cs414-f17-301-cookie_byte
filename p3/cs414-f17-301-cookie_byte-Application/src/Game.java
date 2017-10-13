@@ -4,6 +4,7 @@ public class Game {
 	int GameID; 
 	User Player1;
 	User Player2;
+	User Player3;
 	User CurrentTurn;
 	GameStatus status;
 	User Winner;
