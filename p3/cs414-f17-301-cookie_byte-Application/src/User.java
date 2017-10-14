@@ -55,6 +55,7 @@ public class User {
 	}
 	
 	//Equals method that compares one user to another based on UserID and Password
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

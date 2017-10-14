@@ -8,6 +8,7 @@ public class Game {
 	GameStatus status;
 	User Winner;
 	UniqueRandomNumbers rand;
+	Board board;
 	
 	public Game (int GameID ,User Player1, User Player2){
 		
@@ -16,11 +17,16 @@ public class Game {
 		this.status = GameStatus.PENDING;
 		this.GameID = GameID;
 		
-		//Selects player1 or Player2 at random to start
-		if (rand.offOrdef() == 1)
+		
+		//Selects player1 or Player2 at random to start and set up board accordingly so each player is assigned either defence or offense
+		if (rand.offOrdef() == 1){
 			this.CurrentTurn = Player1;
-		else
+			board =new Board(Player1,Player2);
+		}
+		else{
 			this.CurrentTurn = Player2;
+			board =new Board(Player2,Player1);
+		}
 	}
 
 
