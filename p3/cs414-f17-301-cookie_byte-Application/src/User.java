@@ -98,7 +98,7 @@ public class User {
 	public void sendInvitation (User u){
 		
 		//Creates an invite based on a user that is given and generates a random number to create a game from.
-		Invite newInvite = new Invite (this, u, rand.RNG());
+		Invite newInvite = new Invite (this, u, rand.numberGenerator());
 		
 		//Adds it to that users arraylist of invites.
 		u.Invites.add(newInvite);
@@ -111,14 +111,14 @@ public class User {
 	}
 	
 	//Returns an ArrayList of games where the the game status is PENNDING
-	public Object[] currentGames (){
+	public Object[] getCurrentGames (){
 		
 		return CurrentGames.toArray();
 		
 	}
 	
 	//Returns an ArrayList of games where the the game status is Finished and the winner is decided. 
-	public Object[] passGames (){
+	public Object[] getPassGames (){
 		
 		return PassGames.toArray();
 	}
@@ -128,7 +128,7 @@ public class User {
 		double wins=0.0; double loses =0.0;
 				
 		//Copies the users record
-		Game [] record = (Game[]) this.passGames();
+		Game [] record = (Game[]) this.getPassGames();
 		
 		//Splits up wins and loses by iterating the object array.
 		for (Game g : record){

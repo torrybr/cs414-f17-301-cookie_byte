@@ -13,11 +13,11 @@ public class Game {
 		
 		this.Player1 = Player1;
 		this.Player2 = Player2;
-		this.status = GameStatus.PENNDING;
+		this.status = GameStatus.PENDING;
 		this.GameID = GameID;
 		
 		//Selects player1 or Player2 at random to start
-		if (rand.OfforDef() == 1)
+		if (rand.offOrdef() == 1)
 			this.CurrentTurn = Player1;
 		else
 			this.CurrentTurn = Player2;

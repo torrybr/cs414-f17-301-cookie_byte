@@ -11,7 +11,7 @@ public class Invite {
 		this.ToUser = ToUser;
 		this.FromUser = FromUser;
 		this.GameID = GameID;
-		Acceptance= InvitationStatus.PENNDING;	
+		Acceptance= InvitationStatus.PENDING;	
 	}
 	
 	public InvitationStatus getAcceptance() {
