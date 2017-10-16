@@ -45,6 +45,10 @@ public class Game {
 	public void setPlayer2(User player2) {
 		Player2 = player2;
 	}
+	
+	public Board getBoard() {
+		return board;
+	}
 
 	public User getCurrentTurn() {
 		return CurrentTurn;
