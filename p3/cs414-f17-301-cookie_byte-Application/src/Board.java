@@ -145,6 +145,10 @@ public class Board {
 		Spaces[7][5].setPiece(Pieces[36]);
 	}
 	
+	public Spaces getSpace(int row, int col) {
+		return Spaces[row][col];
+	}
+	
 	//Remove a piece from board
 	public void removePiece(Piece p){
 		 
