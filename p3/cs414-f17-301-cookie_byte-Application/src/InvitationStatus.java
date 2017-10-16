@@ -1,5 +1,5 @@
 
 public enum InvitationStatus {
 
-	PENNDING, ACCECPTED, DECLINED
+	PENDING, ACCECPTED, DECLINED
 }
