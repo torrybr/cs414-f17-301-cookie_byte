@@ -44,7 +44,7 @@ public class DatabaseManagerImpl {
     }
 
     /**
-     * Method to insert a NEW user. This method does not valid input. It takes the exact string and inputs into DB.
+     * Method to insert a NEW user. This method does not validate input. It takes the exact string and inputs into DB.
      *
      * @param nickname the unique name a user is identified by
      * @param email    the unique email a user uses to receive notifications
