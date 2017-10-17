@@ -1,14 +1,17 @@
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
+import com.mongodb.*;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.MongoIterable;
+import org.apache.log4j.Logger;
+import org.bson.Document;
 
-import java.util.List;
+
+import javax.xml.ws.http.HTTPException;
+
 
 public class DatabaseManagerImpl {
-    private MongoClientURI uri = new MongoClientURI(
-            "mongodb://cs414team:<GO_CSU_rams_2019!>@cluster0-shard-00-00-u3hx4.mongodb.net:27017,cluster0-shard-00-01-u3hx4.mongodb.net:27017,cluster0-shard-00-02-u3hx4.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin");
-    MongoClient mongoClient = new MongoClient(uri);
+    private MongoClientURI uri;
+    private MongoClient mongoClient;
+    final static Logger log = Logger.getLogger(DatabaseManagerImpl.class);
 
     public DatabaseManagerImpl() {
         initializeDB();
@@ -20,28 +23,37 @@ public class DatabaseManagerImpl {
      * @return
      */
     private boolean initializeDB() {
-        return true;
+        try {
+            uri = new MongoClientURI(
+                    "mongodb://app:tsM6N8irlTgHNzMa@cluster0-shard-00-00-u3hx4.mongodb.net:27017,cluster0-shard-00-01-u3hx4.mongodb.net:27017,cluster0-shard-00-02-u3hx4.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin");
+            mongoClient = new MongoClient(uri);
+            return true;
+
+        } catch (HTTPException e) {
+            log.error("Could not connect to the Database ", e);
+            return false;
+        }
+
+
     }
 
     /**
-     * @param databaseName the database you want access to. ex. "cs414team"
-     * @return MongoDatabase object so you can have access to database methods
+     * Method to insert a NEW user.
+     * @param nickname the unique name a user is identifed by
+     * @param email the unique email a user uses to recieve notifications
+     * @param password Pass me a PRE-HASHED String that gets stored in the DB
      */
-    public MongoDatabase getDatabase(String databaseName) {
-        MongoDatabase database = mongoClient.getDatabase(databaseName);
-        return database;
+    public void insertNewUser(String nickname, String email, String password) {
+        MongoDatabase db = mongoClient.getDatabase("cs414Application");
+        MongoCollection<Document> collection = db.getCollection("users");
+
+        Document user = new Document("nickname", nickname)
+                                    .append("email",email)
+                                    .append("password",password);
+        collection.insertOne(user);
     }
 
     public static void main(String[] args) {
         DatabaseManagerImpl newDB = new DatabaseManagerImpl();
-    }
-
-    /**
-     * Get all the databases available
-     *
-     * @return list of database names.
-     */
-    public MongoIterable<String> getAllDatabases() {
-        return mongoClient.listDatabaseNames();
     }
 }
