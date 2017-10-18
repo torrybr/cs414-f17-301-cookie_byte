@@ -1,3 +1,4 @@
+package Backend;
 
 public class Piece {
 
@@ -7,7 +8,7 @@ public class Piece {
 	public Piece (PieceType type, User user){
 		
 		this.player = user;
-		this.type = PieceType.KING;
+		this.type = PieceType.ROOK;
 	}
 
 	public PieceType getType() {

@@ -1,3 +1,4 @@
+package Backend;
 public class Board {
 
 	Space[][] Spaces = new Space[11][11];
