@@ -33,7 +33,15 @@ public class Game {
 			board =new Board(Player2,Player1);
 		}
 	}
-
+	public Game (int GameID, User Player1, User Player2, Board savedGame, User CurrentTurn){
+		
+		this.Player1 = Player1;
+		this.Player2 = Player2;
+		this.status = GameStatus.PENDING;
+		this.GameID = GameID;
+		this.CurrentTurn= CurrentTurn;
+		this.board = savedGame;
+	}
 
 	public User getPlayer1() {
 		return Player1;
