@@ -372,6 +372,9 @@ public class Game {
 	public void move(Piece piece, int rowFrom, int colFrom, int rowTo, int colTo){
 		if(isMoveValid(piece,rowFrom, colFrom, rowTo, colTo))
 		{
+			//Actually move piece
+			board.Spaces[rowTo][colTo].setPiece(board.Spaces[rowFrom][colFrom].getPiece());
+			board.Spaces[rowFrom][colFrom].setPiece(null);
 			//Check win conditions here (this must be done first... I think
 			
 			//Check if we killed any enemies (capturePiece handles out of bounds checks)
