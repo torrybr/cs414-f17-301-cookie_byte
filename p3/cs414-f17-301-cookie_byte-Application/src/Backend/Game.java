@@ -259,4 +259,140 @@ public class Game {
 		}		
 		return true;
 	}
+	
+	public boolean capturePiece(int row, int col){
+		//Make sure we're not checking out of bounds
+		if(row < 0 || row > 10 || col < 0 || col > 10)
+		{
+			return false;
+		}
+		//Check to see if we are on an edge and if next to a corner, check if needs to be removed
+		if(row == 0 || row == 10)
+		{
+			if(col != 1 && col!= 9)
+			{
+				return false;
+			}
+			else if(row == 0)
+			{
+				//Checking next to top right corner
+				if(col == 1)
+				{
+					if(!board.Spaces[0][2].isEmpty())
+					{
+						return true;
+					}
+				}
+				//Checking next to top left corner
+				if(col == 9)
+				{
+					if(!board.Spaces[0][8].isEmpty())
+					{
+						return true;
+					}
+				}
+			}
+			else if(row == 10)
+			{
+				//Checking next to bottom right corner
+				if(col == 1)
+				{
+					if(!board.Spaces[10][2].isEmpty())
+					{
+						return true;
+					}
+				}
+				//Checking next to bottom left corner
+				if(col == 9)
+				{
+					if(!board.Spaces[10][8].isEmpty())
+					{
+						return true;
+					}
+				}
+			}
+		}
+		else if(col == 0 || col == 10)
+		{
+			if(row != 1 && row != 9)
+			{
+				return false;
+			}
+			else if(col == 0)
+			{
+				//Checking next to top right corner
+				if(row == 1)
+				{
+					if(!board.Spaces[2][0].isEmpty())
+					{
+						return true;
+					}
+				}
+				//Checking next to top left corner
+				if(row == 9)
+				{
+					if(!board.Spaces[8][0].isEmpty())
+					{
+						return true;
+					}
+				}
+			}
+			else if(col == 10)
+			{
+				//Checking next to bottom right corner
+				if(row == 1)
+				{
+					if(!board.Spaces[2][10].isEmpty())
+					{
+						return true;
+					}
+				}
+				//Checking next to bottom left corner
+				if(row == 9)
+				{
+					if(!board.Spaces[8][10].isEmpty())
+					{
+						return true;
+					}
+				}
+			}
+		}
+		else if(!board.Spaces[row-1][col].isEmpty() && !board.Spaces[row+1][col].isEmpty())
+		{
+			return true;
+		}
+		else if(!board.Spaces[row][col-1].isEmpty() && !board.Spaces[row][col + 1].isEmpty())
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public void move(Piece piece, int rowFrom, int colFrom, int rowTo, int colTo){
+		if(isMoveValid(piece,rowFrom, colFrom, rowTo, colTo))
+		{
+			//Check win conditions here (this must be done first... I think
+			
+			//Check if we killed any enemies (capturePiece handles out of bounds checks)
+			if(capturePiece(rowTo+1, colTo))
+			{
+				board.Spaces[rowTo+1][colTo].setPiece(null);
+			}
+			if(capturePiece(rowTo-1, colTo))
+			{
+				board.Spaces[rowTo-1][colTo].setPiece(null);
+			}
+			if(capturePiece(rowTo, colTo+1))
+			{
+				board.Spaces[rowTo][colTo+1].setPiece(null);
+			}
+			if(capturePiece(rowTo, colTo-1))
+			{
+				board.Spaces[rowTo][colTo-1].setPiece(null);
+			}
+		}
+		
+		
+	}
 }
