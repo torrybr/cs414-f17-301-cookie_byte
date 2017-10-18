@@ -1,55 +1,29 @@
 
 public class Piece {
 
-	int PieceID;
-	String type;
-	User Player;
+	PieceType type;
+	User player;
 	
-	public Piece (int PieceID){
+	public Piece (PieceType type, User user){
 		
-		this.PieceID =PieceID;
-		this.type ="Rook";
-	}
-	
-	public int getPieceID() {
-		return PieceID;
+		this.player = user;
+		this.type = PieceType.KING;
 	}
 
-	public void setPieceID(int pieceID) {
-		PieceID = pieceID;
-	}
-
-	public String getType() {
+	public PieceType getType() {
 		return type;
 	}
-
-	public void setType(String type) {
-		this.type = type;
+	
+	public void setType(PieceType tpe){
+		type = tpe;
 	}
-
+	
 	public User getPlayer() {
-		return Player;
+		return player;
 	}
-
-	public void setPlayer(User player) {
-		Player = player;
+		
+	public void setPlayer(User play){
+		player = play;
 	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Piece other = (Piece) obj;
-		if (PieceID != other.PieceID)
-			return false;
-		return true;
-	}
-
-	
-	
 	
 }

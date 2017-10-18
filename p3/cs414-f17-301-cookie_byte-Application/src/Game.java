@@ -1,3 +1,4 @@
+import java.lang.*; 
 
 public class Game {
  
@@ -9,8 +10,10 @@ public class Game {
 	User Winner;
 	UniqueRandomNumbers rand;
 	Board board;
+	int kingLocationCol;
+	int kingLocationRow;
 	
-	public Game (int GameID ,User Player1, User Player2){
+	public Game (int GameID, User Player1, User Player2){
 		
 		this.Player1 = Player1;
 		this.Player2 = Player2;
@@ -19,7 +22,8 @@ public class Game {
 		
 		
 		//Selects player1 or Player2 at random to start and set up board accordingly so each player is assigned either defence or offense
-		if (rand.offOrdef() == 1){
+		int rand = (int)Math.random();
+		if (rand % 2 == 0){
 			this.CurrentTurn = Player1;
 			board =new Board(Player1,Player2);
 		}
@@ -54,7 +58,7 @@ public class Game {
 		return CurrentTurn;
 	}
 
-	public void setCurrentTurn( User player) {
+	public void setCurrentTurn(User player) {
 		CurrentTurn= player;
 	}
 
@@ -75,13 +79,13 @@ public class Game {
 	}
 	
 	//Checks all win conditions of the game, sets and updates history accordingly
-	public void winConditions(){
+	public void kingWinConditions(){
 		
 		//if the king reaches any one of the four corners
 		
 		//top left corner
 		if (!this.board.Spaces[0][0].isEmpty()){
-			if(this.board.Spaces[0][0].getPiece().getType().equals("King")){
+			if(this.board.Spaces[0][0].getPiece().getType().equals(PieceType.KING)){
 				this.setStatus(GameStatus.FINISHED);
 				this.setWinner(this.board.Spaces[0][0].getPiece().getPlayer());
 				Player1.PassGames.add(this);
@@ -90,7 +94,7 @@ public class Game {
 		}
 		//top right corner
 			if (!this.board.Spaces[0][10].isEmpty()){
-				if(this.board.Spaces[0][10].getPiece().getType().equals("King")){
+				if(this.board.Spaces[0][10].getPiece().getType().equals(PieceType.KING)){
 					this.setStatus(GameStatus.FINISHED);
 					this.setWinner(this.board.Spaces[0][10].getPiece().getPlayer());
 					Player1.PassGames.add(this);
@@ -99,7 +103,7 @@ public class Game {
 		}
 		//bottom left corner
 			if (!this.board.Spaces[10][0].isEmpty()){
-					if(this.board.Spaces[10][0].getPiece().getType().equals("King")){
+					if(this.board.Spaces[10][0].getPiece().getType().equals(PieceType.KING)){
 						this.setStatus(GameStatus.FINISHED);
 						this.setWinner(this.board.Spaces[10][0].getPiece().getPlayer());
 						Player1.PassGames.add(this);
@@ -108,24 +112,26 @@ public class Game {
 		}
 		//bottom left corner			
 		if (!this.board.Spaces[0][0].isEmpty()){
-						if(this.board.Spaces[10][10].getPiece().getType().equals("King")){
+						if(this.board.Spaces[10][10].getPiece().getType().equals(PieceType.KING)){
 							this.setStatus(GameStatus.FINISHED);
 							this.setWinner(this.board.Spaces[10][10].getPiece().getPlayer());
 							Player1.PassGames.add(this);
 							Player2.PassGames.add(this);
 						}
-		}			
+		}
+	}
+	public void attackWinConditions(){
+		
 		//or if the king is cornered on all 4 sides
 		//first it searches for the king and locates it on the board
-		int kingLocation;
 		Integer Checkmate1 = null,Checkmate2 = null,Checkmate3 = null,Checkmate4 =null; 
 		boolean assertCheck1 = false,assertCheck2 = false,assertCheck3= false,assertCheck4 = false;
 		Piece King = null;
 		
 		for (int i=0; i<11; i++){
 				for (int j=0; j<11; j++){
-					if(this.board.Spaces[i][j].getPiece().getType().equals("King")){
-						kingLocation=this.board.Spaces[i][j].getLocation();
+					if(this.board.Spaces[i][j].getPiece().getType().equals(PieceType.KING)){
+						kingLocation = this.board.Spaces[i][j];
 						King = this.board.Spaces[i][j].getPiece(); 
 						
 						//Saves the locations of all spaces that are a threat to the king
@@ -151,28 +157,28 @@ public class Game {
 				
 			if (Checkmate1 != null)
 				if (this.board.Spaces[i][j].getLocation() == Checkmate1)
-					//get the piece on the location space and compares it to the player that the King belongs too.
+					//get the piece on the location space and compares it to the player that the King belongs to
 					if (this.board.Spaces[i][j].getPiece().Player.equals(King.getPlayer()));
 					//sets the assertions to the condition
 					assertCheck1= true;
 					
 			if (Checkmate2 != null)	
 				if (this.board.Spaces[i][j].getLocation() == Checkmate2)
-					//get the piece on the location space and compares it to the player that the King belongs too.
+					//get the piece on the location space and compares it to the player that the King belongs to
 					if (this.board.Spaces[i][j].getPiece().Player.equals(King.getPlayer()));
 					//sets the assertions to the condition
 					assertCheck2= true;
 					
 			if (Checkmate3 != null)		
 				if (this.board.Spaces[i][j].getLocation() == Checkmate3)
-					//get the piece on the location space and compares it to the player that the King belongs too.
+					//get the piece on the location space and compares it to the player that the King belongs to
 					if (this.board.Spaces[i][j].getPiece().Player.equals(King.getPlayer()));
 					//sets the assertions to the condition
 					assertCheck3= true;
 					
 			if (Checkmate4 != null)		
 				if (this.board.Spaces[i][j].getLocation() == Checkmate4)
-					//get the piece on the location space and compares it to the player that the King belongs too.
+					//get the piece on the location space and compares it to the player that the King belongs to
 					if (this.board.Spaces[i][j].getPiece().Player.equals(King.getPlayer()));
 					//sets the assertions to the condition
 					assertCheck4= true;			
@@ -194,5 +200,62 @@ public class Game {
 			Player2.PassGames.add(this);
 	   }
 	
+	}
+	
+	public boolean isMoveValid(Piece piece, int rowFrom, int colFrom, int rowTo, int colTo){
+		// Straight line check
+		if(rowFrom != rowTo && colFrom != colTo)
+		{
+			return false;
+		}
+		// In range of board check
+		if(rowFrom > 10 || rowFrom < 0 || rowTo > 10 || rowTo < 0 || colFrom > 10 || colFrom < 0 || colTo > 10 || colTo < 0)
+		{
+			return false;
+		}
+		
+		//Is the piece moving to a corner & not a king check
+		if(piece.getType() != PieceType.KING)
+		{
+			if(rowTo == 0 && colTo == 0)
+			{
+				return false;
+			}
+			else if(rowTo == 0 && colTo == 10)
+			{
+				return false;
+			}
+			else if(rowTo == 10 && colTo == 0)
+			{
+				return false;
+			}
+			else if(rowTo == 10 && colTo == 10)
+			{
+				return false;
+			}
+		}
+		
+		//Is there a piece in the way check
+		if(rowFrom == rowTo)
+		{
+			for(int i = colFrom; i <= colTo; i++)
+			{
+				if(!board.Spaces[rowFrom][i].isEmpty())
+				{
+					return false;
+				}
+			}
+		}
+		else
+		{
+			for(int i = rowFrom; i <= rowTo; i++)
+			{
+				if(!board.Spaces[i][colFrom].isEmpty())
+				{
+					return false;
+				}
+			}
+		}		
+		return true;
 	}
 }

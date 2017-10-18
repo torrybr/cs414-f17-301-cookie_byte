@@ -1,22 +1,10 @@
 
-public class Spaces {
+public class Space{
 
-	//Will be used as a uniqueID per game
-	int Location;
 	Piece Piece;
 	
-	public Spaces (int Location){
-		
-		this.Location = Location;
+	public Space(){
 		this.Piece = null;
-	}
-	
-	public int getLocation() {
-		return Location;
-	}
-
-	public void setLocation(int location) {
-		Location = location;
 	}
 	
 	public Piece getPiece() {
@@ -26,6 +14,7 @@ public class Spaces {
 	public void setPiece(Piece piece) {
 		Piece = piece;
 	}
+	
 	public boolean isEmpty (){
 		if (this.Piece == null)
 			return true;

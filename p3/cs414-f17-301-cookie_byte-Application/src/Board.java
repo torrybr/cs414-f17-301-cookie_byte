@@ -1,26 +1,10 @@
-import java.util.*;
-
 public class Board {
 
-	Spaces[][] Spaces = new Spaces [10][10];
+	Space[][] Spaces = new Space[11][11];
 	Piece[] Pieces= new Piece [36];
 	
 	public Board (User Offence, User Defence){
-		
-		//set the ID's for all pieces
-		for (int i= 0; i<37; i++){
-			Pieces[i].setPieceID(i);
-		}
-		
-		//sets all of the locations for the spaces which will equal row times col.
-		int index =1;
-		for (int i=0; i<11; i++){
-			for (int j=0; j<11; j++){
-				Spaces[i][j].setLocation(index);
-				index++;
-			}
-		}
-				
+			
 		//Set the beginning conditions of the Board
 		
 		//Sets offense Pieces on the board 1st
@@ -123,7 +107,7 @@ public class Board {
 		
 		//King Piece
 		Pieces[30].setPlayer(Defence);
-		Pieces[30].setType("King");
+		Pieces[30].setType(PieceType.KING);
 		Spaces[5][5].setPiece(Pieces[30]);
 		
 		Pieces[31].setPlayer(Defence);
@@ -145,23 +129,18 @@ public class Board {
 		Spaces[7][5].setPiece(Pieces[36]);
 	}
 	
-	public Spaces getSpace(int row, int col) {
+	public Space getSpace(int row, int col) {
 		return Spaces[row][col];
 	}
 	
 	//Remove a piece from board
-	public void removePiece(Piece p){
+	public boolean removePiece(int row, int col){
+		Spaces[row][col].setPiece(null);
+		return true;
 		 
-		for (int i=0; i<11; i++){
-			for (int j=0; j<11; j++){
-				//if the Piece p is equal to the ID of one of the pieces on the board it is now Null
-				if(Spaces[i][j].getPiece().equals(p)){
-					Spaces[i][j].setPiece(null);
-				}
-				else
-					continue;
-			}
-		}
 	}	
+	public Piece getPiece(int row,int col){
+		return Spaces[row][col].getPiece();
+	}
 	
 }
