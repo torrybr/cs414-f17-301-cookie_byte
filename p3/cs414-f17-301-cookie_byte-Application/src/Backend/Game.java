@@ -276,6 +276,12 @@ public class Game {
 	}
 	
 	public boolean capturePiece(int row, int col){
+		//Check to see if space is empty
+		if(board.Spaces[row][col].isEmpty())
+		{
+			return false;
+		}
+		
 		//Make sure we're not checking out of bounds
 		if(row < 0 || row > 10 || col < 0 || col > 10)
 		{
