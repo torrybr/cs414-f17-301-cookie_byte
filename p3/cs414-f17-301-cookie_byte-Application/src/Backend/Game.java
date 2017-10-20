@@ -1,5 +1,4 @@
 package Backend;
-import java.lang.*; 
 
 public class Game {
  
@@ -210,6 +209,21 @@ public class Game {
 			Player2.PassGames.add(this);
 	   }
 	
+		//King must be sandwiched on all 4 sides
+	   if (assertCheck1 && assertCheck2 && assertCheck3 && assertCheck4 == true){
+			this.setStatus(GameStatus.FINISHED);
+			
+			//whoever owns the king loses
+			if (King.getPlayer().equals(Player1))
+				this.setWinner(Player2);
+			else
+				this.setWinner(Player1);
+			
+		    //adds results in history
+			Player1.PassGames.add(this);
+			Player2.PassGames.add(this);
+	   }
+	
 	}
 	
 	public boolean isMoveValid(Piece piece, int rowFrom, int colFrom, int rowTo, int colTo){
@@ -270,6 +284,12 @@ public class Game {
 	}
 	
 	public boolean capturePiece(int row, int col){
+		//Check to see if space is empty
+		if(board.Spaces[row][col].isEmpty())
+		{
+			return false;
+		}
+		
 		//Make sure we're not checking out of bounds
 		if(row < 0 || row > 10 || col < 0 || col > 10)
 		{
