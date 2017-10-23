@@ -139,7 +139,11 @@ public class Move {
 			//Actually move piece
 			board.Spaces[rowTo][colTo].setPiece(board.Spaces[rowFrom][colFrom].getPiece());
 			board.Spaces[rowFrom][colFrom].setPiece(null);
+			
 			//Check win conditions here (this must be done first... I think
+			game.attackWinConditions();
+			game.kingWinConditions();
+
 			
 			//Check if we killed any enemies (capturePiece handles out of bounds checks)
 			if(capturePiece(rowTo+1, colTo)){

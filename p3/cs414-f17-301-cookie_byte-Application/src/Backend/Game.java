@@ -87,7 +87,7 @@ public class Game {
 	}
 	
 	//Checks all win conditions of the game, sets and updates history accordingly
-	public void kingWinConditions(){
+	public boolean kingWinConditions(){
 		
 		//if the king reaches any one of the four corners
 		
@@ -98,6 +98,7 @@ public class Game {
 				this.setWinner(this.board.Spaces[0][0].getPiece().getPlayer());
 				Player1.PassGames.add(this);
 				Player2.PassGames.add(this);
+				return true;
 			}
 		}
 		//top right corner
@@ -107,6 +108,7 @@ public class Game {
 					this.setWinner(this.board.Spaces[0][10].getPiece().getPlayer());
 					Player1.PassGames.add(this);
 					Player2.PassGames.add(this);
+					return true;
 				}
 		}
 		//bottom left corner
@@ -116,6 +118,7 @@ public class Game {
 						this.setWinner(this.board.Spaces[10][0].getPiece().getPlayer());
 						Player1.PassGames.add(this);
 						Player2.PassGames.add(this);
+						return true;
 					}
 		}
 		//bottom left corner			
@@ -125,10 +128,12 @@ public class Game {
 							this.setWinner(this.board.Spaces[10][10].getPiece().getPlayer());
 							Player1.PassGames.add(this);
 							Player2.PassGames.add(this);
+							return true;
 						}
 		}
+		return false;
 	}
-	public void attackWinConditions(){
+	public boolean attackWinConditions(){
 		
 		//or if the king is cornered on all 4 sides
 		//first it searches for the king and locates it on the board
@@ -190,8 +195,9 @@ public class Game {
 					//get the piece on the location space and compares it to the player that the King belongs to
 					if (this.board.Spaces[kingLocationRow-1][kingLocationCol].getPiece().getPlayer().equals(King.getPlayer()));
 					//sets the assertions to the condition
-					assertCheck4= true;			
+					assertCheck4= true;	
 			}
+
 		}
 	
 		//King must be sandwiched on all 4 sides
@@ -207,8 +213,9 @@ public class Game {
 		    //adds results in history
 			Player1.PassGames.add(this);
 			Player2.PassGames.add(this);
+			return true;
 	   }
-	
+	return false;
 	}
 	
 	
