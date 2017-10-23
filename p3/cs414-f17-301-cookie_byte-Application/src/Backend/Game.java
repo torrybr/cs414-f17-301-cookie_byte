@@ -9,7 +9,7 @@ public class Game {
 	User CurrentTurn;
 	GameStatus status;
 	User Winner;
-	UniqueRandomNumbers rand;
+	UniqueRandomNumbers rand = new UniqueRandomNumbers();
 	Board board;
 	int kingLocationCol;
 	int kingLocationRow;
@@ -23,8 +23,7 @@ public class Game {
 		
 		
 		//Selects player1 or Player2 at random to start and set up board accordingly so each player is assigned either defence or offense
-		int rand = (int)Math.random();
-		if (rand % 2 == 0){
+		if (rand.offOrdef() == 1){
 			this.CurrentTurn = Player1;
 			board =new Board(Player1,Player2);
 		}
