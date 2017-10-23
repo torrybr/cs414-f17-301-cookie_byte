@@ -15,8 +15,8 @@ public class Piece {
 		return type;
 	}
 	
-	public void setType(PieceType tpe){
-		type = tpe;
+	public void setType(PieceType type){
+		this.type = type;
 	}
 	
 	public User getPlayer() {
@@ -24,7 +24,7 @@ public class Piece {
 	}
 		
 	public void setPlayer(User play){
-		player = play;
+		this.player = play;
 	}
 	
 }

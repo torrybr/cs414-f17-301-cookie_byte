@@ -11,10 +11,10 @@ public class User {
 	double winPercentage;
 	DecimalFormat df = new DecimalFormat("#.##");
 
-	ArrayList<Invite> Invites;
-	ArrayList<Game> PassGames;
-	ArrayList<Game> CurrentGames;
-	UniqueRandomNumbers rand;
+	ArrayList<Invite> Invites= new ArrayList<Invite>();
+	ArrayList<Game> PassGames = new ArrayList<Game>();
+	ArrayList<Game> CurrentGames =new ArrayList<Game>();
+	UniqueRandomNumbers rand =new UniqueRandomNumbers();
 	
 // A Constructor for whenever a new user registers into our system and needs to be created
 	public User (String userID, String Nickname, String Email,String Password){
@@ -85,14 +85,16 @@ public class User {
 		if (response == InvitationStatus.ACCECPTED){
 			// 1. Creates game based on ID attached to invite.
 			Game newGame = new Game (i.GameID, i.FromUser, i.ToUser);
-			// 2. Adds the game to currentGames arrayList
-			CurrentGames.add(newGame);
+			// 2. Adds the game to currentGames arrayList of both users
+			i.FromUser.CurrentGames.add(newGame);
+			i.ToUser.CurrentGames.add(newGame);
 			// 3. Removes the Invite form the User from invite arrayList
 			Invites.remove(i);
 		}
 		if (response == InvitationStatus.DECLINED){
-			//1. Removes the Pending Invite from the invite arrayList
-			Invites.remove(i);
+			//1. Removes the Pending Invite from the invite arrayList of both players
+			i.FromUser.Invites.remove(i);
+			i.ToUser.Invites.remove(i);
 		}
 	}
 	
@@ -100,29 +102,30 @@ public class User {
 	public void sendInvitation (User u){
 		
 		//Creates an invite based on a user that is given and generates a random number to create a game from.
-		Invite newInvite = new Invite (this, u, rand.numberGenerator());
+		Invite newInvite = new Invite (u, this, rand.numberGenerator());
 		
-		//Adds it to that users arraylist of invites.
+		//Adds it to that users arraylist of invites of both players.
 		u.Invites.add(newInvite);
+		this.Invites.add(newInvite);
 	}
 	
 	//shows all invitations that have been sent and not yet responded to or that are pending from this given user.
-	public Object[] allInvitations(){
+	public ArrayList<Invite> allInvitations(){
 		
-		return Invites.toArray();
+		return Invites;
 	}
 	
 	//Returns an ArrayList of games where the the game status is PENNDING
-	public Object[] getCurrentGames (){
+	public ArrayList<Game> getCurrentGames (){
 		
-		return CurrentGames.toArray();
+		return CurrentGames;
 		
 	}
 	
 	//Returns an ArrayList of games where the the game status is Finished and the winner is decided. 
-	public Object[] getPassGames (){
+	public ArrayList<Game> getPassGames (){
 		
-		return PassGames.toArray();
+		return PassGames;
 	}
 	
 	//Calculates passed on the passGames ArrayList a winning percentage thin is returned.
@@ -130,7 +133,7 @@ public class User {
 		double wins=0.0; double loses =0.0;
 				
 		//Copies the users record
-		Game [] record = (Game[]) this.getPassGames();
+		ArrayList<Game> record = this.getPassGames();
 		
 		//Splits up wins and loses by iterating the object array.
 		for (Game g : record){

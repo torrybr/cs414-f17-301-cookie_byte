@@ -2,10 +2,24 @@ package Backend;
 public class Board {
 
 	Space[][] Spaces = new Space[11][11];
-	Piece[] Pieces= new Piece [36];
+	Piece[] Pieces= new Piece [37];
 	
 	public Board (User Offence, User Defence){
 			
+		//Initializes all spaces
+		for (int i=0; i<11; i++){
+			for (int j=0; j<11; j++){
+				Space s = new Space();
+				Spaces[i][j] = s;
+			}
+		}
+		
+		//Initializes all pieces
+		for (int i=0; i<37; i++){
+			Piece p = new Piece(PieceType.ROOK, null);
+			Pieces[i]= p;
+		}
+		
 		//Set the beginning conditions of the Board
 		
 		//Sets offense Pieces on the board 1st
@@ -130,11 +144,12 @@ public class Board {
 		Spaces[7][5].setPiece(Pieces[36]);
 	}
 	
+	
 	public Space getSpace(int row, int col) {
 		return Spaces[row][col];
 	}
 	
-	//Remove a piece from board
+	//Removes a piece from board
 	public boolean removePiece(int row, int col){
 		Spaces[row][col].setPiece(null);
 		return true;
