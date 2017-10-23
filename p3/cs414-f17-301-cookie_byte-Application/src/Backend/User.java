@@ -93,8 +93,7 @@ public class User {
 		}
 		if (response == InvitationStatus.DECLINED){
 			//1. Removes the Pending Invite from the invite arrayList of both players
-			i.FromUser.Invites.remove(i);
-			i.ToUser.Invites.remove(i);
+			Invites.remove(i);
 		}
 	}
 	
@@ -106,7 +105,7 @@ public class User {
 		
 		//Adds it to that users arraylist of invites of both players.
 		u.Invites.add(newInvite);
-		this.Invites.add(newInvite);
+		//this.Invites.add(newInvite);
 	}
 	
 	//shows all invitations that have been sent and not yet responded to or that are pending from this given user.
