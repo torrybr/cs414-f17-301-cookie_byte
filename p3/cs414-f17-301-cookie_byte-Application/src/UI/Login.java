@@ -1,5 +1,6 @@
 package UI;
 
+import Drivers.ClientDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -41,12 +42,14 @@ public class Login extends Application {
 			grid.add(scenetitle, 0, 0, 2, 1);
 
 			Label userName = new Label("Email:");
+			userName.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
 			grid.add(userName, 0, 1);
 
 			TextField userTextField = new TextField();
 			grid.add(userTextField, 1, 1);
 
 			Label pw = new Label("Password:");
+			pw.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
 			grid.add(pw, 0, 2);
 
 			PasswordField pwBox = new PasswordField();
@@ -239,13 +242,14 @@ public class Login extends Application {
         });
        
 		Scene scene = new Scene(grid,635,375);
-		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		//scene.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
 		stage.setTitle("Login");
 		stage.setScene(scene);
 		stage.show();
 	}
 	
 	public void createAccountClicked(String email, String nickname, String password) {
+		ClientDriver newClient = new ClientDriver(email, nickname, password);
 		primary.show();
 	}
 	

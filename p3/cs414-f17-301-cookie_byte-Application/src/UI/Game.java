@@ -8,6 +8,8 @@ import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import Drivers.ClientDriver;
+import Drivers.GameDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -36,6 +38,10 @@ import javafx.stage.Stage;
 
 public class Game extends Application{
 	
+	public ClientDriver clientDriver;
+	public GameDriver gameDriver;
+	
+	
 	protected int piece1 = -1;
 	protected int piece2 = -1;
 	protected String user1 = "?";
@@ -45,12 +51,13 @@ public class Game extends Application{
 	protected Stage main;
 	Tile[][] holder;
 	
-	/*
-	 public Game(String u1, String u2){
-	 	user1 = u1;
-	 	user2 = u2;
+	 public Game(ClientDriver client,GameDriver game){
+	 	this.clientDriver = client;
+	 	this.gameDriver = game;
+	 	user1 = gameDriver.game.getPlayer1().getNickname();
+	 	user2 = gameDriver.game.getPlayer2().getNickname();
+	 	move = gameDriver.game.getCurrentTurn().getNickname();
 	 }
-	 */
 	
 	private Parent createContent() {
 		Pane root = new Pane();
@@ -146,11 +153,10 @@ public class Game extends Application{
        	 
             @Override
             public void handle(ActionEvent e) {
-            		Home home = new Home("Connor");
+            		Home home = new Home(clientDriver.profile.getNickname()+" Home");
             		try {
 						home.start(main);
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
                 

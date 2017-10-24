@@ -1,19 +1,26 @@
 package Drivers;
 
+import java.util.List;
+
 import Backend.User;
 
 public class ClientDriver {
 	public User profile;
-	public int inviteID;//only using one inviteID rn for testing, will be a list
-	public int gameID;//only using one gameID rn for testing, will be a list
+	public List<Integer> inviteIDs;//only using one inviteID rn for testing, will be a list
+	public List<Integer> gameIDs;//only using one gameID rn for testing, will be a list
 	
-	public ClientDriver(User profile, int inviteID, int gameID) {
+	public ClientDriver(String username, String password, String email) {
+		//Db create user profile
+	}
+	
+	public ClientDriver(User profile, List<Integer> inviteIDs, List<Integer> gameIDs) {
 		this.profile = profile;
-		this.inviteID = inviteID; 
-		this.gameID = gameID;
+		this.inviteIDs = inviteIDs; 
+		this.gameIDs = gameIDs;
 	}
 	public ClientDriver(String username) {
-		//
+		//get user info from DB
+		profile = new User("", username, "", "");
 	}
 	
 	public String[] viewProfile() {
