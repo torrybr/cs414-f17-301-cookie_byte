@@ -153,11 +153,10 @@ public class DatabaseManagerImpl {
 
     public static void main(String[] args) {
         DatabaseManagerImpl d = new DatabaseManagerImpl();
-        //GameJavaObject gam = d.getGame("DemoGame");
-        UsersJavaObject usr = d.getUserByNickname("player1");
-        //d.getmyGameJson("DemoGame");
-        //System.out.println(gam.getCurrentTurn());
-        d.getmyUserJson("player1");
+        GameJavaObject gam = d.getGame("DemoGame");
+        //UsersJavaObject usr = d.getUserByNickname("player1");
+        d.getmyGameJson("DemoGame");
+        //d.getmyUserJson("player1");
 
 
 
