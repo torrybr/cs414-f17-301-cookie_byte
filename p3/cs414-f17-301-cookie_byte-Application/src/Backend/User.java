@@ -10,9 +10,8 @@ public class User {
 	String Password;
 	double winPercentage;
 	DecimalFormat df = new DecimalFormat("#.##");
-
 	ArrayList<Invite> Invites= new ArrayList<Invite>();
-	ArrayList<Game> PassGames = new ArrayList<Game>();
+	ArrayList<Game> PastGames = new ArrayList<Game>();
 	ArrayList<Game> CurrentGames =new ArrayList<Game>();
 	UniqueRandomNumbers rand =new UniqueRandomNumbers();
 	
@@ -122,17 +121,17 @@ public class User {
 	}
 	
 	//Returns an ArrayList of games where the the game status is Finished and the winner is decided. 
-	public ArrayList<Game> getPassGames (){
+	public ArrayList<Game> getPastGames (){
 		
-		return PassGames;
+		return PastGames;
 	}
 	
-	//Calculates passed on the passGames ArrayList a winning percentage thin is returned.
+	//Calculates passed on the PastGames ArrayList a winning percentage thin is returned.
 	public void winPercentage(){
 		double wins=0.0; double loses =0.0;
 				
 		//Copies the users record
-		ArrayList<Game> record = this.getPassGames();
+		ArrayList<Game> record = this.getPastGames();
 		
 		//Splits up wins and loses by iterating the object array.
 		for (Game g : record){

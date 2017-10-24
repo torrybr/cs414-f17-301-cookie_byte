@@ -96,8 +96,10 @@ public class Game {
 			if(this.board.Spaces[0][0].getPiece().getType().equals(PieceType.KING)){
 				this.setStatus(GameStatus.FINISHED);
 				this.setWinner(this.board.Spaces[0][0].getPiece().getPlayer());
-				Player1.PassGames.add(this);
-				Player2.PassGames.add(this);
+				Player1.PastGames.add(this);
+				Player2.PastGames.add(this);
+				Player1.winPercentage();
+				Player2.winPercentage();
 				return true;
 			}
 		}
@@ -106,8 +108,10 @@ public class Game {
 				if(this.board.Spaces[0][10].getPiece().getType().equals(PieceType.KING)){
 					this.setStatus(GameStatus.FINISHED);
 					this.setWinner(this.board.Spaces[0][10].getPiece().getPlayer());
-					Player1.PassGames.add(this);
-					Player2.PassGames.add(this);
+					Player1.PastGames.add(this);
+					Player2.PastGames.add(this);
+					Player1.winPercentage();
+					Player2.winPercentage();
 					return true;
 				}
 		}
@@ -116,8 +120,10 @@ public class Game {
 					if(this.board.Spaces[10][0].getPiece().getType().equals(PieceType.KING)){
 						this.setStatus(GameStatus.FINISHED);
 						this.setWinner(this.board.Spaces[10][0].getPiece().getPlayer());
-						Player1.PassGames.add(this);
-						Player2.PassGames.add(this);
+						Player1.PastGames.add(this);
+						Player2.PastGames.add(this);
+						Player1.winPercentage();
+						Player2.winPercentage();
 						return true;
 					}
 		}
@@ -126,8 +132,10 @@ public class Game {
 						if(this.board.Spaces[10][10].getPiece().getType().equals(PieceType.KING)){
 							this.setStatus(GameStatus.FINISHED);
 							this.setWinner(this.board.Spaces[10][10].getPiece().getPlayer());
-							Player1.PassGames.add(this);
-							Player2.PassGames.add(this);
+							Player1.PastGames.add(this);
+							Player2.PastGames.add(this);
+							Player1.winPercentage();
+							Player2.winPercentage();
 							return true;
 						}
 		}
@@ -211,8 +219,10 @@ public class Game {
 				this.setWinner(Player1);
 			
 		    //adds results in history
-			Player1.PassGames.add(this);
-			Player2.PassGames.add(this);
+			Player1.PastGames.add(this);
+			Player2.PastGames.add(this);
+			Player1.winPercentage();
+			Player2.winPercentage();
 			return true;
 	   }
 	return false;
