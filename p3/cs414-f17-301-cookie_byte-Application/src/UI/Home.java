@@ -1,6 +1,7 @@
 package UI;
 
 import Drivers.ClientDriver;
+import Drivers.GameDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -23,17 +24,15 @@ import javafx.stage.Stage;
 public class Home extends Application {
 	protected Stage main;
 	private BorderPane rootPane;
-	protected String username = "Connor";
-	protected ClientDriver driver;
+	protected ClientDriver clientDriver;
 	
-	public Home(String User) {
+	public Home(String name) {
 		rootPane = new BorderPane();
-		username = User;
-		ClientDriver driver = new ClientDriver(User);
+		this.clientDriver= new ClientDriver(name);
 	}
 	public Home(ClientDriver driver) {
 		rootPane = new BorderPane();
-		this.driver = driver;
+		this.clientDriver = driver;
 	}
 	public Pane getRootPane() {
 		return rootPane;
@@ -45,20 +44,20 @@ public class Home extends Application {
 		BorderPane border = new BorderPane();
 		HBox hbox = addHBox();
 		border.setTop(hbox);
-		border.setLeft(addVBox("Current Games","?","?","?","?"));
-		border.setRight(addVBox("Friends","Sent Invites","Invites","?","?"));
-		
-		
+		int[] tempGames = {0,1};//get games later from clientDriver
+		int[] tempInvites = {0};//get invites later from clientDriver
+		border.setLeft(addVBoxGames("Current Games",tempGames));
+		border.setRight(addVBoxFriends("Invites",tempInvites));
 		
 		Scene scene = new Scene(border,500,400);
-		primaryStage.setTitle("User Home");
+		primaryStage.setTitle(clientDriver.profile.getNickname()+" Home");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
 	}
 	
 	
-	public VBox addVBox(String label,String sub1,String sub2, String sub3,String sub4) {
+	public VBox addVBoxGames(String label,int[] games) {
 	    VBox vbox = new VBox();
 	    vbox.setPadding(new Insets(10));
 	    vbox.setSpacing(8);
@@ -67,17 +66,63 @@ public class Home extends Application {
 	    title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 	    vbox.getChildren().add(title);
 
-	    Hyperlink options[] = new Hyperlink[] {
-	        new Hyperlink(sub1),
-	        new Hyperlink(sub2),
-	        new Hyperlink(sub3),
-	        new Hyperlink(sub4)};
+	    Button options[] = new Button[games.length];
+	    	for(int i = 0;i < games.length;i++) {
+	    		options[i] = new Button(Integer.toString(games[i]));
+	    		options[i].setPrefSize(100, 20);
+	    		int tempint = i;
+	    		options[i].setOnAction(new EventHandler<ActionEvent>() {
+	    	       	 
+	                @Override
+	                public void handle(ActionEvent e) {
+	                		GameDriver gameD = new GameDriver(Integer.parseInt(options[tempint].getText()));
+	                		try {
+	                				Game game = new Game(clientDriver,gameD);
+	                				game.start(main);
+	    					} catch (Exception e1) {
+	    						e1.printStackTrace();
+	    					}
+	                    
+	                }
+	            });
+	    		VBox.setMargin(options[i], new Insets(0, 0, 0, 8));
+		    vbox.getChildren().add(options[i]);
+	    	}
 
-	    for (int i=0; i<4; i++) {
-	        VBox.setMargin(options[i], new Insets(0, 0, 0, 8));
-	        vbox.getChildren().add(options[i]);
-	    }
+	    return vbox;
+	}
+	
+	public VBox addVBoxFriends(String label,int[] games) {
+	    VBox vbox = new VBox();
+	    vbox.setPadding(new Insets(10));
+	    vbox.setSpacing(8);
 
+	    Text title = new Text(label);
+	    title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+	    vbox.getChildren().add(title);
+
+	    Button options[] = new Button[games.length];
+	    	for(int i = 0;i < games.length;i++) {
+	    		options[i] = new Button(Integer.toString(games[i]));
+	    		options[i].setPrefSize(100, 20);
+	    		/*options[i].setOnAction(new EventHandler<ActionEvent>() {
+	    	       	 
+	                @Override
+	                public void handle(ActionEvent e) {
+	                		GameDriver gameD = new GameDriver(Integer.parseInt(options[i].getText()));
+	                		try {
+	                				Game game = new Game(clientDriver,gameD);
+	    					} catch (Exception e1) {
+	    						// TODO Auto-generated catch block
+	    						e1.printStackTrace();
+	    					}
+	                    
+	                }
+	            });
+	    		VBox.setMargin(options[i], new Insets(0, 0, 0, 8));
+		    vbox.getChildren().add(options[i]);
+	    	}*/
+	    	}
 	    return vbox;
 	}
 	
@@ -100,7 +145,7 @@ public class Home extends Application {
        	 
             @Override
             public void handle(ActionEvent e) {
-            		CreateGame create = new CreateGame(driver);
+            		CreateGame create = new CreateGame(clientDriver);
             		try {
 						create.start(main);
 					} catch (Exception e1) {
@@ -131,7 +176,7 @@ public class Home extends Application {
 	       	 
             @Override
             public void handle(ActionEvent e) {
-            		Profile prof = new Profile(driver);
+            		Profile prof = new Profile(clientDriver);
             		try {
 						prof.start(main);
 					} catch (Exception e1) {

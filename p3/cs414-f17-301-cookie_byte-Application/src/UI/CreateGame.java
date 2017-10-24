@@ -1,13 +1,13 @@
 package UI;
 
 import Drivers.ClientDriver;
+import Drivers.GameDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -22,17 +22,18 @@ public class CreateGame  extends Application {
 	protected String sender;
 	protected String reciever;
 	protected Stage main; 
-	public ClientDriver driver;
+	public ClientDriver client;
 	
 	public CreateGame(ClientDriver driver){
-	 	this.driver = driver;
+	 	this.client = driver;
+	 	sender = driver.profile.getNickname();
 	}
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		main = primaryStage;
 		BorderPane border = new BorderPane();
 		border.setTop(addHBox());
-		border.setLeft(addVBox("Send To","?","?","?","?"));
+		border.setLeft(addVBox("Create game with....","p1"));
 		Scene scene = new Scene(border,635,375);
 		primaryStage.setTitle("Login");
 		primaryStage.setScene(scene);
@@ -40,7 +41,7 @@ public class CreateGame  extends Application {
 	
 	}
 
-	public VBox addVBox(String label,String sub1,String sub2, String sub3,String sub4) {
+	public VBox addVBox(String label,String sub1) {
 	    VBox vbox = new VBox();
 	    vbox.setPadding(new Insets(10));
 	    vbox.setSpacing(8);
@@ -50,10 +51,7 @@ public class CreateGame  extends Application {
 	    vbox.getChildren().add(title);
 
 	    Button options[] = new Button[] {
-	        new Button(sub1),
-	        new Button(sub2),
-	        new Button(sub3),
-	        new Button(sub4)};
+	        new Button(sub1)};
 	    
 	    options[0].setOnAction(new EventHandler<ActionEvent>() {
        	 
@@ -64,37 +62,9 @@ public class CreateGame  extends Application {
             }
         });
 	    
-	    options[1].setOnAction(new EventHandler<ActionEvent>() {
-	       	 
-            @Override
-            public void handle(ActionEvent e) {
-            		reciever = options[1].getText();
-            		send();
-            }
-        });
 	    
-	    options[2].setOnAction(new EventHandler<ActionEvent>() {
-	       	 
-            @Override
-            public void handle(ActionEvent e) {
-            		reciever = options[2].getText();
-                send();
-            }
-        });
-	    
-	    options[3].setOnAction(new EventHandler<ActionEvent>() {
-	       	 
-            @Override
-            public void handle(ActionEvent e) {
-            		reciever = options[3].getText();
-            		send();
-            }
-        });
-	    
-	    for (int i=0; i<4; i++) {
-	        VBox.setMargin(options[i], new Insets(0, 0, 0, 8));
-	        vbox.getChildren().add(options[i]);
-	    }
+	    VBox.setMargin(options[0], new Insets(0, 0, 0, 8));
+	    vbox.getChildren().add(options[0]);
 
 	    return vbox;
 	}
@@ -112,7 +82,7 @@ public class CreateGame  extends Application {
        	 
             @Override
             public void handle(ActionEvent e) {
-            		Home home = new Home(driver);
+            		Home home = new Home(client);
             		try {
 						home.start(main);
 					} catch (Exception e1) {
@@ -137,11 +107,11 @@ public class CreateGame  extends Application {
 	}
 	
 	public void send() {
-		Game game = new Game();
+		GameDriver gameDriver = new GameDriver(sender,reciever);
+		Game game = new Game(client,gameDriver);
 		try {
 			game.start(main);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
