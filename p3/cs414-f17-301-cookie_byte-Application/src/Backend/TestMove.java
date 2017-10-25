@@ -10,11 +10,11 @@ public class TestMove {
 	User usr1 = new User("usr1", "usr1", "usr1@fake.com", "abc123");
 	User usr2 = new User("usr2", "usr2", "usr2@fake.com", "abc123");
 	Game gme = new Game(1323, usr1, usr2);
-	
+	Move move = new Move(gme.CurrentTurn, gme);
 			
 	@Test
 	public void testisMoveValid() {
-		Move move = new Move(gme.CurrentTurn,gme);
+		
 		//Straight Line Check/In range of board check
 		
 			//True Condition
@@ -53,7 +53,93 @@ public class TestMove {
 	@Test
 	public void testcapturePiece() {
 		
-		// Test out of bounds and If the piece is on the edge
+		//makes fake piece to plaver on board to test capture conditions
+		Piece offence1 = new Piece (PieceType.ROOK, usr2);
+		Piece offence2 = new Piece (PieceType.ROOK, usr2);
+		Piece defence = new Piece (PieceType.ROOK, usr1);
+		
+		//Test top right corner
+		move.game.board.getSpace(1, 0).setPiece(offence1);
+		move.game.board.getSpace(0, 0).setPiece(defence);
+		assertTrue(move.capturePiece(0,0));
+		move.game.board.getSpace(1, 0).setPiece(null);
+		
+		move.game.board.getSpace(0, 1).setPiece(offence1);
+		move.game.board.getSpace(0, 0).setPiece(defence);
+		assertTrue(move.capturePiece(0,0));
+		move.game.board.getSpace(0, 1).setPiece(null);
+		
+		//Test top left corner
+		move.game.board.getSpace(0, 9).setPiece(offence1);
+		move.game.board.getSpace(0, 10).setPiece(defence);
+		assertTrue(move.capturePiece(0,10));
+		move.game.board.getSpace(0, 9).setPiece(null);
+		
+		move.game.board.getSpace(1, 10).setPiece(offence1);
+		move.game.board.getSpace(0, 10).setPiece(defence);
+		assertTrue(move.capturePiece(0,10));
+		move.game.board.getSpace(1, 10).setPiece(null);
+		
+		//Test bottom left Corner
+		move.game.board.getSpace(9, 0).setPiece(offence1);
+		move.game.board.getSpace(10, 0).setPiece(defence);
+		assertTrue(move.capturePiece(10,0));
+		move.game.board.getSpace(9, 0).setPiece(null);
+		
+		move.game.board.getSpace(10, 1).setPiece(offence1);
+		move.game.board.getSpace(10, 0).setPiece(defence);
+		assertTrue(move.capturePiece(10,0));
+		move.game.board.getSpace(10, 1).setPiece(null);
+		
+		//Test bottom right Corner
+		move.game.board.getSpace(9, 10).setPiece(offence1);
+		move.game.board.getSpace(10, 10).setPiece(defence);
+		assertTrue(move.capturePiece(10,10));
+		move.game.board.getSpace(9, 10).setPiece(null);
+		
+		move.game.board.getSpace(10, 9).setPiece(offence1);
+		move.game.board.getSpace(10, 10).setPiece(defence);
+		assertTrue(move.capturePiece(10,10));
+		move.game.board.getSpace(10, 9).setPiece(null);
+		
+		// Test out of bounds and If the piece is on the edge in a true condition
+		move.game.board.getSpace(1, 0).setPiece(offence1);
+		move.game.board.getSpace(2, 0).setPiece(defence);
+		move.game.board.getSpace(3, 0).setPiece(offence2);
+		assertTrue(move.capturePiece(2,0));
+		
+		move.game.board.getSpace(2, 2).setPiece(offence1);
+		move.game.board.getSpace(3, 2).setPiece(defence);
+		move.game.board.getSpace(4, 2).setPiece(offence2);
+		assertTrue(move.capturePiece(3,2));
+		
+		move.game.board.getSpace(3, 1).setPiece(offence1);
+		move.game.board.getSpace(3, 2).setPiece(defence);
+		move.game.board.getSpace(3, 3).setPiece(offence2);
+		assertTrue(move.capturePiece(3,2));
+	}
+	
+	@Test
+	public void testmovePiece() {
+		
+		//makes fake piece to place on board to test capture conditions
+				Piece offence1 = new Piece (PieceType.ROOK, usr2);
+				Piece offence2 = new Piece (PieceType.ROOK, usr2);
+				Piece defence = new Piece (PieceType.ROOK, usr1);
+				move.game.board.getSpace(1, 1).setPiece(offence1);
+				move.game.board.getSpace(2, 1).setPiece(defence);
+				move.game.board.getSpace(3, 0).setPiece(offence2);
+				
+		//test a valid move made by user Checks to make sure that attributes are good
+		move.movePiece(offence1, 1, 1, 1, 4);
+		assertFalse(move.game.board.getSpace(1, 4).isEmpty());
+		assertTrue(move.game.board.getSpace(1, 1).isEmpty());
+		
+		//test if a valid move is made by user and the piece is captured
+		move.movePiece(defence, 2, 1, 2, 4);
+		move.movePiece(offence2, 3, 0, 3, 4);
+		assertTrue(move.game.board.getSpace(2, 4).isEmpty());
+		
 	}
 
 }
