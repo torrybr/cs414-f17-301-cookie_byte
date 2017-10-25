@@ -28,6 +28,9 @@ public class DatabaseManagerImpl {
     /* Logs system exceptions */
     final static Logger log = Logger.getLogger(DatabaseManagerImpl.class);
 
+    private static final DatabaseManagerImpl d = new DatabaseManagerImpl();
+
+
     /**
      * Connections to the MongoDatabase
      */
@@ -95,7 +98,7 @@ public class DatabaseManagerImpl {
 
     /**
      * Gets the game by GameID
-     * GameID played by both "player1" and "player2" are "679"
+     * GameID played by both "player1" and "player2" are "DemoGame"
      *
      * @param gameID
      * @return the Game object where you can access different fields
@@ -141,23 +144,36 @@ public class DatabaseManagerImpl {
      * @param gameID the game to update
      * @param points the new points of the pieces
      */
-    public void updatePieceLocation(String gameID,List<Integer> points) {
+    public void updatePieceLocation(String gameID,List<String> points) {
+
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
 
-        collection.updateOne(eq("GameID", gameID), new Document("$set", new Document("pieceLocations", points.toArray())));
+
+
+        collection.updateOne(eq("GameID", gameID), new Document("$set", new Document("PieceLocation", points)));
+
     }
 
 
 
 
     public static void main(String[] args) {
-        DatabaseManagerImpl d = new DatabaseManagerImpl();
         GameJavaObject gam = d.getGame("DemoGame");
         //UsersJavaObject usr = d.getUserByNickname("player1");
         d.getmyGameJson("DemoGame");
         //d.getmyUserJson("player1");
 
+        /** Example of changing the location array
+         *  Use "DemoGameTESTER FOR TESTING"
+         *
+        ArrayList list = new ArrayList();
+        list.add("0 4");
+        list.add("0 5");
+        list.add("0 6");
+        d.updatePieceLocation("DemoGameTESTER",list);
+
+         **/
 
 
     }
