@@ -139,18 +139,24 @@ public class TestMove {
 		//makes fake piece to place on board to test capture conditions
 				Piece offence1 = new Piece (PieceType.ROOK, usr2);
 				Piece offence2 = new Piece (PieceType.ROOK, usr2);
-				Piece defence = new Piece (PieceType.ROOK, usr1);
+				Piece defense = new Piece (PieceType.ROOK, usr1);
 				move.game.board.getSpace(2, 1).setPiece(offence1);
+				move.game.board.getSpace(3, 1).setPiece(defense);
 			
 				
 		//test a valid move made by user Checks to make sure that attributes are good
-		move.movePiece(offence1, 2, 1, 2, 5);
-		assertFalse(move.game.board.getSpace(2, 1).isEmpty());
-		assertTrue(move.game.board.getSpace(2, 5).isEmpty());
-		
-		//test if a valid move is made by user and the piece is captured
-		move.movePiece(defence, 2, 1, 2, 4);
-		move.movePiece(offence2, 3, 0, 3, 4);
+	    if (move.game.CurrentTurn.equals(usr2)){
+	    	move.movePiece(offence1, 2, 1, 2, 5);
+	    	assertTrue(move.game.board.getSpace(2, 1).isEmpty());
+			assertFalse(move.game.board.getSpace(2, 5).isEmpty());
+	    }
+	    
+	    else{
+	    	move.movePiece(defense, 3, 1, 3, 3);
+	    	assertTrue(move.game.board.getSpace(3, 1).isEmpty());
+			assertFalse(move.game.board.getSpace(3, 3).isEmpty());
+	    }
+
 		
 	}
 
