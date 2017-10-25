@@ -33,17 +33,42 @@ public class Move {
 			
 			//Is there a piece in the way check
 			if(rowFrom == rowTo){
-				for(int i = colFrom; i <= colTo; i++){
+				//going up
+				if (colFrom < colTo){ 
+				for(int i = colFrom+1; i <= colTo; i++){
+					System.out.println(i);
 					if(!board.Spaces[rowFrom][i].isEmpty()){
 						return false;
 					}
+				  }
 				}
-			}
-			else{
-				for(int i = rowFrom; i <= rowTo; i++){
-					if(!board.Spaces[i][colFrom].isEmpty()){
+				else{
+				//going down
+				for(int i = colFrom-1; i >= colTo; i--){
+					System.out.println(i);
+					if(!board.Spaces[rowFrom][i].isEmpty()){
 						return false;
 					}
+				 }
+			   }
+			}
+			else{
+				//going up
+				if(rowFrom < rowTo) {
+				for(int i = rowFrom+1; i <= rowTo; i++){
+					System.out.println(i);
+					if(!board.Spaces[i][colFrom].isEmpty()){
+						return false;
+						}
+					}
+				}
+				else{
+					for(int i = rowFrom-1; i >= rowTo; i--){
+						System.out.println(i);
+						if(!board.Spaces[i][colFrom].isEmpty()){
+							return false;
+							}
+						}
 				}
 			}		
 			return true;
@@ -121,14 +146,14 @@ public class Move {
 				}
 			}
 		}
-		else if(!board.Spaces[row-1][col].isEmpty() && !board.Spaces[row+1][col].isEmpty()){
+		if(!board.Spaces[row-1][col].isEmpty() && !board.Spaces[row+1][col].isEmpty()){
 			return true;
 		}
 		else if(!board.Spaces[row][col-1].isEmpty() && !board.Spaces[row][col + 1].isEmpty()){
 			return true;
 		}
-		
-		return false;
+		else
+			return false;
 	}
 	
 	public void movePiece(Piece piece, int rowFrom, int colFrom, int rowTo, int colTo){

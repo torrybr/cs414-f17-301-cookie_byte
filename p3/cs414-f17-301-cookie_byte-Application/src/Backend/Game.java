@@ -128,7 +128,7 @@ public class Game {
 					}
 		}
 		//bottom left corner			
-		if (!this.board.Spaces[0][0].isEmpty()){
+		if (!this.board.Spaces[10][10].isEmpty()){
 						if(this.board.Spaces[10][10].getPiece().getType().equals(PieceType.KING)){
 							this.setStatus(GameStatus.FINISHED);
 							this.setWinner(this.board.Spaces[10][10].getPiece().getPlayer());
@@ -151,63 +151,64 @@ public class Game {
 		
 		for (int i=0; i<11; i++){
 				for (int j=0; j<11; j++){
-					if(this.board.Spaces[i][j].getPiece().getType().equals(PieceType.KING)){
-						kingLocationRow = i;
-						kingLocationCol =j;
-						King = this.board.Spaces[i][j].getPiece(); 
+					if (!this.board.Spaces[i][j].isEmpty()){
+						//System.out.println("Row: " + i + " Col: "+ j + " Result: " + this.board.Spaces[i][j].getPiece().getType().equals(PieceType.KING));
+						if(this.board.Spaces[i][j].getPiece().getType().equals(PieceType.KING)){
+							kingLocationRow = i;
+							kingLocationCol =j;
+							King = this.board.Spaces[i][j].getPiece(); 
 						
 						//Saves the locations of all spaces that are a threat to the king
-						if ((0 <= (kingLocationCol+1)) &&  ((kingLocationCol+1) <= 10))
-							Checkmate1=kingLocationCol+1;
+							if ((0 <= (kingLocationCol+1)) &&  ((kingLocationCol+1) <= 10))
+								Checkmate1=kingLocationCol+1;
 						
-						if ((0 <= (kingLocationCol-1)) &&  ((kingLocationCol-1) <= 10))
-							Checkmate2=kingLocationCol-1;
+							if ((0 <= (kingLocationCol-1)) &&  ((kingLocationCol-1) <= 10))
+								Checkmate2=kingLocationCol-1;
 	
-						if ((0 <= (kingLocationRow+1)) &&  ((kingLocationRow+1) <= 10))
-							Checkmate3=kingLocationRow+1;
+							if ((0 <= (kingLocationRow+1)) &&  ((kingLocationRow+1) <= 10))
+								Checkmate3=kingLocationRow+1;
 						
-						if ((1 <= (kingLocationRow-1)) &&  ((kingLocationRow-1) <= 10))
-							Checkmate4=kingLocationRow-1;
-	
+							if ((0 <= (kingLocationRow-1)) &&  ((kingLocationRow-1) <= 10))
+								Checkmate4=kingLocationRow-1;
+							
+					}	
 				}
 			}
 		}
 		
+		//System.out.println("KingLocationRow:" + kingLocationRow);
+		//System.out.println("KingLocationCol:" + kingLocationCol);
 		//checks if all of the spaces have enemy pieces on them according to their 
-		for (int i=0; i<11; i++){
-			for (int j=0; j<11; j++){
-				
 			if (Checkmate1 != null)
 				if (!this.board.Spaces[kingLocationRow][kingLocationCol+1].isEmpty())
 					//get the piece on the location space and compares it to the player that the King belongs to
-					if (!this.board.Spaces[kingLocationRow][kingLocationCol+1].getPiece().getPlayer().equals(King.getPlayer()));
+					if (!this.board.Spaces[kingLocationRow][kingLocationCol+1].getPiece().getPlayer().equals(King.getPlayer()))
 					//sets the assertions to the condition
 					assertCheck1= true;
 					
 			if (Checkmate2 != null)	
-				if (!this.board.Spaces[kingLocationRow][kingLocationCol-1].isEmpty())
+				if (!this.board.Spaces[kingLocationRow][kingLocationCol-1].isEmpty())		
 					//get the piece on the location space and compares it to the player that the King belongs to
-					if (this.board.Spaces[kingLocationRow][kingLocationCol-1].getPiece().getPlayer().equals(King.getPlayer()));
+					if (!this.board.Spaces[kingLocationRow][kingLocationCol-1].getPiece().getPlayer().equals(King.getPlayer()))
 					//sets the assertions to the condition
-					assertCheck2= true;
+						assertCheck2= true;
 					
-			if (Checkmate3 != null)		
+					
+			if (Checkmate3 != null)
 				if (!this.board.Spaces[kingLocationRow+1][kingLocationCol].isEmpty())
 					//get the piece on the location space and compares it to the player that the King belongs to
-					if (this.board.Spaces[kingLocationRow+1][kingLocationCol].getPiece().getPlayer().equals(King.getPlayer()));
+					if (!this.board.Spaces[kingLocationRow+1][kingLocationCol].getPiece().getPlayer().equals(King.getPlayer()))
 					//sets the assertions to the condition
 					assertCheck3= true;
 					
-			if (Checkmate4 != null)		
+			if (Checkmate4 != null)
 				if (!this.board.Spaces[kingLocationRow-1][kingLocationCol].isEmpty())
 					//get the piece on the location space and compares it to the player that the King belongs to
-					if (this.board.Spaces[kingLocationRow-1][kingLocationCol].getPiece().getPlayer().equals(King.getPlayer()));
+					if (!this.board.Spaces[kingLocationRow-1][kingLocationCol].getPiece().getPlayer().equals(King.getPlayer()))
 					//sets the assertions to the condition
 					assertCheck4= true;	
-			}
-
-		}
-	
+		
+			
 		//King must be sandwiched on all 4 sides
 	   if (assertCheck1 && assertCheck2 && assertCheck3 && assertCheck4 == true){
 			this.setStatus(GameStatus.FINISHED);
@@ -227,9 +228,5 @@ public class Game {
 	   }
 	return false;
 	}
-	
-	
-
-	
 
 }
