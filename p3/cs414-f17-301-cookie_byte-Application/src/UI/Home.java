@@ -1,17 +1,15 @@
 package UI;
 
+import java.util.List;
 import Drivers.ClientDriver;
 import Drivers.GameDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
@@ -44,10 +42,8 @@ public class Home extends Application {
 		BorderPane border = new BorderPane();
 		HBox hbox = addHBox();
 		border.setTop(hbox);
-		int[] tempGames = {0,1};//get games later from clientDriver
-		int[] tempInvites = {0};//get invites later from clientDriver
-		border.setLeft(addVBoxGames("Current Games",tempGames));
-		border.setRight(addVBoxFriends("Invites",tempInvites));
+		border.setLeft(addVBoxGames("Current Games",clientDriver.getGameIDs()));
+		border.setRight(addVBoxFriends("Invites",clientDriver.getInviteIDs()));
 		
 		Scene scene = new Scene(border,500,400);
 		primaryStage.setTitle(clientDriver.profile.getNickname()+" Home");
@@ -57,7 +53,7 @@ public class Home extends Application {
 	}
 	
 	
-	public VBox addVBoxGames(String label,int[] games) {
+	public VBox addVBoxGames(String label,List<String> games) {
 	    VBox vbox = new VBox();
 	    vbox.setPadding(new Insets(10));
 	    vbox.setSpacing(8);
@@ -66,16 +62,16 @@ public class Home extends Application {
 	    title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 	    vbox.getChildren().add(title);
 
-	    Button options[] = new Button[games.length];
-	    	for(int i = 0;i < games.length;i++) {
-	    		options[i] = new Button(Integer.toString(games[i]));
+	    Button options[] = new Button[games.size()];
+	    	for(int i = 0;i < games.size();i++) {
+	    		options[i] = new Button(games.get(i));
 	    		options[i].setPrefSize(100, 20);
 	    		int tempint = i;
 	    		options[i].setOnAction(new EventHandler<ActionEvent>() {
 	    	       	 
 	                @Override
 	                public void handle(ActionEvent e) {
-	                		GameDriver gameD = new GameDriver(Integer.parseInt(options[tempint].getText()));
+	                		GameDriver gameD = new GameDriver((options[tempint].getText()));
 	                		try {
 	                				Game game = new Game(clientDriver,gameD);
 	                				game.start(main);
@@ -92,7 +88,7 @@ public class Home extends Application {
 	    return vbox;
 	}
 	
-	public VBox addVBoxFriends(String label,int[] games) {
+	public VBox addVBoxFriends(String label,List<String> invites) {
 	    VBox vbox = new VBox();
 	    vbox.setPadding(new Insets(10));
 	    vbox.setSpacing(8);
@@ -101,9 +97,9 @@ public class Home extends Application {
 	    title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 	    vbox.getChildren().add(title);
 
-	    Button options[] = new Button[games.length];
-	    	for(int i = 0;i < games.length;i++) {
-	    		options[i] = new Button(Integer.toString(games[i]));
+	    Button options[] = new Button[invites.size()];
+	    	for(int i = 0;i < invites.size();i++) {
+	    		options[i] = new Button(invites.get(i));
 	    		options[i].setPrefSize(100, 20);
 	    		/*options[i].setOnAction(new EventHandler<ActionEvent>() {
 	    	       	 
@@ -118,10 +114,9 @@ public class Home extends Application {
 	    					}
 	                    
 	                }
-	            });
+	            });*/
 	    		VBox.setMargin(options[i], new Insets(0, 0, 0, 8));
 		    vbox.getChildren().add(options[i]);
-	    	}*/
 	    	}
 	    return vbox;
 	}

@@ -14,7 +14,7 @@ public class TestGame {
 	public void testkingWinConditions() {
 		
 		//Creates fake king and game to place in different areas of the default board.
-		Game gme = new Game(1323, usr1, usr2);
+		Game gme = new Game("1323", usr1, usr2);
 		Piece King= new Piece (PieceType.KING, usr1);
 		
 		//Checks if the king is in the top left corner!
@@ -52,7 +52,7 @@ public class TestGame {
 	public void testattackWinConditions() {
 		
 		//Creates fake king and game to place in different areas of the default board.
-				Game gme = new Game(1323, usr1, usr2);
+				Game gme = new Game("1323", usr1, usr2);
 				Piece King= new Piece (PieceType.KING, usr1);
 		
 		//Creates 4 dummy attack pieces

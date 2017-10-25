@@ -9,10 +9,10 @@ public class TestUser {
 
 	User usr1 = new User("usr1", "usr1", "usr1@fake.com", "abc123");
 	User usr2 = new User("usr2", "usr2", "usr2@fake.com", "abc123");
-	Game gme = new Game(1323, usr1, usr2);
-	Game gme2 = new Game(1324, usr1, usr2);
-	Game gme3 = new Game(1325, usr1, usr2);
-	Game gme4 = new Game(1326, usr1, usr2);
+	Game gme = new Game("1323", usr1, usr2);
+	Game gme2 = new Game("1323", usr1, usr2);
+	Game gme3 = new Game("1323", usr1, usr2);
+	Game gme4 = new Game("1323", usr1, usr2);
 	
 	@Test
 	public void testInvites(){

@@ -11,69 +11,74 @@ public class Move {
 		 this.game = game;
 		 this.board = game.getBoard();
 	 }
-	 
+
+	public Move (String player, Game game){
+		this.game = game;
+		this.board = game.getBoard();
+	}
+
 	public boolean isMoveValid(Piece piece, int rowFrom, int colFrom, int rowTo, int colTo){
-			// Straight line check
-			if(rowFrom != rowTo && colFrom != colTo){ 
-				return false; }
-			// In range of board check
-			if(rowFrom > 10 || rowFrom < 0 || rowTo > 10 || rowTo < 0 || colFrom > 10 || colFrom < 0 || colTo > 10 || colTo < 0){
-				return false; }
-			//Is the piece moving to a corner & not a king check
-			if(piece.getType() != PieceType.KING){
-				if(rowTo == 0 && colTo == 0){
-					return false;}
-				else if(rowTo == 0 && colTo == 10){
-					return false;}
-				else if(rowTo == 10 && colTo == 0){
-					return false;}
-				else if(rowTo == 10 && colTo == 10){
-					return false;}
-			}
-			
-			//Is there a piece in the way check
-			if(rowFrom == rowTo){
-				//going up
-				if (colFrom < colTo){ 
+		// Straight line check
+		if(rowFrom != rowTo && colFrom != colTo){
+			return false; }
+		// In range of board check
+		if(rowFrom > 10 || rowFrom < 0 || rowTo > 10 || rowTo < 0 || colFrom > 10 || colFrom < 0 || colTo > 10 || colTo < 0){
+			return false; }
+		//Is the piece moving to a corner & not a king check
+		if(piece.getType() != PieceType.KING){
+			if(rowTo == 0 && colTo == 0){
+				return false;}
+			else if(rowTo == 0 && colTo == 10){
+				return false;}
+			else if(rowTo == 10 && colTo == 0){
+				return false;}
+			else if(rowTo == 10 && colTo == 10){
+				return false;}
+		}
+
+		//Is there a piece in the way check
+		if(rowFrom == rowTo){
+			//going up
+			if (colFrom < colTo){
 				for(int i = colFrom+1; i <= colTo; i++){
 					System.out.println(i);
 					if(!board.Spaces[rowFrom][i].isEmpty()){
 						return false;
 					}
-				  }
 				}
-				else{
+			}
+			else{
 				//going down
 				for(int i = colFrom-1; i >= colTo; i--){
 					System.out.println(i);
 					if(!board.Spaces[rowFrom][i].isEmpty()){
 						return false;
 					}
-				 }
-			   }
+				}
 			}
-			else{
-				//going up
-				if(rowFrom < rowTo) {
+		}
+		else{
+			//going up
+			if(rowFrom < rowTo) {
 				for(int i = rowFrom+1; i <= rowTo; i++){
 					System.out.println(i);
 					if(!board.Spaces[i][colFrom].isEmpty()){
 						return false;
-						}
 					}
 				}
-				else{
-					for(int i = rowFrom-1; i >= rowTo; i--){
-						System.out.println(i);
-						if(!board.Spaces[i][colFrom].isEmpty()){
-							return false;
-							}
-						}
+			}
+			else{
+				for(int i = rowFrom-1; i >= rowTo; i--){
+					System.out.println(i);
+					if(!board.Spaces[i][colFrom].isEmpty()){
+						return false;
+					}
 				}
-			}		
-			return true;
+			}
 		}
-	
+		return true;
+	}
+
 	public boolean capturePiece(int row, int col){
 		//Make sure we're not checking out of bounds
 		if(row < 0 || row > 10 || col < 0 || col > 10){
@@ -155,48 +160,50 @@ public class Move {
 		else
 			return false;
 	}
-	
-	public void movePiece(Piece piece, int rowFrom, int colFrom, int rowTo, int colTo){
-	
-	//checks to make sure the piece being moved is the correct player
-	if (piece.getPlayer().equals(game.CurrentTurn)){
-		//checks to see if the move is valid
-		if(isMoveValid(piece,rowFrom, colFrom, rowTo, colTo)){
-			//Actually move piece
-			board.Spaces[rowTo][colTo].setPiece(board.Spaces[rowFrom][colFrom].getPiece());
-			board.Spaces[rowFrom][colFrom].setPiece(null);
-			
-			//Check win conditions here (this must be done first... I think
-			//Added that the turn conditions are set depending on whose turn it is
-			if (game.CurrentTurn.equals(game.Player1)){
-				game.setCurrentTurn(game.Player2);
-				this.player = game.Player2;
-			}
-			if (game.CurrentTurn.equals(game.Player2)){
-				game.setCurrentTurn(game.Player1);
-				this.player = game.Player1;
-			}
-			
-			game.attackWinConditions();
-			game.kingWinConditions();
 
-			
-			//Check if we killed any enemies (capturePiece handles out of bounds checks)
-			if(capturePiece(rowTo+1, colTo)){
-				board.Spaces[rowTo+1][colTo].setPiece(null);
-			}
-			if(capturePiece(rowTo-1, colTo)){
-				board.Spaces[rowTo-1][colTo].setPiece(null);
-			}
-			if(capturePiece(rowTo, colTo+1)){
-				board.Spaces[rowTo][colTo+1].setPiece(null);
-			}
-			if(capturePiece(rowTo, colTo-1)){
-				board.Spaces[rowTo][colTo-1].setPiece(null);
+	public void movePiece(Piece piece, int rowFrom, int colFrom, int rowTo, int colTo){
+
+		//checks to make sure the piece being moved is the correct player
+		if (piece.getPlayer().equals(game.CurrentTurn)){
+			//checks to see if the move is valid
+			if(isMoveValid(piece,rowFrom, colFrom, rowTo, colTo)){
+				//Actually move piece
+				board.Spaces[rowTo][colTo].setPiece(board.Spaces[rowFrom][colFrom].getPiece());
+				board.Spaces[rowTo][rowFrom].getPiece().setX(rowTo);
+				board.Spaces[rowTo][rowFrom].getPiece().setY(rowFrom);
+				board.Spaces[rowFrom][colFrom].setPiece(null);
+
+				//Check win conditions here (this must be done first... I think
+				//Added that the turn conditions are set depending on whose turn it is
+				if (game.CurrentTurn.equals(game.Player1)){
+					game.setCurrentTurn(game.Player2);
+					this.player = game.Player2;
+				}
+				if (game.CurrentTurn.equals(game.Player2)){
+					game.setCurrentTurn(game.Player1);
+					this.player = game.Player1;
+				}
+
+				game.attackWinConditions();
+				game.kingWinConditions();
+
+
+				//Check if we killed any enemies (capturePiece handles out of bounds checks)
+				if(capturePiece(rowTo+1, colTo)){
+					board.Spaces[rowTo+1][colTo].setPiece(null);
+				}
+				if(capturePiece(rowTo-1, colTo)){
+					board.Spaces[rowTo-1][colTo].setPiece(null);
+				}
+				if(capturePiece(rowTo, colTo+1)){
+					board.Spaces[rowTo][colTo+1].setPiece(null);
+				}
+				if(capturePiece(rowTo, colTo-1)){
+					board.Spaces[rowTo][colTo-1].setPiece(null);
+				}
 			}
 		}
 	}
-} 
 //	
 //	 public boolean checkValid(User player, Piece piece, int newLocation) {	 
 //		 //if checkTurn() is false 
@@ -243,6 +250,6 @@ public class Move {
 //		 
 //		 
 //	 }
-	
-	 
+
+
 }

@@ -100,7 +100,7 @@ public class User {
 	public void sendInvitation (User u){
 		
 		//Creates an invite based on a user that is given and generates a random number to create a game from.
-		Invite newInvite = new Invite (u, this, rand.numberGenerator());
+		Invite newInvite = new Invite (u, this, String.valueOf(rand.numberGenerator()));
 		
 		//Adds it to that users arraylist of invites of both players.
 		u.Invites.add(newInvite);

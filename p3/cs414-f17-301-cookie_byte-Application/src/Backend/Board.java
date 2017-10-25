@@ -1,9 +1,49 @@
 package Backend;
+import java.util.List;
+
 public class Board {
 
 	Space[][] Spaces = new Space[11][11];
 	Piece[] Pieces= new Piece [37];
-	
+
+	public Board(List<String> locations,User Offense, User Defence){
+		for (int i=0; i<11; i++){
+			for (int j=0; j<11; j++){
+				Space s = new Space();
+				Spaces[i][j] = s;
+
+			}
+		}
+
+		//Initializes all pieces
+		for (int i=0; i<37; i++){
+			Piece p = new Piece(PieceType.ROOK, null);
+			Pieces[i]= p;
+		}
+
+		for(int i = 0;i<24;i++){
+			Pieces[i].setPlayer(Offense);
+			String[] temp = locations.get(i).split(" ");
+			int x = Integer.parseInt(temp[0]);
+			int y = Integer.parseInt(temp[1]);
+			Pieces[i].setX(x);
+			Pieces[i].setY(y);
+			Spaces[x][y].setPiece(Pieces[i]);
+		}
+		for(int i = 24;i<37;i++){
+			Pieces[i].setPlayer(Defence);
+			String[] temp = locations.get(i).split(" ");
+			int x = Integer.parseInt(temp[0]);
+			int y = Integer.parseInt(temp[1]);
+			Pieces[i].setX(x);
+			Pieces[i].setY(y);
+			Spaces[x][y].setPiece(Pieces[i]);
+		}
+
+		Pieces[30].setPlayer(Defence);
+		Pieces[30].setType(PieceType.KING);
+		//Spaces[locations.get(30).charAt(0)][Integer.parseInt(locations.get(30).substring(2))].setPiece(Pieces[30]);
+	}
 	public Board (User Offence, User Defence){
 			
 		//Initializes all spaces
@@ -157,6 +197,9 @@ public class Board {
 	}	
 	public Piece getPiece(int row,int col){
 		return this.Spaces[row][col].getPiece();
+	}
+	public Piece[] getPieces(){
+		return Pieces;
 	}
 	
 }

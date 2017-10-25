@@ -149,8 +149,6 @@ public class DatabaseManagerImpl {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
 
-
-
         collection.updateOne(eq("GameID", gameID), new Document("$set", new Document("PieceLocation", points)));
 
     }
@@ -159,9 +157,9 @@ public class DatabaseManagerImpl {
 
 
     public static void main(String[] args) {
-        GameJavaObject gam = d.getGame("DemoGame");
+        //GameJavaObject gam = d.getGame("DemoGame");
         //UsersJavaObject usr = d.getUserByNickname("player1");
-        d.getmyGameJson("DemoGame");
+        //d.getmyGameJson("DemoGame");
         //d.getmyUserJson("player1");
 
         /** Example of changing the location array

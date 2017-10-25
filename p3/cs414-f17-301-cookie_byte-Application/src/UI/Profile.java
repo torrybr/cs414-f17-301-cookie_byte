@@ -125,7 +125,7 @@ public class Profile extends Application{
        	 
             @Override
             public void handle(ActionEvent e) {
-            		Home home = new Home("Connor");
+            		Home home = new Home(driver);
             		try {
 						home.start(main);
 					} catch (Exception e1) {

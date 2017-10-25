@@ -9,7 +9,7 @@ public class TestMove {
 
 	User usr1 = new User("usr1", "usr1", "usr1@fake.com", "abc123");
 	User usr2 = new User("usr2", "usr2", "usr2@fake.com", "abc123");
-	Game gme = new Game(1323, usr1, usr2);
+	Game gme = new Game("1323", usr1, usr2);
 	Move move = new Move(gme.CurrentTurn, gme);
 			
 	@Test

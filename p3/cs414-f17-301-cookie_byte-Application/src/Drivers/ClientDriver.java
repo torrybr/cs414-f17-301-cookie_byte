@@ -3,24 +3,48 @@ package Drivers;
 import java.util.List;
 
 import Backend.User;
+import Database.DatabaseManagerImpl;
+import Database.UsersJavaObject;
+import com.mongodb.DB;
 
 public class ClientDriver {
 	public User profile;
-	public List<Integer> inviteIDs;//only using one inviteID rn for testing, will be a list
-	public List<Integer> gameIDs;//only using one gameID rn for testing, will be a list
+	public List<String> inviteIDs;//only using one inviteID rn for testing, will be a list
+
+	public List<String> getInviteIDs() {
+		return inviteIDs;
+	}
+
+	public void setInviteIDs(List<String> inviteIDs) {
+		this.inviteIDs = inviteIDs;
+	}
+
+	public List<String> getGameIDs() {
+		return gameIDs;
+	}
+
+	public void setGameIDs(List<String> gameIDs) {
+		this.gameIDs = gameIDs;
+	}
+
+	public List<String> gameIDs;//only using one gameID rn for testing, will be a list
+	public DatabaseManagerImpl DBDriver = new DatabaseManagerImpl();
 	
 	public ClientDriver(String username, String password, String email) {
 		//Db create user profile
 	}
 	
-	public ClientDriver(User profile, List<Integer> inviteIDs, List<Integer> gameIDs) {
+	public ClientDriver(User profile, List<String> inviteIDs, List<String> gameIDs) {
 		this.profile = profile;
 		this.inviteIDs = inviteIDs; 
 		this.gameIDs = gameIDs;
 	}
 	public ClientDriver(String username) {
 		//get user info from DB
-		profile = new User("", username, "", "");
+		UsersJavaObject temp = DBDriver.getUserByNickname(username);
+		profile = new User(temp.getUserID(),username,temp.getEmail(),temp.getPassword());
+		gameIDs = temp.getCurrentGames();
+		inviteIDs = temp.getInvites();
 	}
 	
 	public String[] viewProfile() {
@@ -43,7 +67,9 @@ public class ClientDriver {
 	//public User getUser(String username){
 		//get user from db by username
 	//}
-	
+	public String getName(){
+		return profile.getNickname();
+	}
 	public static void main(String[] args) {
 		
 	}

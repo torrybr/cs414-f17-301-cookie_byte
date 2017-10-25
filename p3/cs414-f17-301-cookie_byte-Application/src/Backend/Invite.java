@@ -4,11 +4,11 @@ public class Invite {
 
 	User FromUser;
 	User ToUser;
-	int GameID;
+	String GameID;
 	InvitationStatus Acceptance;
 	
 	
-	public Invite (User ToUser, User FromUser, int GameID){
+	public Invite (User ToUser, User FromUser, String GameID){
 		this.ToUser = ToUser;
 		this.FromUser = FromUser;
 		this.GameID = GameID;
@@ -27,7 +27,7 @@ public class Invite {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + GameID;
+		result = prime * result + Integer.parseInt(GameID);
 		return result;
 	}
 

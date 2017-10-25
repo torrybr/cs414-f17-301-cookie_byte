@@ -1,5 +1,6 @@
 package UI;
 
+import java.util.List;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -92,7 +93,7 @@ public class Game extends Application{
 		holder[10][0].setBackground(new Background(new BackgroundFill(Color.BLACK,CornerRadii.EMPTY,Insets.EMPTY)));;
 		holder[10][10].setBackground(new Background(new BackgroundFill(Color.BLACK,CornerRadii.EMPTY,Insets.EMPTY)));;
 		
-		setNewBoard();
+		setGameFromMemory();
 		
 		return root;
 	}
@@ -153,7 +154,7 @@ public class Game extends Application{
        	 
             @Override
             public void handle(ActionEvent e) {
-            		Home home = new Home(clientDriver.profile.getNickname()+" Home");
+            		Home home = new Home(clientDriver);
             		try {
 						home.start(main);
 					} catch (Exception e1) {
@@ -171,13 +172,13 @@ public class Game extends Application{
 
 	    return hbox;
 	}
-	
-	public void setNewBoard() {
-		
+
+	public void setGameFromMemory(){
+
 		Image image = new Image(getClass().getResourceAsStream("red.png"));
 		Image image1 = new Image(getClass().getResourceAsStream("blue.png"));
 		Image image2 = new Image(getClass().getResourceAsStream("king.png"));
-		
+
 		ImageView iv = new ImageView(image);
 		iv.setFitHeight(30);
 		iv.setFitWidth(30);
@@ -214,7 +215,7 @@ public class Game extends Application{
 		ImageView iv12 = new ImageView(image);
 		iv12.setFitHeight(30);
 		iv12.setFitWidth(30);
-		
+
 		ImageView iv13 = new ImageView(image);
 		iv13.setFitHeight(30);
 		iv13.setFitWidth(30);
@@ -251,40 +252,24 @@ public class Game extends Application{
 		ImageView iv24 = new ImageView(image);
 		iv24.setFitHeight(30);
 		iv24.setFitWidth(30);
-		
-		((BoardPiece) holder[4][0].getChildren().get(0)).setGraphic(iv);
-		((BoardPiece) holder[5][0].getChildren().get(0)).setGraphic(iv2);
-		((BoardPiece) holder[6][0].getChildren().get(0)).setGraphic(iv3);
-		((BoardPiece) holder[7][0].getChildren().get(0)).setGraphic(iv4);
-		((BoardPiece) holder[5][1].getChildren().get(0)).setGraphic(iv5);
-		((BoardPiece) holder[3][0].getChildren().get(0)).setGraphic(iv6);
-		((BoardPiece) holder[10][4].getChildren().get(0)).setGraphic(iv7);
-		((BoardPiece) holder[10][5].getChildren().get(0)).setGraphic(iv8);
-		((BoardPiece) holder[10][6].getChildren().get(0)).setGraphic(iv9);
-		((BoardPiece) holder[10][7].getChildren().get(0)).setGraphic(iv10);
-		((BoardPiece) holder[10][3].getChildren().get(0)).setGraphic(iv11);
-		((BoardPiece) holder[9][5].getChildren().get(0)).setGraphic(iv12);
-		
-		((BoardPiece) holder[0][3].getChildren().get(0)).setGraphic(iv13);
-		((BoardPiece) holder[0][4].getChildren().get(0)).setGraphic(iv14);
-		((BoardPiece) holder[0][5].getChildren().get(0)).setGraphic(iv15);
-		((BoardPiece) holder[0][6].getChildren().get(0)).setGraphic(iv16);
-		((BoardPiece) holder[0][7].getChildren().get(0)).setGraphic(iv17);
-		((BoardPiece) holder[1][5].getChildren().get(0)).setGraphic(iv18);
-		((BoardPiece) holder[4][10].getChildren().get(0)).setGraphic(iv19);
-		((BoardPiece) holder[5][10].getChildren().get(0)).setGraphic(iv20);
-		((BoardPiece) holder[6][10].getChildren().get(0)).setGraphic(iv21);
-		((BoardPiece) holder[7][10].getChildren().get(0)).setGraphic(iv22);
-		((BoardPiece) holder[3][10].getChildren().get(0)).setGraphic(iv23);
-		((BoardPiece) holder[5][9].getChildren().get(0)).setGraphic(iv24);
-		
+		ImageView[] images = {iv,iv2,iv3,iv4,iv5,iv6,iv7,iv8,iv9,iv10,iv11,iv12,iv13,iv14,iv15,iv16,iv17,iv18,iv19,iv20,iv21,iv22,iv23,iv24};
+
+		List<String> locations = gameDriver.getLocations();
+
+		for(int i = 0;i<24;i++){
+			String[] temp = locations.get(i).split(" ");
+			int x = Integer.parseInt(temp[0]);
+			int y = Integer.parseInt(temp[1]);
+			((BoardPiece) holder[x][y].getChildren().get(0)).setGraphic(images[i]);
+		}
+
 		ImageView iv25 = new ImageView(image1);
 		iv25.setFitHeight(30);
 		iv25.setFitWidth(30);
 		ImageView iv26 = new ImageView(image1);
 		iv26.setFitHeight(30);
 		iv26.setFitWidth(30);
-		ImageView iv27 = new ImageView(image2);
+		ImageView iv27 = new ImageView(image1);
 		iv27.setFitHeight(30);
 		iv27.setFitWidth(30);
 		ImageView iv28 = new ImageView(image1);
@@ -296,7 +281,7 @@ public class Game extends Application{
 		ImageView iv30 = new ImageView(image1);
 		iv30.setFitHeight(30);
 		iv30.setFitWidth(30);
-		ImageView iv31 = new ImageView(image1);
+		ImageView iv31 = new ImageView(image2);
 		iv31.setFitHeight(30);
 		iv31.setFitWidth(30);
 		ImageView iv32 = new ImageView(image1);
@@ -317,20 +302,15 @@ public class Game extends Application{
 		ImageView iv37 = new ImageView(image1);
 		iv37.setFitHeight(30);
 		iv37.setFitWidth(30);
-		
-		((BoardPiece) holder[5][3].getChildren().get(0)).setGraphic(iv25);
-		((BoardPiece) holder[5][4].getChildren().get(0)).setGraphic(iv26);
-		((BoardPiece) holder[5][5].getChildren().get(0)).setGraphic(iv27);
-		((BoardPiece) holder[5][6].getChildren().get(0)).setGraphic(iv28);
-		((BoardPiece) holder[5][7].getChildren().get(0)).setGraphic(iv29);
-		((BoardPiece) holder[4][4].getChildren().get(0)).setGraphic(iv30);
-		((BoardPiece) holder[4][5].getChildren().get(0)).setGraphic(iv31);
-		((BoardPiece) holder[4][6].getChildren().get(0)).setGraphic(iv32);
-		((BoardPiece) holder[3][5].getChildren().get(0)).setGraphic(iv33);
-		((BoardPiece) holder[6][4].getChildren().get(0)).setGraphic(iv34);
-		((BoardPiece) holder[6][5].getChildren().get(0)).setGraphic(iv35);
-		((BoardPiece) holder[6][6].getChildren().get(0)).setGraphic(iv36);
-		((BoardPiece) holder[7][5].getChildren().get(0)).setGraphic(iv37);
+
+		//king at 30
+		ImageView[] images2 = {iv25,iv26,iv27,iv28,iv29,iv30,iv31,iv32,iv33,iv34,iv35,iv36,iv37};
+		for(int i = 24;i<37;i++){
+			String[] temp = locations.get(i).split(" ");
+			int x = Integer.parseInt(temp[0]);
+			int y = Integer.parseInt(temp[1]);
+			((BoardPiece) holder[x][y].getChildren().get(0)).setGraphic(images2[i-24]);
+		}
 	}
 	
 	protected void movePieces(int oldx, int oldy) {
@@ -339,12 +319,19 @@ public class Game extends Application{
 			piece2 = oldy;
 		}
 		else {
-			ImageView tempiv2 = (ImageView) ((Labeled) holder[oldx][oldy].getChildren().get(0)).getGraphic();
-			ImageView tempiv = (ImageView) ((Labeled) holder[piece1][piece2].getChildren().get(0)).getGraphic();
-			((Labeled) holder[piece1][piece2].getChildren().get(0)).setGraphic(tempiv2);
-			((Labeled) holder[oldx][oldy].getChildren().get(0)).setGraphic(tempiv);
-			piece1 = -1;
-			piece2 = -1;
+			if(gameDriver.makeMove(piece1,piece2,oldx,oldy,clientDriver.getName())) {
+				ImageView tempiv2 = (ImageView) ((Labeled) holder[oldx][oldy].getChildren().get(0)).getGraphic();
+				ImageView tempiv = (ImageView) ((Labeled) holder[piece1][piece2].getChildren().get(0)).getGraphic();
+				((Labeled) holder[piece1][piece2].getChildren().get(0)).setGraphic(tempiv2);
+				((Labeled) holder[oldx][oldy].getChildren().get(0)).setGraphic(tempiv);
+				piece1 = -1;
+				piece2 = -1;
+				gameDriver.saveMove();
+			}
+			else{
+				piece1 = -1;
+				piece2 = -1;
+			}
 		}
 	}
 	
