@@ -1,6 +1,7 @@
 package Backend;
 
 import static org.junit.Assert.*;
+import java.util.*;
 import org.junit.Test;
 
 //This test class tests space, board, and piece all together since they are all components of each other.

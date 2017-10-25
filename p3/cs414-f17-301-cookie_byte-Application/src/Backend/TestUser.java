@@ -4,8 +4,6 @@ import static org.junit.Assert.*;
 import java.util.*;
 import org.junit.Test;
 
-
-
 //This class will test Invites and User because they are dependent on each other
 public class TestUser {
 
@@ -17,7 +15,7 @@ public class TestUser {
 	Game gme4 = new Game(1326, usr1, usr2);
 	
 	@Test
-	public void testInvites() {
+	public void testInvites(){
 		
 		//Accepting Condition
 		usr1.sendInvitation(usr2); //Invite sent
@@ -39,20 +37,18 @@ public class TestUser {
 		assertTrue(usr1.Invites.isEmpty()); //Checks if the denied invitation has been deleted
 		
 	}
-	
 	@Test
-	public void testequals(){
+	public void testEquals(){
 		
 	//Test the 3 cases of the equals method
 		
 		//same
-		assert(usr1.equals(usr1)== true);
+		assert(usr1.equals(usr1) == true);
 		//different
-		assert(usr1.equals(usr2) ==true);
+		assert(usr1.equals(usr2) == true);
 		//null
 		assert(usr1.equals(null) == true);
 	}
-	
 	@Test
 	public void testWinPercentage(){
 		
