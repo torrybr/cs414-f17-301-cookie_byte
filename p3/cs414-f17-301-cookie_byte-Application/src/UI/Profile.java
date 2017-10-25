@@ -9,8 +9,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -105,25 +103,10 @@ public class Profile extends Application{
 		
 		Button buttonCurrent = new Button("Home");
 	    buttonCurrent.setPrefSize(100, 20);
-	    
-	    buttonCurrent.setOnAction(new EventHandler<ActionEvent>() {
-	       	 
-            @Override
-            public void handle(ActionEvent e) {
-            		Game game = new Game();
-            		try {
-						Home home = new Home("Connor");
-						home.start(main);
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-            }
-        });
 		
 		border.setBottom(grid);
 		Scene scene = new Scene(border,635,375);
-		primaryStage.setTitle("Login");
+		primaryStage.setTitle("Profile");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	
@@ -146,7 +129,6 @@ public class Profile extends Application{
             		try {
 						home.start(main);
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
                 
