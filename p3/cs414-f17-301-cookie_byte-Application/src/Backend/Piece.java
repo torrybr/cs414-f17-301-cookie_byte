@@ -8,11 +8,11 @@ public class Piece {
 	public Piece (PieceType type, User user){
 		
 		this.player = user;
-		this.type = PieceType.ROOK;
+		this.type = type;
 	}
 
 	public PieceType getType() {
-		return type;
+		return this.type;
 	}
 	
 	public void setType(PieceType type){
@@ -20,11 +20,11 @@ public class Piece {
 	}
 	
 	public User getPlayer() {
-		return player;
+		return this.player;
 	}
 		
-	public void setPlayer(User play){
-		this.player = play;
+	public void setPlayer(User player){
+		this.player = player;
 	}
 	
 }

@@ -1,7 +1,7 @@
 package Backend;
 
-import static org.junit.Assert.*;
 import java.util.*;
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 //This class will test Invites and User because they are dependent on each other
@@ -43,11 +43,11 @@ public class TestUser {
 	//Test the 3 cases of the equals method
 		
 		//same
-		assert(usr1.equals(usr1) == true);
+		assertTrue(usr1.equals(usr1));
 		//different
-		assert(usr1.equals(usr2) == true);
+		assertFalse(usr1.equals(usr2));
 		//null
-		assert(usr1.equals(null) == true);
+		assertFalse(usr1.equals(null));
 	}
 	@Test
 	public void testWinPercentage(){
@@ -67,11 +67,11 @@ public class TestUser {
 		
 	//calculates the winPercentage should equal 50.00 for each player.
 		
-		usr1.getWinPercentage();
-		usr2.getWinPercentage();
+		usr1.winPercentage();
+		usr2.winPercentage();
 		
-		assertTrue(usr1.winPercentage == 50.00);
-		assertTrue(usr2.winPercentage == 50.00);
+		assertTrue(usr1.getWinPercentage() == 50.00);
+		assertTrue(usr2.getWinPercentage() == 50.00);
 	}
 
 }

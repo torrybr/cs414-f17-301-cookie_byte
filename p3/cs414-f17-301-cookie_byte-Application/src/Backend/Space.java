@@ -9,11 +9,11 @@ public class Space{
 	}
 	
 	public Piece getPiece() {
-		return Piece;
+		return this.Piece;
 	}
 
 	public void setPiece(Piece piece) {
-		Piece = piece;
+		this.Piece = piece;
 	}
 	
 	public boolean isEmpty (){

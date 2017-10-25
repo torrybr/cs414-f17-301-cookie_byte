@@ -146,17 +146,17 @@ public class Board {
 	
 	
 	public Space getSpace(int row, int col) {
-		return Spaces[row][col];
+		return this.Spaces[row][col];
 	}
 	
 	//Removes a piece from board
 	public boolean removePiece(int row, int col){
-		Spaces[row][col].setPiece(null);
+		this.Spaces[row][col].setPiece(null);
 		return true;
 		 
 	}	
 	public Piece getPiece(int row,int col){
-		return Spaces[row][col].getPiece();
+		return this.Spaces[row][col].getPiece();
 	}
 	
 }

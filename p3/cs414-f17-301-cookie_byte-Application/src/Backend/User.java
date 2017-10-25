@@ -22,7 +22,7 @@ public class User {
 		this.Nickname = Nickname;
 		this.Email = Email;
 		this.Password = Password;
-		this.winPercentage = 0.0;
+		this.winPercentage = 0.00;
 	}
 	
 	//Getters and Setters
@@ -132,6 +132,7 @@ public class User {
 				
 		//Copies the users record
 		ArrayList<Game> record = this.getPastGames();
+		System.out.println(record.toArray());
 		
 		//Splits up wins and loses by iterating the object array.
 		for (Game g : record){
