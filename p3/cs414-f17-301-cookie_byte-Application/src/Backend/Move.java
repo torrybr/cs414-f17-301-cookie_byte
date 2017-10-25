@@ -4,13 +4,10 @@ public class Move {
 
 	 User player;
 	 Game game;
-	 Piece piece;
-	 int newLocation;
 	 Board board;
 	 
-	 public Move (User player,Piece piece, Game game){
+	 public Move (User player, Game game){
 		 this.player = player;
-		 this.piece= piece;
 		 this.game = game;
 		 this.board = game.getBoard();
 	 }
@@ -36,17 +33,42 @@ public class Move {
 			
 			//Is there a piece in the way check
 			if(rowFrom == rowTo){
-				for(int i = colFrom; i <= colTo; i++){
+				//going up
+				if (colFrom < colTo){ 
+				for(int i = colFrom+1; i <= colTo; i++){
+					System.out.println(i);
 					if(!board.Spaces[rowFrom][i].isEmpty()){
 						return false;
 					}
+				  }
 				}
-			}
-			else{
-				for(int i = rowFrom; i <= rowTo; i++){
-					if(!board.Spaces[i][colFrom].isEmpty()){
+				else{
+				//going down
+				for(int i = colFrom-1; i >= colTo; i--){
+					System.out.println(i);
+					if(!board.Spaces[rowFrom][i].isEmpty()){
 						return false;
 					}
+				 }
+			   }
+			}
+			else{
+				//going up
+				if(rowFrom < rowTo) {
+				for(int i = rowFrom+1; i <= rowTo; i++){
+					System.out.println(i);
+					if(!board.Spaces[i][colFrom].isEmpty()){
+						return false;
+						}
+					}
+				}
+				else{
+					for(int i = rowFrom-1; i >= rowTo; i--){
+						System.out.println(i);
+						if(!board.Spaces[i][colFrom].isEmpty()){
+							return false;
+							}
+						}
 				}
 			}		
 			return true;
@@ -124,23 +146,37 @@ public class Move {
 				}
 			}
 		}
-		else if(!board.Spaces[row-1][col].isEmpty() && !board.Spaces[row+1][col].isEmpty()){
+		if(!board.Spaces[row-1][col].isEmpty() && !board.Spaces[row+1][col].isEmpty()){
 			return true;
 		}
 		else if(!board.Spaces[row][col-1].isEmpty() && !board.Spaces[row][col + 1].isEmpty()){
 			return true;
 		}
-		
-		return false;
+		else
+			return false;
 	}
 	
 	public void movePiece(Piece piece, int rowFrom, int colFrom, int rowTo, int colTo){
+	
+	//checks to make sure the piece being moved is the correct player
+	if (piece.getPlayer().equals(game.CurrentTurn)){
+		//checks to see if the move is valid
 		if(isMoveValid(piece,rowFrom, colFrom, rowTo, colTo)){
 			//Actually move piece
 			board.Spaces[rowTo][colTo].setPiece(board.Spaces[rowFrom][colFrom].getPiece());
 			board.Spaces[rowFrom][colFrom].setPiece(null);
 			
 			//Check win conditions here (this must be done first... I think
+			//Added that the turn conditions are set depending on whose turn it is
+			if (game.CurrentTurn.equals(game.Player1)){
+				game.setCurrentTurn(game.Player2);
+				this.player = game.Player2;
+			}
+			if (game.CurrentTurn.equals(game.Player2)){
+				game.setCurrentTurn(game.Player1);
+				this.player = game.Player1;
+			}
+			
 			game.attackWinConditions();
 			game.kingWinConditions();
 
@@ -160,7 +196,7 @@ public class Move {
 			}
 		}
 	}
-	 
+} 
 //	
 //	 public boolean checkValid(User player, Piece piece, int newLocation) {	 
 //		 //if checkTurn() is false 
