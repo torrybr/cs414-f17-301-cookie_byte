@@ -1,5 +1,5 @@
 package Backend;
 
 public enum PieceType {
-	ROOK, KING
+	ROOK, KING, NONE
 }
