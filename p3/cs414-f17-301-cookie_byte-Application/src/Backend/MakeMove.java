@@ -32,6 +32,12 @@ public class MakeMove {
 		{
 			return false;
 		}
+		
+		// Check if player is trying to move their opponent's piece
+		if(!board.pieces[rowFrom][colFrom].getPlayer().equals(player))
+		{
+			return false;
+		}
 
 		// Straight line check
 		if (rowFrom != rowTo && colFrom != colTo)
@@ -202,10 +208,10 @@ public class MakeMove {
 			return false;
 	}
 	
-	public void movePiece(Piece piece, User player, int rowFrom, int colFrom, int rowTo, int colTo){
+	public void movePiece(int rowFrom, int colFrom, int rowTo, int colTo){
 		
 		//checks to see if the move is valid
-		if(isMoveValid(piece, player, rowFrom, colFrom, rowTo, colTo)){
+		if(isMoveValid(board.pieces[rowFrom][colFrom], board.pieces[rowFrom][colFrom].getPlayer(), rowFrom, colFrom, rowTo, colTo)){
 			
 			//Actually move piece
 			board.movePiece(rowFrom, colFrom, rowTo, colTo);
@@ -214,6 +220,7 @@ public class MakeMove {
 			if(game.attackWinConditions())
 			{
 				// TODO Attacker wins. Save game (winner, games history, etc)
+				game.setStatus(GameStatus.FINISHED);
 				game.setWinner(Player1);
 				
 				
@@ -221,6 +228,7 @@ public class MakeMove {
 			else if(game.kingWinConditions())
 			{
 				// TODO Defender wins. Save game (winner, games history, etc)
+				game.setStatus(GameStatus.FINISHED);
 				game.setWinner(Player2);
 			}
 			
@@ -237,16 +245,16 @@ public class MakeMove {
 			if(capturePiece(rowTo, colTo-1)){
 				board.removePiece(rowTo, colTo-1);
 			}
-		}
 		
-		// Make sure to set the other player as the one to take a turn next
-		if(game.getCurrentTurn().equals(Player1))
-		{
-			game.setCurrentTurn(Player2);
-		}
-		else
-		{
-			game.setCurrentTurn(Player1);
-		}
+			// Make sure to set the other player as the one to take a turn next
+			if(game.getCurrentTurn().equals(Player1))
+			{
+				game.setCurrentTurn(Player2);
+			}
+			else
+			{
+				game.setCurrentTurn(Player1);
+			}
+	}
 	}
 }

@@ -19,6 +19,7 @@ public class Gameplay {
 	int kingLocationCol;
 	int kingLocationRow;
 	
+	
 	Piece[][] pieces = new Piece[11][11];
 	
 	public Gameplay (Board brd, User Player1, User Player2){
@@ -34,17 +35,19 @@ public class Gameplay {
 			this.currentTurn = Player1;
 			offence = Player1;
 			defence = Player2;
-			board = new Board();
+			board = brd;
 			SetBoard setupGame = new SetBoard(board, Player1, Player2);
 			setupGame.setBoard();
+			this.setStatus(GameStatus.ACTIVE);
 		}
 		else{
 			this.currentTurn = Player2;
 			offence = Player2;
 			defence = Player1;
-			board = new Board();
+			board = brd;
 			SetBoard setupGame = new SetBoard(board, Player2, Player1);
 			setupGame.setBoard();
+			this.setStatus(GameStatus.ACTIVE);
 		}
 	}
 	

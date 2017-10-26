@@ -2,5 +2,5 @@ package Backend;
 
 public enum GameStatus {
 
-	PENDING,FINISHED
+	PENDING,FINISHED, ACTIVE
 }
