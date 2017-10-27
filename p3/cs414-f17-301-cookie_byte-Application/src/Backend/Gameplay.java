@@ -1,4 +1,5 @@
 package Backend;
+
 public class Gameplay {
 	
 	// Gameplay sets up board, selects offence and defence, and holds the win conditions for the game. 
@@ -28,10 +29,13 @@ public class Gameplay {
 		this.Player2 = Player2;
 		this.status = GameStatus.PENDING;
 		
+		// This is giving a warning because the random player 1 or 2 selection is commented out
+		// directly below for testing. 
 		int rand = (int)Math.random();
 		
+		// TODO remove comment block below after testing
 		//Selects player1 or Player2 at random to start and set up board accordingly so each player is assigned either defence or offense
-		if (rand % 2 == 0){
+	//	if (rand % 2 == 0){
 			this.currentTurn = Player1;
 			offence = Player1;
 			defence = Player2;
@@ -39,7 +43,7 @@ public class Gameplay {
 			SetBoard setupGame = new SetBoard(board, Player1, Player2);
 			setupGame.setBoard();
 			this.setStatus(GameStatus.ACTIVE);
-		}
+	/*	}
 		else{
 			this.currentTurn = Player2;
 			offence = Player2;
@@ -48,7 +52,7 @@ public class Gameplay {
 			SetBoard setupGame = new SetBoard(board, Player2, Player1);
 			setupGame.setBoard();
 			this.setStatus(GameStatus.ACTIVE);
-		}
+		} */
 	}
 	
 	public Board getBoard()

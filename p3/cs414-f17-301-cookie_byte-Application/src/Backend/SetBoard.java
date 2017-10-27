@@ -1,4 +1,5 @@
 package Backend;
+
 public class SetBoard {
 	
 	// SetBoard uses the board class to set the correct starting location of all pieces
@@ -8,8 +9,8 @@ public class SetBoard {
 	// This class should ONLY be used by Gameplay. 
 	
 	Board board = new Board();
-	User offence = new User(null, null, null, null);
-	User defence = new User(null, null, null, null);
+	User offence = new User(null);
+	User defence = new User(null);
 	User none;
 	
 	public SetBoard(Board brd, User off, User def)
@@ -67,6 +68,7 @@ public class SetBoard {
 		// Defence from the TOP LEFT to the BOTTOM RIGHT in order
 		
 		board.addPieceToBoard(3, 5, PieceType.ROOK, defence);
+		board.addPieceToBoard(4, 4, PieceType.ROOK, defence);
 		board.addPieceToBoard(4, 5, PieceType.ROOK, defence);
 		board.addPieceToBoard(4, 6, PieceType.ROOK, defence);
 		board.addPieceToBoard(5, 3, PieceType.ROOK, defence);

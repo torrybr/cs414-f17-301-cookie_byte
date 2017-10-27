@@ -1,5 +1,6 @@
 package Backend;
 
+
 public class MakeMove {
 	
 	// MakeMove checks that the desired move is valid, and then moves the piece. 
@@ -16,9 +17,8 @@ public class MakeMove {
 	 User Player1;
 	 User Player2;
 	 
-	 public MakeMove (User player, Gameplay game, User offence, User defence)
+	 public MakeMove (Gameplay game, User offence, User defence)
 	 {
-		 this.player = player;
 		 this.game = game;
 		 this.board = game.getBoard();
 		 Player1 = offence;
@@ -30,11 +30,19 @@ public class MakeMove {
 		// Check if the player trying to move is allowed (i.e. their turn)
 		if (!game.isItMyTurn(player)) 
 		{
+			System.out.println("Not your turn. ");
 			return false;
 		}
 		
 		// Check if player is trying to move their opponent's piece
 		if(!board.pieces[rowFrom][colFrom].getPlayer().equals(player))
+		{
+			System.out.println("Not your piece. ");
+			return false;
+		}
+		
+		// Check if player is trying to move nonexistant piece
+		if(board.pieces[rowFrom][colFrom].getType().equals(PieceType.NONE))
 		{
 			return false;
 		}
@@ -42,18 +50,21 @@ public class MakeMove {
 		// Check if piece is actually being moved
 		if(rowFrom == rowTo && colFrom == colTo)
 		{
+			System.out.println("Can't stay in same spot. ");
 			return false;
 		}
 
 		// Straight line check
 		if (rowFrom != rowTo && colFrom != colTo)
 		{
+			System.out.println("Must move in a straight line. ");
 			return false;
 		}
 		// In range of board check
 		if (rowFrom > 10 || rowFrom < 0 || rowTo > 10 || rowTo < 0 || colFrom > 10 || colFrom < 0 || colTo > 10
 				|| colTo < 0)
 		{
+			System.out.println("Not inside board. ");
 			return false;
 		}
 		// Is the piece moving to a corner OR the center piece & not a king check
@@ -61,80 +72,85 @@ public class MakeMove {
 		{
 			if (rowTo == 0 && colTo == 0)
 			{
+				System.out.println("Space reserved for king. ");
 				return false;
 			} 
 			else if (rowTo == 0 && colTo == 10) 
 			{
+				System.out.println("Space reserved for king. ");
 				return false;
 			} 
 			else if (rowTo == 10 && colTo == 0) 
 			{
+				System.out.println("Space reserved for king. ");
 				return false;
 			} 
 			else if (rowTo == 10 && colTo == 10) 
 			{
+				System.out.println("Space reserved for king. ");
 				return false;
 			}
 			else if (rowTo == 5 && colTo == 5)
 			{
+				System.out.println("Space reserved for king. ");
 				return false;
 			}
 		}
 
 		// Is there a piece in the way check
-		if (rowFrom == rowTo) 
+		// Left and right
+		if(rowFrom == rowTo)
 		{
-			// going up
-			if (colFrom < colTo) 
+			// Moving to the right
+			if(colFrom < colTo)
 			{
-				for (int i = colFrom + 1; i <= colTo; i++) 
+				for(int j = colFrom + 1; j <= colTo; j++)
 				{
-					System.out.println(i);
-					if (board.pieces[rowFrom][i].getType() != PieceType.NONE) 
-					{
-						return false;
-					}
-				}
-			} 
-			else 
-			{
-				// going down
-				for (int i = colFrom - 1; i >= colTo; i--) 
-				{
-					System.out.println(i);
-					if (board.pieces[rowFrom][i].getType() != PieceType.NONE) 
+					if(!board.getPieceType(rowFrom, j).equals(PieceType.NONE))
 					{
 						return false;
 					}
 				}
 			}
-		} 
-		else 
-		{
-			// going up
-			if (rowFrom < rowTo) 
+			// Moving to the left
+			else
 			{
-				for (int i = rowFrom + 1; i <= rowTo; i++) 
+				for(int j = colFrom - 1; j >= colTo; j--)
 				{
-					System.out.println(i);
-					if (board.pieces[i][colFrom].getType() != PieceType.NONE) 
-					{
-						return false;
-					}
-				}
-			} 
-			else 
-			{
-				for (int i = rowFrom - 1; i >= rowTo; i--) 
-				{
-					System.out.println(i);
-					if (board.pieces[rowFrom][i].getType() != PieceType.NONE) 
+					if(!board.getPieceType(rowFrom, j).equals(PieceType.NONE))
 					{
 						return false;
 					}
 				}
 			}
 		}
+		// Moving up and down
+		else
+		{
+			// Moving down
+			if(rowFrom < rowTo)
+			{
+				for(int i = rowFrom + 1; i <= rowTo; i++)
+				{
+					if(!board.getPieceType(i, colFrom).equals(PieceType.NONE))
+					{
+						return false;
+					}
+				}
+			}
+			// Moving to the left
+			else
+			{
+				for(int i = rowFrom - 1; i >= rowTo; i--)
+				{
+					if(!board.getPieceType(i, colFrom).equals(PieceType.NONE))
+					{
+						return false;
+					}
+				}
+			}
+		}
+		
 		return true;
 	}
 	
@@ -143,6 +159,13 @@ public class MakeMove {
 		if (row < 0 || row > 10 || col < 0 || col > 10) {
 			return false;
 		}
+		
+		// Check if player is trying to move nonexistant piece
+		if(board.pieces[row][col].getType().equals(PieceType.NONE))
+		{
+			return false;
+		}
+		
 		// Check to see if we are on an edge and if next to a corner, check if
 		// needs to be removed
 		if (row == 0 || row == 10) {
@@ -206,7 +229,11 @@ public class MakeMove {
 				}
 			}
 		}
-		if (board.pieces[row - 1][col].getType() != PieceType.NONE && board.pieces[row-1][col].getPlayer() != player && board.pieces[row + 1][col].getType() != PieceType.NONE && board.pieces[row+1][col].getPlayer() != player) {
+		if((row - 1) < 0 || (row + 1) > 10 || (col - 1) < 0 || (col + 1) > 10)
+		{
+			return false;
+		}
+		else if (board.pieces[row - 1][col].getType() != PieceType.NONE && board.pieces[row-1][col].getPlayer() != player && board.pieces[row + 1][col].getType() != PieceType.NONE && board.pieces[row+1][col].getPlayer() != player) {
 			return true;
 		} else if (board.pieces[row][col - 1].getType() != PieceType.NONE && board.pieces[row][col-1].getPlayer() != player && board.pieces[row][col + 1].getType() != PieceType.NONE && board.pieces[row][col+1].getPlayer() != player) {
 			return true;
@@ -221,6 +248,7 @@ public class MakeMove {
 			
 			//Actually move piece
 			board.movePiece(rowFrom, colFrom, rowTo, colTo);
+			System.out.println("Piece moved from: " + rowFrom + ", " + colFrom + " to " + rowTo + ", " + colTo);
 			
 			// Check win conditions
 			if(game.attackWinConditions())
@@ -228,6 +256,7 @@ public class MakeMove {
 				// TODO Attacker wins. Save game (winner, games history, etc)
 				game.setStatus(GameStatus.FINISHED);
 				game.setWinner(Player1);
+				System.out.println("Player 1 wins!");
 				
 				
 			}
@@ -236,20 +265,25 @@ public class MakeMove {
 				// TODO Defender wins. Save game (winner, games history, etc)
 				game.setStatus(GameStatus.FINISHED);
 				game.setWinner(Player2);
+				System.out.println("Player 2 wins!");
 			}
 			
 			//Check if we killed any enemies (capturePiece handles out of bounds checks)
-			if(capturePiece(player, rowTo+1, colTo)){
+			if(capturePiece(game.getCurrentTurn(), rowTo+1, colTo)){
 				board.removePiece(rowTo+1, colTo);
+				System.out.println("Piece removed down.");
 			}
-			if(capturePiece(player, rowTo-1, colTo)){
+			if(capturePiece(game.getCurrentTurn(), rowTo-1, colTo)){
 				board.removePiece(rowTo-1, colTo);
+				System.out.println("Piece removed up.");
 			}
-			if(capturePiece(player, rowTo, colTo+1)){
+			if(capturePiece(game.getCurrentTurn(), rowTo, colTo+1)){
 				board.removePiece(rowTo, colTo+1);
+				System.out.println("Piece removed right.");
 			}
-			if(capturePiece(player, rowTo, colTo-1)){
+			if(capturePiece(game.getCurrentTurn(), rowTo, colTo-1)){
 				board.removePiece(rowTo, colTo-1);
+				System.out.println("Piece removed left.");
 			}
 		
 			// Make sure to set the other player as the one to take a turn next
