@@ -155,6 +155,8 @@ public class MakeMove {
 	}
 	
 	public boolean capturePiece(User player, int row, int col) {
+		
+		
 		// Make sure we're not checking out of bounds
 		if (row < 0 || row > 10 || col < 0 || col > 10) {
 			return false;
@@ -229,16 +231,25 @@ public class MakeMove {
 				}
 			}
 		}
+		// Do the general checks to see if something should be removed
 		if((row - 1) < 0 || (row + 1) > 10 || (col - 1) < 0 || (col + 1) > 10)
 		{
 			return false;
 		}
-		else if (board.pieces[row - 1][col].getType() != PieceType.NONE && board.pieces[row-1][col].getPlayer() != player && board.pieces[row + 1][col].getType() != PieceType.NONE && board.pieces[row+1][col].getPlayer() != player) {
-			return true;
-		} else if (board.pieces[row][col - 1].getType() != PieceType.NONE && board.pieces[row][col-1].getPlayer() != player && board.pieces[row][col + 1].getType() != PieceType.NONE && board.pieces[row][col+1].getPlayer() != player) {
-			return true;
-		} else
-			return false;
+		if (board.pieces[row - 1][col].getType() != PieceType.NONE && board.pieces[row + 1][col].getType() != PieceType.NONE) {
+			if(!board.getPieceOwner(row-1, col).equals(board.getPieceOwner(row, col)) && !board.getPieceOwner(row+1, col).equals(board.getPieceOwner(row, col)))
+			{
+				return true;
+			}
+		}
+		if (board.pieces[row][col - 1].getType() != PieceType.NONE && board.pieces[row][col + 1].getType() != PieceType.NONE) {
+			if(!board.getPieceOwner(row, col-1).equals(board.getPieceOwner(row, col)) && !board.getPieceOwner(row, col+1).equals(board.getPieceOwner(row, col)))
+			{
+				return true;
+			}
+		} 
+		return false;
+
 	}
 	
 	public void movePiece(int rowFrom, int colFrom, int rowTo, int colTo){

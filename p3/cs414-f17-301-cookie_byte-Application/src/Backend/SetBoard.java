@@ -9,8 +9,8 @@ public class SetBoard {
 	// This class should ONLY be used by Gameplay. 
 	
 	Board board = new Board();
-	User offence = new User(null);
-	User defence = new User(null);
+	User offence;
+	User defence;
 	User none;
 	
 	public SetBoard(Board brd, User off, User def)

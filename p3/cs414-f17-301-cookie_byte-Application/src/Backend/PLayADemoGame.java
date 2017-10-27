@@ -36,7 +36,7 @@ public class PLayADemoGame {
 		mke.movePiece(2, 0, 2, 5);
 		
 		// b
-		mke.movePiece(5, 3, 4, 3);
+		mke.movePiece(4, 4, 2, 4);
 	}
 
 }
