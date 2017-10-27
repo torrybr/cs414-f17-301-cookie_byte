@@ -38,6 +38,12 @@ public class MakeMove {
 		{
 			return false;
 		}
+		
+		// Check if piece is actually being moved
+		if(rowFrom == rowTo && colFrom == colTo)
+		{
+			return false;
+		}
 
 		// Straight line check
 		if (rowFrom != rowTo && colFrom != colTo)
@@ -132,7 +138,7 @@ public class MakeMove {
 		return true;
 	}
 	
-	public boolean capturePiece(int row, int col) {
+	public boolean capturePiece(User player, int row, int col) {
 		// Make sure we're not checking out of bounds
 		if (row < 0 || row > 10 || col < 0 || col > 10) {
 			return false;
@@ -145,26 +151,26 @@ public class MakeMove {
 			} else if (row == 0) {
 				// Checking next to top right corner
 				if (col == 1) {
-					if (board.pieces[0][2].getType() != PieceType.NONE) {
+					if (board.pieces[0][2].getType() != PieceType.NONE && board.pieces[0][2].getPlayer() != player) {
 						return true;
 					}
 				}
 				// Checking next to top left corner
 				if (col == 9) {
-					if (board.pieces[0][8].getType() != PieceType.NONE) {
+					if (board.pieces[0][8].getType() != PieceType.NONE && board.pieces[0][8].getPlayer() != player) {
 						return true;
 					}
 				}
 			} else if (row == 10) {
 				// Checking next to bottom right corner
 				if (col == 1) {
-					if (board.pieces[10][2].getType() != PieceType.NONE) {
+					if (board.pieces[10][2].getType() != PieceType.NONE && board.pieces[10][2].getPlayer() != player) {
 						return true;
 					}
 				}
 				// Checking next to bottom left corner
 				if (col == 9) {
-					if (board.pieces[10][8].getType() != PieceType.NONE) {
+					if (board.pieces[10][8].getType() != PieceType.NONE && board.pieces[10][8].getPlayer() != player) {
 						return true;
 					}
 				}
@@ -175,34 +181,34 @@ public class MakeMove {
 			} else if (col == 0) {
 				// Checking next to top right corner
 				if (row == 1) {
-					if (board.pieces[2][0].getType() != PieceType.NONE) {
+					if (board.pieces[2][0].getType() != PieceType.NONE && board.pieces[2][0].getPlayer() != player) {
 						return true;
 					}
 				}
 				// Checking next to top left corner
 				if (row == 9) {
-					if (board.pieces[8][0].getType() != PieceType.NONE) {
+					if (board.pieces[8][0].getType() != PieceType.NONE && board.pieces[0][8].getPlayer() != player) {
 						return true;
 					}
 				}
 			} else if (col == 10) {
 				// Checking next to bottom right corner
 				if (row == 1) {
-					if (board.pieces[2][10].getType() != PieceType.NONE) {
+					if (board.pieces[2][10].getType() != PieceType.NONE && board.pieces[10][2].getPlayer() != player) {
 						return true;
 					}
 				}
 				// Checking next to bottom left corner
 				if (row == 9) {
-					if (board.pieces[8][10].getType() != PieceType.NONE) {
+					if (board.pieces[8][10].getType() != PieceType.NONE && board.pieces[10][8].getPlayer() != player) {
 						return true;
 					}
 				}
 			}
 		}
-		if (board.pieces[row - 1][col].getType() != PieceType.NONE && board.pieces[row + 1][col].getType() != PieceType.NONE) {
+		if (board.pieces[row - 1][col].getType() != PieceType.NONE && board.pieces[row-1][col].getPlayer() != player && board.pieces[row + 1][col].getType() != PieceType.NONE && board.pieces[row+1][col].getPlayer() != player) {
 			return true;
-		} else if (board.pieces[row][col - 1].getType() != PieceType.NONE && board.pieces[row][col + 1].getType() != PieceType.NONE) {
+		} else if (board.pieces[row][col - 1].getType() != PieceType.NONE && board.pieces[row][col-1].getPlayer() != player && board.pieces[row][col + 1].getType() != PieceType.NONE && board.pieces[row][col+1].getPlayer() != player) {
 			return true;
 		} else
 			return false;
@@ -233,16 +239,16 @@ public class MakeMove {
 			}
 			
 			//Check if we killed any enemies (capturePiece handles out of bounds checks)
-			if(capturePiece(rowTo+1, colTo)){
+			if(capturePiece(player, rowTo+1, colTo)){
 				board.removePiece(rowTo+1, colTo);
 			}
-			if(capturePiece(rowTo-1, colTo)){
+			if(capturePiece(player, rowTo-1, colTo)){
 				board.removePiece(rowTo-1, colTo);
 			}
-			if(capturePiece(rowTo, colTo+1)){
+			if(capturePiece(player, rowTo, colTo+1)){
 				board.removePiece(rowTo, colTo+1);
 			}
-			if(capturePiece(rowTo, colTo-1)){
+			if(capturePiece(player, rowTo, colTo-1)){
 				board.removePiece(rowTo, colTo-1);
 			}
 		
@@ -255,6 +261,6 @@ public class MakeMove {
 			{
 				game.setCurrentTurn(Player1);
 			}
-	}
+		}
 	}
 }
