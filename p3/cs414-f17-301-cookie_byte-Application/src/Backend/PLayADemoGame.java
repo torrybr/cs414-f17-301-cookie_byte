@@ -10,7 +10,7 @@ public class PLayADemoGame {
 		User b = new User("b");
 		
 		// Gameplay object
-		Gameplay play = new Gameplay("12345", a, b);
+		GameController play = new GameController("12345", a, b);
 		
 		// Setup MakeMove object
 		MakeMove mke = new MakeMove(play, a, b);

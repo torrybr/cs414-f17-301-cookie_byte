@@ -12,12 +12,12 @@ public class MakeMove {
 	// MakeMove will take care of using all other classes as necessary. 
 	
 	 User player;
-	 Gameplay game;
+	 GameController game;
 	 Board board;
 	 User Player1;
 	 User Player2;
 	 
-	 public MakeMove (Gameplay game, User offence, User defence)
+	 public MakeMove (GameController game, User offence, User defence)
 	 {
 		 this.game = game;
 		 this.board = game.getBoard();

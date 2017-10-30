@@ -3,10 +3,12 @@ Here is how to setup a game in, hopefully, enough detail.
 1) Create two Users
 
 2) Create a new Gameplay object and give it your two users.
-		The constructor when you create the Gameplay object will create and setup your board and MakeMove objects
+		The constructor when you create the Gameplay object will create and setup your board
 		automagically.
 		
-3) MakeMove.movePiece handles everything for actual playing of game. UI should call MakeMove.movePiece
+3) Create a MakeMove object
+		
+4) MakeMove.movePiece handles everything for actual playing of game. UI should call MakeMove.movePiece
 		with rowFrom, colFrom, rowTo, colTo. 
 		
 		

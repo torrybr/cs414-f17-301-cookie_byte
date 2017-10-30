@@ -1,6 +1,6 @@
 package Backend;
 
-public class Gameplay {
+public class GameController {
 	
 	// Gameplay sets up board, selects offence and defence, and holds the win conditions for the game. 
 	// Gameplay also ends the games and sets the winner. 
@@ -20,10 +20,11 @@ public class Gameplay {
 	int kingLocationCol;
 	int kingLocationRow;
 	String gameID;
+
 	
 	Piece[][] pieces = new Piece[11][11];
 	
-	public Gameplay (String gmeID, User Player1, User Player2){
+	public GameController(String gmeID, User Player1, User Player2){
 		
 		board = new Board();
 		
@@ -32,7 +33,6 @@ public class Gameplay {
 		this.status = GameStatus.PENDING;
 		gameID = gmeID;
 		
-		MakeMove mke = new MakeMove(this, Player1, Player2);
 		
 		// This is giving a warning because the random player 1 or 2 selection is commented out
 		// directly below for testing. 
