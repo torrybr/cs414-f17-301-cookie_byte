@@ -6,7 +6,7 @@ public class Gameplay {
 	// Gameplay also ends the games and sets the winner. 
 	// For any functional movement see class "MakeMove". 
 	
-	// Gameplay should be called only ONCE at the beginning of a game. Gameplay will handle everything else. 
+	// Gameplay constructor should be called only ONCE at the beginning of a game. Win conditions should be used after each move. Gameplay will handle everything else. 
 	// Gameplay will take care of using all other classes as necessary. 
  
 	User Player1;
@@ -19,15 +19,17 @@ public class Gameplay {
 	Board board;
 	int kingLocationCol;
 	int kingLocationRow;
-	
+	String gameID;
 	
 	Piece[][] pieces = new Piece[11][11];
 	
-	public Gameplay (Board brd, User Player1, User Player2){
+	public Gameplay (String gmeID, User Player1, User Player2){
 		
+		board = new Board();
 		this.Player1 = Player1;
 		this.Player2 = Player2;
 		this.status = GameStatus.PENDING;
+		gameID = gmeID;
 		
 		// This is giving a warning because the random player 1 or 2 selection is commented out
 		// directly below for testing. 
@@ -39,7 +41,6 @@ public class Gameplay {
 			this.currentTurn = Player1;
 			offence = Player1;
 			defence = Player2;
-			board = brd;
 			SetBoard setupGame = new SetBoard(board, Player1, Player2);
 			setupGame.setBoard();
 			this.setStatus(GameStatus.ACTIVE);
@@ -48,11 +49,20 @@ public class Gameplay {
 			this.currentTurn = Player2;
 			offence = Player2;
 			defence = Player1;
-			board = brd;
 			SetBoard setupGame = new SetBoard(board, Player2, Player1);
 			setupGame.setBoard();
 			this.setStatus(GameStatus.ACTIVE);
 		} */
+	}
+	
+	public String getGameID()
+	{
+		return gameID;
+	}
+	
+	public void setGameID(String gmeID)
+	{
+		gameID = gmeID;
 	}
 	
 	public Board getBoard()

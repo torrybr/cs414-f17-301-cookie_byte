@@ -138,7 +138,7 @@ public class MakeMove {
 					}
 				}
 			}
-			// Moving to the left
+			// Moving up
 			else
 			{
 				for(int i = rowFrom - 1; i >= rowTo; i--)
@@ -162,7 +162,7 @@ public class MakeMove {
 			return false;
 		}
 		
-		// Check if player is trying to move nonexistant piece
+		// Check if player is trying to capture nonexistant piece
 		if(board.pieces[row][col].getType().equals(PieceType.NONE))
 		{
 			return false;
