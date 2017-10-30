@@ -26,10 +26,13 @@ public class Gameplay {
 	public Gameplay (String gmeID, User Player1, User Player2){
 		
 		board = new Board();
+		
 		this.Player1 = Player1;
 		this.Player2 = Player2;
 		this.status = GameStatus.PENDING;
 		gameID = gmeID;
+		
+		MakeMove mke = new MakeMove(this, Player1, Player2);
 		
 		// This is giving a warning because the random player 1 or 2 selection is commented out
 		// directly below for testing. 
