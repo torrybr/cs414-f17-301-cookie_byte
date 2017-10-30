@@ -27,9 +27,9 @@ public class User {
 	//add to invites: addInvite() 
 	//remove from invites: removeInvite() 
 	
-	//get pastGames: getPastGames  
-	//add to pastGames: addPastGame
-	//get currentGames: getCurrentGames
+	//get pastGames: getPastGames()  
+	//add to pastGames: addPastGame()
+	//get currentGames: getCurrentGames()
 	//add to currentGames: addCurrentGame()
 	//remove from current games: removeCurrentGames()
 	
