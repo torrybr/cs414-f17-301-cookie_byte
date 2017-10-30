@@ -2,7 +2,7 @@ Here is how to setup a game in, hopefully, enough detail.
 
 1) Create a new board
 
-2) Create two Users (at time of writing, User still needs to be redone)
+2) Create two Users
 
 3) Create a new Gameplay object and give it your board and two users.
 		The constructor when you create the Gameplay object will setup your board
