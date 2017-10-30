@@ -64,4 +64,9 @@ public class Invite {
 		return true;
 	}
 	
+	public String toString() 
+	{
+		 return "Invite [FromUser=" + userFrom + ", ToUser=" + userTo + ", GameID=" + gameID + "]";
+	}
+	
 }
