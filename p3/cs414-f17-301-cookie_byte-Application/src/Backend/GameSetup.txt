@@ -1,0 +1,22 @@
+Here is how to setup a game in, hopefully, enough detail.
+
+1) Create a new board
+
+2) Create two Users
+
+3) Create a new Gameplay object and give it your board and two users.
+		The constructor when you create the Gameplay object will setup your board
+		automagically.
+		
+4) MakeMove.movePiece handles everything for actual playing of game. UI should call MakeMove.movePiece
+		with rowFrom, colFrom, rowTo, colTo. 
+		
+5) UI should handle any user-facing error messages, such as "Move not valid". 
+		If you want, you can put these messages in MakeMove.isMoveValid() so that you can say things like
+		"Not your turn" or "Piece in the way, please try again". 
+		
+		
+What I didn't do:
+
+User needs to be rewritten. Once that happens, see the TODO markers in MakeMove.movePiece for saving the winner and 
+storing histroy somehow (you can add an ID to Gameplay if you think that's the right thing to do). Winner can be fetched from Gameplay.getWinner.

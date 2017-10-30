@@ -1,5 +1,3 @@
-package Backend;
-
 public class Board {
 	
 	// A board has pieces... well, it has a 2D array of pieces. A board is no more than a container for pieces.
@@ -33,11 +31,9 @@ public class Board {
 	// Add piece to board
 	public void addPieceToBoard(int row, int col, PieceType typeOfPiece, User pieceOwner)
 	{
-		// Create the piece
-		Piece p = new Piece(typeOfPiece, pieceOwner);
-		
 		// Put the piece where it goes
-		pieces[row][col] = p;
+		pieces[row][col].setPlayer(pieceOwner);
+		pieces[row][col].setType(typeOfPiece);
 	}
 	
 	// Remove piece from board 
@@ -63,7 +59,6 @@ public class Board {
 		// Put the piece back where it goes
 		pieces[rowTo][colTo].setPlayer(pieceOwner);
 		pieces[rowTo][colTo].setType(typeOfPiece);
-		
 
 	}
 	
