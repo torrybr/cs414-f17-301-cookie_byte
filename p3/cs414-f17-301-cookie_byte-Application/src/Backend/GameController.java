@@ -19,12 +19,12 @@ public class GameController {
 	Board board;
 	int kingLocationCol;
 	int kingLocationRow;
-	String gameID;
+	int gameID;
 
 	
 	Piece[][] pieces = new Piece[11][11];
 	
-	public GameController(String gmeID, User Player1, User Player2){
+	public GameController(int gmeID, User Player1, User Player2){
 		
 		board = new Board();
 		
@@ -58,12 +58,12 @@ public class GameController {
 		} */
 	}
 	
-	public String getGameID()
+	public int getGameID()
 	{
 		return gameID;
 	}
 	
-	public void setGameID(String gmeID)
+	public void setGameID(int gmeID)
 	{
 		gameID = gmeID;
 	}
