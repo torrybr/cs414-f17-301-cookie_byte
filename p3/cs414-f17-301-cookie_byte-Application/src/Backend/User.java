@@ -20,21 +20,23 @@ public class User {
 		
 	}
 	
-	//make sure that userID is unique 
-	//make sure that email is unique 
+	//make sure that userID  
+	//make sure that email  
 	
-	//get invites
-	//add to invites 
+	//get invites: getInvites() 
+	//add to invites: addInvite() 
+	//remove from invites: removeInvite() 
 	
-	//get PastGames
-	//add to pastGames 
-	//get currentGames
-	//add to currentGames
+	//get pastGames: getPastGames  
+	//add to pastGames: addPastGame
+	//get currentGames: getCurrentGames
+	//add to currentGames: addCurrentGame()
+	//remove from current games: removeCurrentGames()
 	
-	//add to loss count
-	//get loss count 
-	//add to win count 
-	//get win count 
+	//add to loss count: addLoss()
+	//get loss count: getLosses() 
+	//add to win count: addWin()
+	//get win count getWins()
 	
 }
 
