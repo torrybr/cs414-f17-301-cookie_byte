@@ -2,32 +2,51 @@ package Backend;
 
 public class Invite {
 
-	User FromUser;
-	User ToUser;
-	String GameID;
-	InvitationStatus Acceptance;
+	User userTo;
+	User userFrom;
+	int gameID;
+	InvitationStatus status;
 	
 	
-	public Invite (User ToUser, User FromUser, String GameID){
-		this.ToUser = ToUser;
-		this.FromUser = FromUser;
-		this.GameID = GameID;
-		Acceptance= InvitationStatus.PENDING;	
+	public Invite (User to, User from, int GameID){
+		this.userTo = to;
+		this.userFrom = from;
+		this.gameID = GameID;
+		// Set invite to pending
+		status = InvitationStatus.PENDING;	
+		// Add invite to userTo's list of invites
+		userTo.addInvite(this);
+		
 	}
 	
-	public InvitationStatus getAcceptance() {
-		return Acceptance;
+	public void acceptInvite()
+	{
+		// Set invite to accepted
+		status = InvitationStatus.ACCECPTED;
+		//Actually creates the game with the two users
+		GameController gme = new GameController(gameID, userTo, userFrom);
+		// Sets game to active
+		gme.setStatus(GameStatus.ACTIVE);
+		// Add game to both users
+		userTo.addCurrentGame(gme);
+		userFrom.addCurrentGame(gme);
+		// Remove invite from receiving user
+		userTo.removeInvite(this);
 	}
-
-	public void setAcceptance(InvitationStatus acceptance) {
-		Acceptance = acceptance;
+	
+	public void delineInvite()
+	{
+		// Set invite to declined
+		status = InvitationStatus.DECLINED;
+		// Remove invite from receiving user
+		userTo.removeInvite(this);
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Integer.parseInt(GameID);
+		result = prime * result + gameID;
 		return result;
 	}
 
@@ -40,14 +59,9 @@ public class Invite {
 		if (getClass() != obj.getClass())
 			return false;
 		Invite other = (Invite) obj;
-		if (GameID != other.GameID)
+		if (gameID != other.gameID)
 			return false;
 		return true;
 	}
-
-	public String toString() {
-		return "Invite [FromUser=" + FromUser + ", ToUser=" + ToUser + ", GameID=" + GameID + "]";
-	}
-	
 	
 }
