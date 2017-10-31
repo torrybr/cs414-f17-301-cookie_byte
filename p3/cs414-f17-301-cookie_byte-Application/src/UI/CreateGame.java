@@ -1,18 +1,13 @@
 package UI;
 
 import Drivers.ClientDriver;
-import Drivers.GameDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -26,7 +21,7 @@ public class CreateGame  extends Application {
 	
 	public CreateGame(ClientDriver driver){
 	 	this.client = driver;
-	 	sender = driver.profile.getNickname();
+	 	//sender = driver.profile.getNickname();
 	}
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -107,10 +102,10 @@ public class CreateGame  extends Application {
 	}
 	
 	public void send() {
-		GameDriver gameDriver = new GameDriver(sender,reciever);
-		Game game = new Game(client,gameDriver);
+		//GameDriver gameDriver = new GameDriver(sender,reciever);
+		//Game game = new Game(client,gameDriver);
 		try {
-			game.start(main);
+		//	game.start(main);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

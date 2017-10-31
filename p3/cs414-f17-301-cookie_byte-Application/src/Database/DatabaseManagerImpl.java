@@ -1,15 +1,15 @@
 package Database;
-import com.mongodb.*;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.apache.log4j.Logger;
 import org.bson.Document;
-import com.fasterxml.jackson.databind.*;
 
 import javax.xml.ws.http.HTTPException;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;

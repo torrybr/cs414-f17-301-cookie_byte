@@ -1,16 +1,6 @@
 package UI;
 
-import java.util.List;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-
 import Drivers.ClientDriver;
-import Drivers.GameDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,17 +9,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Labeled;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -40,7 +22,7 @@ import javafx.stage.Stage;
 public class Game extends Application{
 	
 	public ClientDriver clientDriver;
-	public GameDriver gameDriver;
+	//public GameDriver gameDriver;
 	
 	
 	protected int piece1 = -1;
@@ -52,13 +34,13 @@ public class Game extends Application{
 	protected Stage main;
 	Tile[][] holder;
 	
-	 public Game(ClientDriver client,GameDriver game){
+	 /*public Game(ClientDriver client,GameDriver game){
 	 	this.clientDriver = client;
 	 	this.gameDriver = game;
 	 	user1 = gameDriver.game.getPlayer1().getNickname();
 	 	user2 = gameDriver.game.getPlayer2().getNickname();
 	 	move = gameDriver.game.getCurrentTurn().getNickname();
-	 }
+	 }*/
 	
 	private Parent createContent() {
 		Pane root = new Pane();
@@ -254,14 +236,14 @@ public class Game extends Application{
 		iv24.setFitWidth(30);
 		ImageView[] images = {iv,iv2,iv3,iv4,iv5,iv6,iv7,iv8,iv9,iv10,iv11,iv12,iv13,iv14,iv15,iv16,iv17,iv18,iv19,iv20,iv21,iv22,iv23,iv24};
 
-		List<String> locations = gameDriver.getLocations();
+		//List<String> locations = gameDriver.getLocations();
 
-		for(int i = 0;i<24;i++){
-			String[] temp = locations.get(i).split(" ");
+/*		for(int i = 0;i<24;i++){
+			//String[] temp = locations.get(i).split(" ");
 			int x = Integer.parseInt(temp[0]);
 			int y = Integer.parseInt(temp[1]);
 			((BoardPiece) holder[x][y].getChildren().get(0)).setGraphic(images[i]);
-		}
+		}*/
 
 		ImageView iv25 = new ImageView(image1);
 		iv25.setFitHeight(30);
@@ -305,12 +287,12 @@ public class Game extends Application{
 
 		//king at 30
 		ImageView[] images2 = {iv25,iv26,iv27,iv28,iv29,iv30,iv31,iv32,iv33,iv34,iv35,iv36,iv37};
-		for(int i = 24;i<37;i++){
+		/*for(int i = 24;i<37;i++){
 			String[] temp = locations.get(i).split(" ");
 			int x = Integer.parseInt(temp[0]);
 			int y = Integer.parseInt(temp[1]);
 			((BoardPiece) holder[x][y].getChildren().get(0)).setGraphic(images2[i-24]);
-		}
+		}*/
 	}
 	
 	protected void movePieces(int oldx, int oldy) {
@@ -319,7 +301,7 @@ public class Game extends Application{
 			piece2 = oldy;
 		}
 		else {
-			if(gameDriver.makeMove(piece1,piece2,oldx,oldy,clientDriver.getName())) {
+			/*if(gameDriver.makeMove(piece1,piece2,oldx,oldy,clientDriver.getName())) {
 				ImageView tempiv2 = (ImageView) ((Labeled) holder[oldx][oldy].getChildren().get(0)).getGraphic();
 				ImageView tempiv = (ImageView) ((Labeled) holder[piece1][piece2].getChildren().get(0)).getGraphic();
 				((Labeled) holder[piece1][piece2].getChildren().get(0)).setGraphic(tempiv2);
@@ -327,11 +309,11 @@ public class Game extends Application{
 				piece1 = -1;
 				piece2 = -1;
 				gameDriver.saveMove();
-			}
-			else{
-				piece1 = -1;
-				piece2 = -1;
-			}
+			}*/
+			//else{
+			//	piece1 = -1;
+			//	piece2 = -1;
+			//}
 		}
 	}
 	

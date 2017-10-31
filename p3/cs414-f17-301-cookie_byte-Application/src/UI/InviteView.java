@@ -1,7 +1,5 @@
 package UI;
 
-import java.util.ArrayList;
-
 import Drivers.ClientDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -17,6 +15,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 public class InviteView extends Application {
 	protected Stage main;

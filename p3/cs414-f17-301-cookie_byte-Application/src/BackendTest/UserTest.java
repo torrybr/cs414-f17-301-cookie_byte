@@ -1,15 +1,14 @@
 package BackendTest;
 
-import static org.junit.Assert.*;
+import Backend.GameController;
+import Backend.Invite;
+import Backend.User;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-
-import Backend.GameController;
-import Backend.Invite;
-import Backend.User;
+import static org.junit.Assert.assertEquals;
 
 public class UserTest {
 

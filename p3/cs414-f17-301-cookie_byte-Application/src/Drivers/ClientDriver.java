@@ -1,11 +1,10 @@
 package Drivers;
 
-import java.util.List;
-
 import Backend.User;
 import Database.DatabaseManagerImpl;
 import Database.UsersJavaObject;
-import com.mongodb.DB;
+
+import java.util.List;
 
 public class ClientDriver {
 	public User profile;
@@ -42,7 +41,7 @@ public class ClientDriver {
 	public ClientDriver(String username) {
 		//get user info from DB
 		UsersJavaObject temp = DBDriver.getUserByNickname(username);
-		profile = new User(temp.getUserID(),username,temp.getEmail(),temp.getPassword());
+		//profile = new User(temp.getUserID(),username,temp.getEmail(),temp.getPassword());
 		gameIDs = temp.getCurrentGames();
 		inviteIDs = temp.getInvites();
 	}
@@ -50,10 +49,10 @@ public class ClientDriver {
 	public String[] viewProfile() {
 		String[] returnable = new String[6];
 		returnable[0] = profile.getEmail();
-		returnable[1] = profile.getNickname();
+		//returnable[1] = profile.getNickname();
 		returnable[2] = "Your wins here.";
 		returnable[3] = "Your loses here.";
-		returnable[4] = Double.toString(profile.getWinPercentage());
+		//returnable[4] = Double.toString(profile.getWinPercentage());
 		returnable[5] = "Your games here.";
 		return returnable;
 	}
@@ -67,9 +66,9 @@ public class ClientDriver {
 	//public User getUser(String username){
 		//get user from db by username
 	//}
-	public String getName(){
-		return profile.getNickname();
-	}
+	//public String getName(){
+		//return profile.getNickname();
+	//}
 	public static void main(String[] args) {
 		
 	}

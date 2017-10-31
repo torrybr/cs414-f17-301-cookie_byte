@@ -1,6 +1,5 @@
 package UI;
 
-import Drivers.ClientDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -136,7 +135,6 @@ public class Login extends Application {
 			try {
 				nextPage.start(primary);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -242,14 +240,14 @@ public class Login extends Application {
         });
        
 		Scene scene = new Scene(grid,635,375);
-		//scene.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
 		stage.setTitle("Login");
 		stage.setScene(scene);
 		stage.show();
 	}
 	
 	public void createAccountClicked(String email, String nickname, String password) {
-		ClientDriver newClient = new ClientDriver(email, nickname, password);
+		//ClientDriver newClient = new ClientDriver(email, nickname, password);
 		primary.show();
 	}
 	

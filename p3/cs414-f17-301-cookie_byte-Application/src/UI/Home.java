@@ -1,23 +1,19 @@
 package UI;
 
-import java.util.List;
 import Drivers.ClientDriver;
-import Drivers.GameDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.util.List;
 
 public class Home extends Application {
 	protected Stage main;
@@ -46,7 +42,7 @@ public class Home extends Application {
 		border.setRight(addVBoxFriends("Invites",clientDriver.getInviteIDs()));
 		
 		Scene scene = new Scene(border,500,400);
-		primaryStage.setTitle(clientDriver.profile.getNickname()+" Home");
+		//primaryStage.setTitle(clientDriver.profile.getNickname()+" Home");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
@@ -71,10 +67,10 @@ public class Home extends Application {
 	    	       	 
 	                @Override
 	                public void handle(ActionEvent e) {
-	                		GameDriver gameD = new GameDriver((options[tempint].getText()));
+	                		//GameDriver gameD = new GameDriver((options[tempint].getText()));
 	                		try {
-	                				Game game = new Game(clientDriver,gameD);
-	                				game.start(main);
+	                		//		Game game = new Game(clientDriver,gameD);
+	                		//		game.start(main);
 	    					} catch (Exception e1) {
 	    						e1.printStackTrace();
 	    					}
