@@ -1,7 +1,5 @@
 package Backend;
 
-
-
 public class Piece {
 
 	PieceType type;
