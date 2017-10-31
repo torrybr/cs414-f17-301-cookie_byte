@@ -21,6 +21,19 @@ public class User {
 		this.email = email; 
 		
 	}
+	//get user information
+	public String getUserID() 
+	{
+		return userID;
+	}
+	public String getPassword()
+	{
+		return password;
+	}
+	public String getEmail()
+	{
+		return email;
+	}
 	
 	//get invites: getInvites() 
 	public List<Invite> getInvites()
