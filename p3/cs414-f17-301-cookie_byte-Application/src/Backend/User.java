@@ -5,12 +5,6 @@ import java.util.List;
 
 public class User {
 	
-// A Constructor for whenever a new user registers into our system and needs to be created
-	//What we want user to do: have a USER ID 
-	//List of invites 
-	//List of pastGames  
-	//List of currentGames 
-	//int for win and for loss or tie 
 	String userID; //unique nickname (userID)  
 	String password; //password  
 	String email; //unique email 
@@ -19,8 +13,6 @@ public class User {
 	private List<GameController> currentGames = new ArrayList<GameController>();
 	private int wins = 0;
 	private int losses = 0;
-	
-	
 	
 	public User (String userID, String password, String email)
 	{
