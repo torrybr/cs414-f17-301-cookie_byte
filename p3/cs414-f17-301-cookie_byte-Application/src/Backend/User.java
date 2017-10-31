@@ -27,12 +27,12 @@ public class User {
 	{
 		return invites;
 	}
-	//add to invites: addInvite() 
+	//add to invites: addInvite(Invite i) 
 	public void addInvite(Invite i)
 	{
 		invites.add(i);
 	}
-	//remove from invites: removeInvite() 
+	//remove from invites: removeInvite(Invite i) 
 	public void removeInvite(Invite i)
 	{
 		invites.remove(i);
@@ -43,7 +43,7 @@ public class User {
 	{
 		return pastGames;
 	}
-	//add to pastGames: addPastGame()
+	//add to pastGames: addPastGame(GameController g)
 	public void addPastGame(GameController g)
 	{
 		pastGames.add(g);
@@ -53,12 +53,12 @@ public class User {
 	{
 		return currentGames;
 	}
-	//add to currentGames: addCurrentGame()
+	//add to currentGames: addCurrentGame(GameController g)
 	public void addCurrentGame(GameController g)
 	{
 		currentGames.add(g);
 	}
-	//remove from current games: removeCurrentGame()
+	//remove from current games: removeCurrentGame(GameController g)
 	public void removeCurrentGame(GameController g)
 	{
 		currentGames.remove(g);
