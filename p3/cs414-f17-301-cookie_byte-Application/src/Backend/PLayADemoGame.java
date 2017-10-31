@@ -6,8 +6,8 @@ public class PLayADemoGame {
 	{
 		
 		// Create users
-		User a = new User("a");
-		User b = new User("b");
+		User a = new User("a", "blank", "blank");
+		User b = new User("b", "blank", "blank");
 		
 		// Gameplay object
 		GameController play = new GameController(12345, a, b);
