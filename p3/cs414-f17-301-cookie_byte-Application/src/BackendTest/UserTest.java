@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import Backend.GameController;
 import Backend.Invite;
 import Backend.User;
 
@@ -80,11 +81,34 @@ public class UserTest {
 		
 		u.removeInvite(i);
 		u.removeInvite(i3);
+		
 		assertEquals(1, u.getInvites().size());
 		for(int j = 0; j < u.getInvites().size(); j++) 
 		{
 		assertEquals(i2, u.getInvites().get(j));
 		}
+	}
+	
+	@Test
+	//test adding a past game
+	public void testAddPastGame() 
+	{
+		User u = new User("A", "B", "C");
+		GameController g = new GameController(0, u, u);
+		u.addPastGame(g);
+		assertEquals(1, u.getPastGames().size());
+		assertEquals(g, u.getPastGames().get(0));
+	}
+	
+	@Test
+	//test adding a past game
+	public void testAddCurrentGame() 
+	{
+		User u = new User("A", "B", "C");
+		GameController g = new GameController(0, u, u); //add current game should be done here
+		u.addCurrentGame(g); 
+		assertEquals(1, u.getCurrentGames().size());
+		assertEquals(g, u.getCurrentGames().get(0));
 	}
 
 }
