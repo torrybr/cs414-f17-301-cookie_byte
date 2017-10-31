@@ -17,8 +17,8 @@ public class User {
 	private List<Invite> invites = new ArrayList<Invite>();
 	private List<GameController> pastGames = new ArrayList<GameController>();
 	private List<GameController> currentGames = new ArrayList<GameController>();
-	private int wins;
-	private int losses;
+	private int wins = 0;
+	private int losses = 0;
 	
 	
 	
@@ -73,9 +73,25 @@ public class User {
 	}
 	
 	//add to loss count: addLoss()
+	public void addLoss()
+	{
+		losses++;
+	}
 	//get loss count: getLosses() 
+	public int getLosses()
+	{
+		return losses;
+	}
 	//add to win count: addWin()
+	public void addWin()
+	{
+		wins++;
+	}
 	//get win count getWins()
+	public int getWins()
+	{
+		return wins;
+	}
 	
 }
 
