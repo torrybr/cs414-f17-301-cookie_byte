@@ -34,7 +34,7 @@ public class Invite {
 		userTo.removeInvite(this);
 	}
 	
-	public void delineInvite()
+	public void declineInvite()
 	{
 		// Set invite to declined
 		status = InvitationStatus.DECLINED;
