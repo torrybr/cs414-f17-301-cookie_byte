@@ -68,6 +68,23 @@ public class UserTest {
 		assertEquals(0, u.getInvites().size());
 	}
 	
-	//testing 
+	@Test
+	//testing removing multiple invites
+	public void testRemoveMultipleInvites()
+	{
+		User u = new User("A", "B", "C");
+		User u2 = new User("D", "E", "F");
+		Invite i = new Invite(u, u2, 0); //add invite will be called here
+		Invite i2 = new Invite(u, u2, 1); //add invite will be called here
+		Invite i3 = new Invite(u, u2, 2); //add invite will be called here
+		
+		u.removeInvite(i);
+		u.removeInvite(i3);
+		assertEquals(1, u.getInvites().size());
+		for(int j = 0; j < u.getInvites().size(); j++) 
+		{
+		assertEquals(i2, u.getInvites().get(j));
+		}
+	}
 
 }
