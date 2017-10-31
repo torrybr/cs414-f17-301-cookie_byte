@@ -2,6 +2,9 @@ package BackendTest;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 import Backend.Invite;
@@ -34,6 +37,27 @@ public class UserTest {
 	}
 	
 	@Test
+	//testing adding more than just one invite
+	public void testAddMultipleInvites()
+	{
+		User u = new User("A", "B", "C");
+		User u2 = new User("D", "E", "F");
+		List<Invite> invites = new ArrayList<Invite>();
+		Invite i = new Invite(u, u2, 0); //add invite will be called here
+		Invite i2 = new Invite(u, u2, 1); //add invite will be called here
+		Invite i3 = new Invite(u, u2, 2); //add invite will be called here
+		invites.add(i);
+		invites.add(i2);
+		invites.add(i3);
+		
+		for(int j = 0; j < u.getInvites().size(); j++) 
+		{
+		assertEquals(invites.get(j), u.getInvites().get(j));
+		}
+		assertEquals(3, u.getInvites().size());
+	}
+	
+	@Test
 	//testing removing only invite
 	public void testRemoveOnlyInvite()
 	{
@@ -43,5 +67,7 @@ public class UserTest {
 		u.removeInvite(i);
 		assertEquals(0, u.getInvites().size());
 	}
+	
+	//testing 
 
 }
