@@ -20,16 +20,28 @@ public class UserTest {
 	}
 	
 	@Test
-	public void testOneAddInvite()
+	//testing adding one invite
+	public void testAddOneInvite()
 	{
 		User u = new User("A", "B", "C");
 		User u2 = new User("D", "E", "F");
-		Invite i = new Invite(u, u2, 0);
-		u.addInvite(i);
+		Invite i = new Invite(u, u2, 0); //add invite will be called here
 		for(int j = 0; j < u.getInvites().size(); j++) 
 		{
 		assertEquals(i, u.getInvites().get(j));
 		}
+		assertEquals(1, u.getInvites().size());
+	}
+	
+	@Test
+	//testing removing only invite
+	public void testRemoveOnlyInvite()
+	{
+		User u = new User("A", "B", "C");
+		User u2 = new User("D", "E", "F");
+		Invite i = new Invite(u, u2, 0); //add invite will be called here
+		u.removeInvite(i);
+		assertEquals(0, u.getInvites().size());
 	}
 
 }
