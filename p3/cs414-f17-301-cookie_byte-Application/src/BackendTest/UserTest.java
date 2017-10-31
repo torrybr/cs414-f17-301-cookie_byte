@@ -101,7 +101,7 @@ public class UserTest {
 	}
 	
 	@Test
-	//test adding a past game
+	//test adding a current game
 	public void testAddCurrentGame() 
 	{
 		User u = new User("A", "B", "C");
@@ -109,6 +109,35 @@ public class UserTest {
 		u.addCurrentGame(g); 
 		assertEquals(1, u.getCurrentGames().size());
 		assertEquals(g, u.getCurrentGames().get(0));
+	}
+	
+	@Test
+	//test removing a current game
+	public void testRemoveCurrentGame() 
+	{
+		User u = new User("A", "B", "C");
+		GameController g = new GameController(0, u, u); //add current game should be done here
+		u.addCurrentGame(g); 
+		u.removeCurrentGame(g);
+		assertEquals(0, u.getCurrentGames().size());
+	}
+	
+	@Test
+	//test adding a loss
+	public void testAddLoss() 
+	{
+		User u = new User("A", "B", "C");
+		u.addLoss();
+		assertEquals(1, u.getLosses());
+	}
+	
+	@Test
+	//test adding a win
+	public void testAddWin() 
+	{
+		User u = new User("A", "B", "C");
+		u.addWin();
+		assertEquals(1, u.getWins());
 	}
 
 }
