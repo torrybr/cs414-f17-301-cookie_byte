@@ -194,8 +194,6 @@ public class GameController {
 					kingCol = col;
 					System.out.println(kingRow);
 					System.out.println(kingCol);
-					//This break does not do anything. The loop continues - breaks can only be used in loops not conditionals
-					break;
 				}
 			}
 		}
