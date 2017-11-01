@@ -104,8 +104,8 @@ public class UserTest {
 	public void testAddCurrentGame() 
 	{
 		User u = new User("A", "B", "C");
-		GameController g = new GameController(0, u, u); //add current game should be done here
-		u.addCurrentGame(g); 
+		User u2 = new User("D", "E", "F");
+		GameController g = new GameController(0, u, u2); //add current game called here
 		assertEquals(1, u.getCurrentGames().size());
 		assertEquals(g, u.getCurrentGames().get(0));
 	}
@@ -115,8 +115,8 @@ public class UserTest {
 	public void testRemoveCurrentGame() 
 	{
 		User u = new User("A", "B", "C");
-		GameController g = new GameController(0, u, u); //add current game should be done here
-		u.addCurrentGame(g); 
+		User u2 = new User("D", "E", "F");
+		GameController g = new GameController(0, u, u2); //add current game called here
 		u.removeCurrentGame(g);
 		assertEquals(0, u.getCurrentGames().size());
 	}
