@@ -22,9 +22,9 @@ public class Profile extends Application{
 	protected Stage main;
 	public ClientDriver driver;
 	
-	public Profile(ClientDriver driver){
-		this.driver = driver;
-	}
+	//public Profile(ClientDriver driver){
+	//	this.driver = driver;
+	//}
 	
 	public void start(Stage primaryStage) {
 		main = primaryStage;
@@ -112,6 +112,9 @@ public class Profile extends Application{
 	    Button buttonHome = new Button("Home");
 	    buttonHome.setPrefSize(100, 20);
 
+		Button buttonUnreg = new Button("Unregister This User");
+		buttonHome.setPrefSize(100, 20);
+
 	    buttonHome.setOnAction(new EventHandler<ActionEvent>() {
        	 
             @Override
@@ -125,12 +128,29 @@ public class Profile extends Application{
                 
             }
         });
+
+		buttonUnreg.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+				LoginAuth la = new LoginAuth();
+				//la.deleteUser(driver);
+				Login newLogin = new Login();
+				try {
+					newLogin.start(main);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+
+			}
+		});
 	  
 	    
 	    final Pane spacer = new Pane();
 	    HBox.setHgrow(spacer, Priority.ALWAYS);
 	    spacer.setMinSize(10, 1);
-	    hbox.getChildren().addAll(spacer,buttonHome);
+	    hbox.getChildren().addAll(spacer,buttonUnreg);
+		hbox.getChildren().addAll(buttonHome);
 
 	    return hbox;
 	}
