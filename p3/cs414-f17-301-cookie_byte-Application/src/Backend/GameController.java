@@ -39,7 +39,7 @@ public class GameController {
 		int rand = (int)Math.random();
 		
 		// TODO remove comment block below after testing
-		//Selects player1 or Player2 at random to start and set up board accordingly so each player is assigned either defence or offense
+		//Selects player1 or player2 at random to start and set up board accordingly so each player is assigned either defence or offense
 	//	if (rand % 2 == 0){
 			this.currentTurn = player1;
 			offence = player1;
@@ -52,14 +52,45 @@ public class GameController {
 			
 	/*	}
 		else{
-			this.currentTurn = Player2;
-			offence = Player2;
-			defence = Player1;
-			SetBoard setupGame = new SetBoard(board, Player2, Player1);
+			this.currentTurn = player2;
+			offence = player2;
+			defence = player1;
+			SetBoard setupGame = new SetBoard(board, player2, player1);
 			setupGame.setBoard();
 			this.setStatus(GameStatus.ACTIVE);
 		} */
 	}
+	
+	//  Constructor used to get game from database
+	public GameController(int gmeID)
+	{	
+		this.gameID = gmeID;
+	}
+	
+	public void quit(User quitter)
+	{
+		if(quitter == player1)
+		{
+			this.setWinner(player2);
+			player2.addWin();
+			player1.addLoss();
+		}
+		else
+		{
+			this.setWinner(player1);
+			player1.addWin();
+			player2.addLoss();
+		}
+		
+		player1.removeCurrentGame(this);
+		player2.removeCurrentGame(this);
+		
+		player1.addPastGame(this);
+		player2.addPastGame(this);
+		
+	}
+	
+	// Send game to database method
 	
 	public int getGameID()
 	{
