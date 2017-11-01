@@ -1,5 +1,6 @@
 package UI;
 
+import Backend.GameController;
 import Drivers.ClientDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -14,6 +15,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class Home extends Application {
 	protected Stage main;
@@ -38,9 +40,8 @@ public class Home extends Application {
 		BorderPane border = new BorderPane();
 		HBox hbox = addHBox();
 		border.setTop(hbox);
-		border.setLeft(addVBoxGames("Current Games",clientDriver.getGameIDs()));
-		border.setRight(addVBoxFriends("Invites",clientDriver.getInviteIDs()));
-		
+		//border.setLeft(addVBoxGames("Current Games",clientDriver.getGameIDs()));
+		//border.setRight(addVBoxFriends("Invites",clientDriver.getInviteIDs()));
 		Scene scene = new Scene(border,500,400);
 		//primaryStage.setTitle(clientDriver.profile.getNickname()+" Home");
 		primaryStage.setScene(scene);
@@ -67,9 +68,10 @@ public class Home extends Application {
 	    	       	 
 	                @Override
 	                public void handle(ActionEvent e) {
-	                		//GameDriver gameD = new GameDriver((options[tempint].getText()));
+	                		//int temp = Integer.valueOf((options[tempint].getText()));
+	                		//GameController gc = new GameController(temp);
 	                		try {
-	                		//		Game game = new Game(clientDriver,gameD);
+	                		//		Game game = new Game(clientDriver,gc);
 	                		//		game.start(main);
 	    					} catch (Exception e1) {
 	    						e1.printStackTrace();
@@ -167,9 +169,9 @@ public class Home extends Application {
 	       	 
             @Override
             public void handle(ActionEvent e) {
-            		Profile prof = new Profile(clientDriver);
+            		//Profile prof = new Profile(clientDriver);
             		try {
-						prof.start(main);
+						//prof.start(main);
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

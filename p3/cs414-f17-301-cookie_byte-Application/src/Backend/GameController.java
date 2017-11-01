@@ -192,6 +192,8 @@ public class GameController {
 				{
 					kingRow = row;
 					kingCol = col;
+					System.out.println(kingRow);
+					System.out.println(kingCol);
 				}
 			}
 		}

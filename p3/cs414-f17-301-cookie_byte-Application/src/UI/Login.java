@@ -129,7 +129,6 @@ public class Login extends Application {
 	}
 	
 	public void loginResult(boolean result) {
-
 		if(result) {//succesful login
 			Home nextPage = new Home(loggedInUser);
 			try {
