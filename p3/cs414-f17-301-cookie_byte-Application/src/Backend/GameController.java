@@ -9,8 +9,8 @@ public class GameController {
 	// Gameplay constructor should be called only ONCE at the beginning of a game. Win conditions should be used after each move. Gameplay will handle everything else. 
 	// Gameplay will take care of using all other classes as necessary. 
  
-	User Player1;
-	User Player2;
+	User player1;
+	User player2;
 	User defence;
 	User offence;
 	User currentTurn;
@@ -24,12 +24,12 @@ public class GameController {
 	
 	Piece[][] pieces = new Piece[11][11];
 	
-	public GameController(int gmeID, User Player1, User Player2){
+	public GameController(int gmeID, User player1, User player2){
 		
 		board = new Board();
 		
-		this.Player1 = Player1;
-		this.Player2 = Player2;
+		this.player1 = player1;
+		this.player2 = player2;
 		this.status = GameStatus.PENDING;
 		gameID = gmeID;
 		
@@ -39,20 +39,20 @@ public class GameController {
 		int rand = (int)Math.random();
 		
 		// TODO remove comment block below after testing
-		//Selects player1 or Player2 at random to start and set up board accordingly so each player is assigned either defence or offense
+		//Selects player1 or player2 at random to start and set up board accordingly so each player is assigned either defence or offense
 	//	if (rand % 2 == 0){
-			this.currentTurn = Player1;
-			offence = Player1;
-			defence = Player2;
-			SetBoard setupGame = new SetBoard(board, Player1, Player2);
+			this.currentTurn = player1;
+			offence = player1;
+			defence = player2;
+			SetBoard setupGame = new SetBoard(board, player1, player2);
 			setupGame.setBoard();
 			this.setStatus(GameStatus.ACTIVE);
 	/*	}
 		else{
-			this.currentTurn = Player2;
-			offence = Player2;
-			defence = Player1;
-			SetBoard setupGame = new SetBoard(board, Player2, Player1);
+			this.currentTurn = player2;
+			offence = player2;
+			defence = player1;
+			SetBoard setupGame = new SetBoard(board, player2, player1);
 			setupGame.setBoard();
 			this.setStatus(GameStatus.ACTIVE);
 		} */
@@ -66,24 +66,24 @@ public class GameController {
 	
 	public void quit(User quitter)
 	{
-		if(quitter == Player1)
+		if(quitter == player1)
 		{
-			this.setWinner(Player2);
-			Player2.addWin();
-			Player1.addLoss();
+			this.setWinner(player2);
+			player2.addWin();
+			player1.addLoss();
 		}
 		else
 		{
-			this.setWinner(Player1);
-			Player1.addWin();
-			Player2.addLoss();
+			this.setWinner(player1);
+			player1.addWin();
+			player2.addLoss();
 		}
 		
-		Player1.removeCurrentGame(this);
-		Player2.removeCurrentGame(this);
+		player1.removeCurrentGame(this);
+		player2.removeCurrentGame(this);
 		
-		Player1.addPastGame(this);
-		Player2.addPastGame(this);
+		player1.addPastGame(this);
+		player2.addPastGame(this);
 		
 	}
 	
