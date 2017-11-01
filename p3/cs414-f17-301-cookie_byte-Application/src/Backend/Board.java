@@ -16,7 +16,6 @@ public class Board {
 	{
 	}
 	
-	
 	// Method to get type of piece; returns PieceType
 	public PieceType getPieceType(int row, int col)
 	{
