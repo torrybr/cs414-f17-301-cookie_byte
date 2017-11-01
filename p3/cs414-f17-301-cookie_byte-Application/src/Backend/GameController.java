@@ -47,6 +47,8 @@ public class GameController {
 			SetBoard setupGame = new SetBoard(board, player1, player2);
 			setupGame.setBoard();
 			this.setStatus(GameStatus.ACTIVE);
+			player1.addCurrentGame(this);
+			player2.addCurrentGame(this);
 			
 	/*	}
 		else{
