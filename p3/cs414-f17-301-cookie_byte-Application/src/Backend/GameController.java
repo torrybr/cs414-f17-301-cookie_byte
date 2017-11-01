@@ -189,7 +189,6 @@ public class GameController {
 				{
 					kingRow = row;
 					kingCol = col;
-					break;
 				}
 			}
 		}
