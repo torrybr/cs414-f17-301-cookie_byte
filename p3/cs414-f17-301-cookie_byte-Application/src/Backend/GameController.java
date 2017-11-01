@@ -58,6 +58,37 @@ public class GameController {
 		} */
 	}
 	
+	//  Constructor used to get game from database
+	public GameController(int gmeID)
+	{	
+		this.gameID = gmeID;
+	}
+	
+	public void quit(User quitter)
+	{
+		if(quitter == Player1)
+		{
+			this.setWinner(Player2);
+			Player2.addWin();
+			Player1.addLoss();
+		}
+		else
+		{
+			this.setWinner(Player1);
+			Player1.addWin();
+			Player2.addLoss();
+		}
+		
+		Player1.removeCurrentGame(this);
+		Player2.removeCurrentGame(this);
+		
+		Player1.addPastGame(this);
+		Player2.addPastGame(this);
+		
+	}
+	
+	// Send game to database method
+	
 	public int getGameID()
 	{
 		return gameID;
