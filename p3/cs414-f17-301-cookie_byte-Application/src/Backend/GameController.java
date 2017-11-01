@@ -143,7 +143,7 @@ public class GameController {
 		return false;
 	}
 	
-	// Checks if offence won
+	// Checks if offense won
 	public boolean attackWinConditions()
 	{
 		// First section find location of king
@@ -158,6 +158,9 @@ public class GameController {
 				{
 					kingRow = row;
 					kingCol = col;
+					System.out.println(kingRow);
+					System.out.println(kingCol);
+					//This break does not do anything. The loop continues - breaks can only be used in loops not conditionals
 					break;
 				}
 			}
@@ -234,6 +237,10 @@ public class GameController {
 			return true;
 		}
 		
+		System.out.println("Attack 1 - Row: " + (kingRow - 1) + " Col: " + kingCol);
+		System.out.println("Attack 2 - Row: " + (kingRow + 1) + " Col: " + kingCol);
+		System.out.println("Attack 3 - Row: " + kingRow + " Col: " + (kingCol - 1));
+		System.out.println("Attack 4 - Row: " + kingRow + " Col: " + (kingCol + 1));
 		return false;
 	}
 
