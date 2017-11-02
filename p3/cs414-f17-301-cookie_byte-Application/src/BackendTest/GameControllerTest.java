@@ -357,7 +357,65 @@ public class GameControllerTest {
 		assertTrue(gc.capturePiece(u, 1, 10));
 		assertFalse(gc.capturePiece(u2, 2, 10));
 		
-		//
+		//Checks bottom Right corner
+		gc.getBoard().addPieceToBoard(9, 0, PieceType.ROOK, u);
+		assertFalse(gc.capturePiece(u, 9, 0));
+		gc.getBoard().addPieceToBoard(8, 0, PieceType.ROOK, u);
+		assertFalse(gc.capturePiece(u, 9, 0));
+		
+		gc.getBoard().addPieceToBoard(8, 0, PieceType.ROOK, u2);
+		assertTrue(gc.capturePiece(u, 9, 0));
+		assertFalse(gc.capturePiece(u2, 8, 0));
+		
+		gc.getBoard().addPieceToBoard(10, 1, PieceType.ROOK, u);
+		assertFalse(gc.capturePiece(u, 10, 1));
+		gc.getBoard().addPieceToBoard(10, 2, PieceType.ROOK, u);
+		assertFalse(gc.capturePiece(u, 10, 1));
+		
+		gc.getBoard().addPieceToBoard(10, 2, PieceType.ROOK, u2);
+		assertTrue(gc.capturePiece(u, 10, 1));
+		assertFalse(gc.capturePiece(u2, 10, 2));
+		
+		//Checks bottom Left Corner
+		gc.getBoard().addPieceToBoard(9, 10, PieceType.ROOK, u);
+		assertFalse(gc.capturePiece(u, 9, 10));
+		gc.getBoard().addPieceToBoard(8, 10, PieceType.ROOK, u);
+		assertFalse(gc.capturePiece(u, 9, 10));
+		
+		gc.getBoard().addPieceToBoard(8, 10, PieceType.ROOK, u2);
+		assertTrue(gc.capturePiece(u, 9, 10));
+		assertFalse(gc.capturePiece(u2, 8, 10));
+		
+		gc.getBoard().addPieceToBoard(10, 9, PieceType.ROOK, u);
+		assertFalse(gc.capturePiece(u, 10, 9));
+		gc.getBoard().addPieceToBoard(10, 8, PieceType.ROOK, u);
+		assertFalse(gc.capturePiece(u, 10, 9));
+		
+		gc.getBoard().addPieceToBoard(10, 8, PieceType.ROOK, u2);
+		assertTrue(gc.capturePiece(u, 10, 9));
+		assertFalse(gc.capturePiece(u2, 10, 8));
+		
+		//Sandwiches a piece horizontally
+		gc.getBoard().addPieceToBoard(1, 0, PieceType.ROOK, u2);
+		gc.getBoard().addPieceToBoard(1, 1, PieceType.ROOK, u);
+		gc.getBoard().addPieceToBoard(1, 2, PieceType.ROOK, u2);
+		assertTrue(gc.capturePiece(u, 1, 1));
+		gc.getBoard().addPieceToBoard(1, 2, PieceType.NONE, none);
+		assertFalse(gc.capturePiece(u, 1, 1));
+		gc.getBoard().addPieceToBoard(1, 2, PieceType.ROOK, u);
+		assertFalse(gc.capturePiece(u, 1, 1));
+		
+		//Sandwiches a piece Vertically
+		gc.getBoard().addPieceToBoard(0, 9, PieceType.ROOK, u2);
+		gc.getBoard().addPieceToBoard(1, 9, PieceType.ROOK, u);
+		gc.getBoard().addPieceToBoard(2, 9, PieceType.ROOK, u2);
+		assertTrue(gc.capturePiece(u, 1, 9));
+		gc.getBoard().addPieceToBoard(2, 9, PieceType.NONE, none);
+		assertFalse(gc.capturePiece(u, 1, 9));
+		gc.getBoard().addPieceToBoard(2, 9, PieceType.ROOK, u);
+		assertFalse(gc.capturePiece(u, 1, 9));
+		
+		//****IF the sandwiched piece is a King ****//
 		
 	}
 	
