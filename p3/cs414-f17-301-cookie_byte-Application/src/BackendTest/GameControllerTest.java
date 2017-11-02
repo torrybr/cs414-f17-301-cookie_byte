@@ -308,6 +308,56 @@ public class GameControllerTest {
 			}
 		}
 		
+		//checks if it tries to capture pieces that are out of bounds 
+		assertFalse(gc.capturePiece(u, -1, 0));
+		assertFalse(gc.capturePiece(u, 11, 0));
+		assertFalse(gc.capturePiece(u, 0, -1));
+		assertFalse(gc.capturePiece(u, 0, 11));
+		
+		//checks if the player is trying to capture a nonexistent piece
+		assertFalse(gc.capturePiece(u, 0, 0));
+		
+		//Tests to see if we are on an edge and if next to a corner and needs to be removed
+		// Checking next to top right corner
+		
+		gc.getBoard().addPieceToBoard(0, 1, PieceType.ROOK, u);
+		assertFalse(gc.capturePiece(u, 0, 1));
+		gc.getBoard().addPieceToBoard(0, 2, PieceType.ROOK, u);
+		assertFalse(gc.capturePiece(u, 0, 1));
+		
+		gc.getBoard().addPieceToBoard(0, 2, PieceType.ROOK, u2);
+		assertTrue(gc.capturePiece(u, 0, 1));
+		assertFalse(gc.capturePiece(u2, 0, 2));
+		
+		gc.getBoard().addPieceToBoard(1, 0, PieceType.ROOK, u);
+		assertFalse(gc.capturePiece(u, 1, 0));
+		gc.getBoard().addPieceToBoard(2, 0, PieceType.ROOK, u);
+		assertFalse(gc.capturePiece(u, 1, 0));
+		
+		gc.getBoard().addPieceToBoard(2, 0, PieceType.ROOK, u2);
+		assertTrue(gc.capturePiece(u, 1, 0));
+		assertFalse(gc.capturePiece(u2, 2, 0));
+		
+		// Checking next to top left corner
+		gc.getBoard().addPieceToBoard(0, 9, PieceType.ROOK, u);
+		assertFalse(gc.capturePiece(u, 0, 9));
+		gc.getBoard().addPieceToBoard(0, 8, PieceType.ROOK, u);
+		assertFalse(gc.capturePiece(u, 0, 9));
+		
+		gc.getBoard().addPieceToBoard(0, 8, PieceType.ROOK, u2);
+		assertTrue(gc.capturePiece(u, 0, 9));
+		assertFalse(gc.capturePiece(u2, 0, 8));
+		
+		gc.getBoard().addPieceToBoard(1, 10, PieceType.ROOK, u);
+		assertFalse(gc.capturePiece(u, 1, 10));
+		gc.getBoard().addPieceToBoard(2, 10, PieceType.ROOK, u);
+		assertFalse(gc.capturePiece(u, 1, 10));
+		
+		gc.getBoard().addPieceToBoard(2, 10, PieceType.ROOK, u2);
+		assertTrue(gc.capturePiece(u, 1, 10));
+		assertFalse(gc.capturePiece(u2, 2, 10));
+		
+		//
 		
 	}
 	

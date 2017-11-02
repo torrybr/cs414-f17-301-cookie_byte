@@ -468,20 +468,20 @@ public class GameController {
 				}
 				// Checking next to top left corner
 				if (row == 9) {
-					if (board.pieces[8][0].getType() != PieceType.NONE && board.pieces[0][8].getPlayer() != player) {
+					if (board.pieces[8][0].getType() != PieceType.NONE && board.pieces[8][0].getPlayer() != player) {
 						return true;
 					}
 				}
 			} else if (col == 10) {
 				// Checking next to bottom right corner
 				if (row == 1) {
-					if (board.pieces[2][10].getType() != PieceType.NONE && board.pieces[10][2].getPlayer() != player) {
+					if (board.pieces[2][10].getType() != PieceType.NONE && board.pieces[2][10].getPlayer() != player) {
 						return true;
 					}
 				}
 				// Checking next to bottom left corner
 				if (row == 9) {
-					if (board.pieces[8][10].getType() != PieceType.NONE && board.pieces[10][8].getPlayer() != player) {
+					if (board.pieces[8][10].getType() != PieceType.NONE && board.pieces[8][10].getPlayer() != player) {
 						return true;
 					}
 				}
