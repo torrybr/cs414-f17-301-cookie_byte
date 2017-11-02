@@ -290,16 +290,16 @@ public class GameController {
 			return false;
 		}
 		
+		// Check if player is trying to move nonexistant piece
+		if(board.pieces[rowFrom][colFrom].getType().equals(PieceType.NONE))
+		{
+			return false;
+		}
+		
 		// Check if player is trying to move their opponent's piece
 		if(!board.pieces[rowFrom][colFrom].getPlayer().equals(player))
 		{
 			System.out.println("Not your piece. ");
-			return false;
-		}
-		
-		// Check if player is trying to move nonexistant piece
-		if(board.pieces[rowFrom][colFrom].getType().equals(PieceType.NONE))
-		{
 			return false;
 		}
 		

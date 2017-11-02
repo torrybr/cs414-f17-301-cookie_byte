@@ -192,5 +192,25 @@ public class GameControllerTest {
 		
 		
 	}
+	
+	@Test
+	public void isMoveValidTest(){
+		
+		GameController gc2 = new GameController(2345, u, u2);
+		
+		//Test if the user tries to make a move when it's not their turn
+		assertFalse(gc2.isMoveValid(gc2.getBoard().getPiece(3, 5), gc2.getBoard().getPieceOwner(3, 5), 3, 5, 2, 5));
+		
+		//Test to see if  player is trying to move nonexistant piece
+		assertFalse(gc2.isMoveValid(gc2.getBoard().getPiece(0, 0), u, 0, 0, 0, 2));
+		assertFalse(gc2.isMoveValid(gc2.getBoard().getPiece(0, 3), u, 0, 0, 0, 2));
+		assertTrue(gc2.isMoveValid(gc2.getBoard().getPiece(0, 0), u, 0, 3, 0, 2));
+				
+		//Test if player is trying to move their opponent's piece
+		assertFalse(gc2.isMoveValid(gc2.getBoard().getPiece(3, 5), u, 3, 5, 2, 5));
+		
+		
+		
+		}
 
 }
