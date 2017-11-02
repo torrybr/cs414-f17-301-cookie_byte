@@ -268,11 +268,6 @@ public class GameController {
 		{
 			return true;
 		}
-		
-		System.out.println("Attack 1 - Row: " + (kingRow - 1) + " Col: " + kingCol);
-		System.out.println("Attack 2 - Row: " + (kingRow + 1) + " Col: " + kingCol);
-		System.out.println("Attack 3 - Row: " + kingRow + " Col: " + (kingCol - 1));
-		System.out.println("Attack 4 - Row: " + kingRow + " Col: " + (kingCol + 1));
 		return false;
 	}
 	
@@ -525,6 +520,15 @@ public class GameController {
 				this.setWinner(offence);
 				System.out.println("Player 1 wins!");
 				
+				offence.addWin();
+				offence.addPastGame(this);
+				offence.removeCurrentGame(this);
+				
+				defence.addLoss();
+				defence.addPastGame(this);
+				defence.removeCurrentGame(this);
+				// SDB
+				
 				
 			}
 			else if(this.kingWinConditions())
@@ -533,34 +537,49 @@ public class GameController {
 				this.setStatus(GameStatus.FINISHED);
 				this.setWinner(defence);
 				System.out.println("Player 2 wins!");
+				
+				defence.addWin();
+				defence.addPastGame(this);
+				defence.removeCurrentGame(this);
+				
+				offence.addLoss();
+				offence.addPastGame(this);
+				offence.removeCurrentGame(this);
+				// SDB
 			}
 			
 			//Check if we killed any enemies (capturePiece handles out of bounds checks)
 			if(capturePiece(this.getCurrentTurn(), rowTo+1, colTo)){
 				board.removePiece(rowTo+1, colTo);
 				System.out.println("Piece removed down.");
+				// SDB
 			}
 			if(capturePiece(this.getCurrentTurn(), rowTo-1, colTo)){
 				board.removePiece(rowTo-1, colTo);
 				System.out.println("Piece removed up.");
+				// SDB
 			}
 			if(capturePiece(this.getCurrentTurn(), rowTo, colTo+1)){
 				board.removePiece(rowTo, colTo+1);
 				System.out.println("Piece removed right.");
+				// SDB
 			}
 			if(capturePiece(this.getCurrentTurn(), rowTo, colTo-1)){
 				board.removePiece(rowTo, colTo-1);
 				System.out.println("Piece removed left.");
+				// SDB
 			}
 		
 			// Make sure to set the other player as the one to take a turn next
 			if(this.getCurrentTurn().equals(offence))
 			{
 				this.setCurrentTurn(defence);
+				// SDB
 			}
 			else
 			{
 				this.setCurrentTurn(offence);
+				// SDB
 			}
 		}
 	}
