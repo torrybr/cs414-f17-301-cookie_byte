@@ -1,5 +1,6 @@
 package UI;
 
+import Backend.GameController;
 import Drivers.ClientDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -22,7 +23,7 @@ import javafx.stage.Stage;
 public class Game extends Application{
 	
 	public ClientDriver clientDriver;
-	//public GameDriver gameDriver;
+	public GameController gameDriver;
 	
 	
 	protected int piece1 = -1;
@@ -34,12 +35,12 @@ public class Game extends Application{
 	protected Stage main;
 	Tile[][] holder;
 	
-	 /*public Game(ClientDriver client,GameDriver game){
+	 /*public Game(ClientDriver client,GameController game){
 	 	this.clientDriver = client;
 	 	this.gameDriver = game;
-	 	user1 = gameDriver.game.getPlayer1().getNickname();
-	 	user2 = gameDriver.game.getPlayer2().getNickname();
-	 	move = gameDriver.game.getCurrentTurn().getNickname();
+	 	//user1 = gameDriver.getPlayer1().getNickname();
+	 	//user2 = gameDriver.getPlayer2().getNickname();
+	 	move = gameDriver.getCurrentTurn().getUserID();
 	 }*/
 	
 	private Parent createContent() {
@@ -75,7 +76,7 @@ public class Game extends Application{
 		holder[10][0].setBackground(new Background(new BackgroundFill(Color.BLACK,CornerRadii.EMPTY,Insets.EMPTY)));;
 		holder[10][10].setBackground(new Background(new BackgroundFill(Color.BLACK,CornerRadii.EMPTY,Insets.EMPTY)));;
 		
-		setGameFromMemory();
+		setGame();
 		
 		return root;
 	}
@@ -122,6 +123,9 @@ public class Game extends Application{
 
 	    Button buttonHome = new Button("Home");
 	    buttonHome.setPrefSize(100, 20);
+
+		Button buttonQuit = new Button("Quit this game");
+		buttonHome.setPrefSize(100, 20);
 	    
 	    Text p1 = new Text("Player 1: " + user1);
 		p1.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
@@ -136,26 +140,43 @@ public class Game extends Application{
        	 
             @Override
             public void handle(ActionEvent e) {
-            		Home home = new Home(clientDriver);
+            		//Home home = new Home(clientDriver);
             		try {
-						home.start(main);
+					//	home.start(main);
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
                 
             }
         });
+
+		buttonQuit.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+				//gc quit this game(driver.getname)
+				//Home home = new Home(clientDriver);
+				try {
+					System.out.println("hello");
+					//	home.start(main);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+
+			}
+		});
 	  
 	    
 	    final Pane spacer = new Pane();
 	    HBox.setHgrow(spacer, Priority.ALWAYS);
 	    spacer.setMinSize(10, 1);
-	    hbox.getChildren().addAll(spacer,p1,p2,movetext,buttonHome);
+	    hbox.getChildren().addAll(spacer,p1,p2,movetext,buttonQuit);
+		hbox.getChildren().addAll(buttonHome);
 
 	    return hbox;
 	}
 
-	public void setGameFromMemory(){
+	public void setGame(){
 
 		Image image = new Image(getClass().getResourceAsStream("red.png"));
 		Image image1 = new Image(getClass().getResourceAsStream("blue.png"));
@@ -238,12 +259,12 @@ public class Game extends Application{
 
 		//List<String> locations = gameDriver.getLocations();
 
-/*		for(int i = 0;i<24;i++){
+		for(int i = 0;i<24;i++){
 			//String[] temp = locations.get(i).split(" ");
-			int x = Integer.parseInt(temp[0]);
-			int y = Integer.parseInt(temp[1]);
-			((BoardPiece) holder[x][y].getChildren().get(0)).setGraphic(images[i]);
-		}*/
+			///int x = Integer.parseInt(temp[0]);
+			//int y = Integer.parseInt(temp[1]);
+			//((BoardPiece) holder[x][y].getChildren().get(0)).setGraphic(images[i]);
+		}
 
 		ImageView iv25 = new ImageView(image1);
 		iv25.setFitHeight(30);
@@ -287,16 +308,17 @@ public class Game extends Application{
 
 		//king at 30
 		ImageView[] images2 = {iv25,iv26,iv27,iv28,iv29,iv30,iv31,iv32,iv33,iv34,iv35,iv36,iv37};
-		/*for(int i = 24;i<37;i++){
-			String[] temp = locations.get(i).split(" ");
-			int x = Integer.parseInt(temp[0]);
-			int y = Integer.parseInt(temp[1]);
-			((BoardPiece) holder[x][y].getChildren().get(0)).setGraphic(images2[i-24]);
-		}*/
+		for(int i = 24;i<37;i++){
+			//String[] temp = locations.get(i).split(" ");
+			//int x = Integer.parseInt(temp[0]);
+			//int y = Integer.parseInt(temp[1]);
+			//((BoardPiece) holder[x][y].getChildren().get(0)).setGraphic(images2[i-24]);
+		}
 	}
 	
 	protected void movePieces(int oldx, int oldy) {
 		if(piece1 == -1) {
+			//highlight square
 			piece1 = oldx;
 			piece2 = oldy;
 		}
