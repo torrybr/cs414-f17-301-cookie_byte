@@ -16,7 +16,12 @@ public class Board {
 	{
 	}
 	
-	
+	// Method to get a piece; returns Piece
+	public Piece getPiece(int row, int col)
+	{
+		return pieces[row][col];
+	}
+		
 	// Method to get type of piece; returns PieceType
 	public PieceType getPieceType(int row, int col)
 	{
