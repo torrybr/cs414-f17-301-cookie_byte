@@ -522,11 +522,13 @@ public class GameControllerTest {
 		assertTrue(gc2.getBoard().getPieceType(8, 8).equals(PieceType.NONE));
 		
 		//Checks a Piece can be captured from the left when piece is moved -BEN CHECK HERE
-		gc2.setCurrentTurn(u);	
-		gc2.getBoard().addPieceToBoard(2, 10, PieceType.KING, u);
-		gc2.getBoard().addPieceToBoard(2, 8, PieceType.ROOK, u2);
-		gc2.getBoard().addPieceToBoard(2, 7, PieceType.ROOK, u);
-		gc2.movePiece(2, 10, 2, 9);
+		GameController gc3 = new GameController(2344, u, u2);
+		
+		gc3.setCurrentTurn(u);	
+		gc3.getBoard().addPieceToBoard(2, 10, PieceType.KING, u);
+		gc3.getBoard().addPieceToBoard(2, 8, PieceType.ROOK, u2);
+		gc3.getBoard().addPieceToBoard(2, 7, PieceType.ROOK, u);
+		gc3.movePiece(2, 10, 2, 9);
 		assertTrue(gc2.getBoard().getPieceType(2, 8).equals(PieceType.NONE));
 		
 	}
