@@ -149,29 +149,21 @@ public class GameController {
 		//top left corner
 		if(board.pieces[0][0].getType().equals(PieceType.KING))
 		{
-			this.setStatus(GameStatus.FINISHED);
-			this.setWinner(defence);
 			return true;	
 		}
 		//top right corner
 		if(board.pieces[0][10].getType().equals(PieceType.KING))
 		{
-			this.setStatus(GameStatus.FINISHED);
-			this.setWinner(defence);
 			return true;	
 		}
 		//bottom left corner
 		if(board.pieces[10][0].getType().equals(PieceType.KING))
 		{
-			this.setStatus(GameStatus.FINISHED);
-			this.setWinner(defence);
 			return true;	
 		}
 		//bottom left corner			
 		if(board.pieces[10][10].getType().equals(PieceType.KING))
 		{
-			this.setStatus(GameStatus.FINISHED);
-			this.setWinner(defence);
 			return true;	
 		}
 		return false;
@@ -192,8 +184,6 @@ public class GameController {
 				{
 					kingRow = row;
 					kingCol = col;
-					System.out.println(kingRow);
-					System.out.println(kingCol);
 				}
 			}
 		}
@@ -285,16 +275,16 @@ public class GameController {
 			return false;
 		}
 		
+		// Check if player is trying to move nonexistant piece
+		if(board.pieces[rowFrom][colFrom].getType().equals(PieceType.NONE))
+		{
+			return false;
+		}
+		
 		// Check if player is trying to move their opponent's piece
 		if(!board.pieces[rowFrom][colFrom].getPlayer().equals(player))
 		{
 			System.out.println("Not your piece. ");
-			return false;
-		}
-		
-		// Check if player is trying to move nonexistant piece
-		if(board.pieces[rowFrom][colFrom].getType().equals(PieceType.NONE))
-		{
 			return false;
 		}
 		
@@ -418,6 +408,11 @@ public class GameController {
 		{
 			return false;
 		}
+		//if the sandwiched piece is a king it returns false since piece needs to be surrounded on all 4 sides.
+		if(board.pieces[row][col].getType().equals(PieceType.KING))
+		{
+			return false;
+		}
 		
 		// Check to see if we are on an edge and if next to a corner, check if
 		// needs to be removed
@@ -463,20 +458,20 @@ public class GameController {
 				}
 				// Checking next to top left corner
 				if (row == 9) {
-					if (board.pieces[8][0].getType() != PieceType.NONE && board.pieces[0][8].getPlayer() != player) {
+					if (board.pieces[8][0].getType() != PieceType.NONE && board.pieces[8][0].getPlayer() != player) {
 						return true;
 					}
 				}
 			} else if (col == 10) {
 				// Checking next to bottom right corner
 				if (row == 1) {
-					if (board.pieces[2][10].getType() != PieceType.NONE && board.pieces[10][2].getPlayer() != player) {
+					if (board.pieces[2][10].getType() != PieceType.NONE && board.pieces[2][10].getPlayer() != player) {
 						return true;
 					}
 				}
 				// Checking next to bottom left corner
 				if (row == 9) {
-					if (board.pieces[8][10].getType() != PieceType.NONE && board.pieces[10][8].getPlayer() != player) {
+					if (board.pieces[8][10].getType() != PieceType.NONE && board.pieces[8][10].getPlayer() != player) {
 						return true;
 					}
 				}
@@ -487,6 +482,7 @@ public class GameController {
 		{
 			return false;
 		}
+		
 		if (board.pieces[row - 1][col].getType() != PieceType.NONE && board.pieces[row + 1][col].getType() != PieceType.NONE) {
 			if(!board.getPieceOwner(row-1, col).equals(board.getPieceOwner(row, col)) && !board.getPieceOwner(row+1, col).equals(board.getPieceOwner(row, col)))
 			{
@@ -518,6 +514,10 @@ public class GameController {
 				// TODO Attacker wins. Save game (winner, games history, etc)
 				this.setStatus(GameStatus.FINISHED);
 				this.setWinner(offence);
+				offence.removeCurrentGame(this);
+				defence.removeCurrentGame(this);
+				offence.addPastGame(this);
+				defence.addPastGame(this);
 				System.out.println("Player 1 wins!");
 				
 				offence.addWin();
@@ -536,6 +536,10 @@ public class GameController {
 				// TODO Defender wins. Save game (winner, games history, etc)
 				this.setStatus(GameStatus.FINISHED);
 				this.setWinner(defence);
+				offence.removeCurrentGame(this);
+				defence.removeCurrentGame(this);
+				offence.addPastGame(this);
+				defence.addPastGame(this);
 				System.out.println("Player 2 wins!");
 				
 				defence.addWin();
@@ -582,6 +586,8 @@ public class GameController {
 				// SDB
 			}
 		}
+		else
+			System.out.println("Invalid Move");
 	}
 
 }
