@@ -20,18 +20,8 @@ public class SetBoard {
 		defence = def;
 	}
 	
-		public void setBoard()
-		{
-	
-			// Make sure all spaces have a PieceType of NONE
-			for(int row = 0; row < 11; row++)
-			{
-				for(int col = 0; col < 11; col++)
-				{
-					// Sets each space to be a piecd of type NONE belonging to use none
-					board.addPieceToBoard(row, col, PieceType.NONE, none);
-				}
-			}
+	public void setBoard()
+	{
 		
 		// Offence top pieces
 		board.addPieceToBoard(0, 3, PieceType.ROOK, offence);
@@ -81,7 +71,18 @@ public class SetBoard {
 		board.addPieceToBoard(6, 6, PieceType.ROOK, defence);
 		board.addPieceToBoard(7, 5, PieceType.ROOK, defence);
 		
-		
+		// Make sure all spaces without a piece have a PieceType of NONE
+		for(int row = 0; row < 11; row++)
+		{
+			for(int col = 0; col < 11; col++)
+			{
+				// Sets each space to be a piecd of type NONE belonging to use none
+				if(board.getPiece(row, col) == null)
+				{
+					board.addPieceToBoard(row, col, PieceType.NONE, none);
+				}
+			}
+		}
 	}
 }
 
