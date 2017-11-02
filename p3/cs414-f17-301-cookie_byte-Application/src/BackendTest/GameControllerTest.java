@@ -416,10 +416,143 @@ public class GameControllerTest {
 		assertFalse(gc.capturePiece(u, 1, 9));
 		
 		//****IF the sandwiched piece is a King ****//
+		//Sandwiches a King vertically
+		gc.getBoard().addPieceToBoard(0, 9, PieceType.ROOK, u2);
+		gc.getBoard().addPieceToBoard(1, 9, PieceType.KING, u);
+		gc.getBoard().addPieceToBoard(2, 9, PieceType.ROOK, u2);
+		assertFalse(gc.capturePiece(u, 1, 9));
+		
+		//Sandwiches a King horizontally
+		gc.getBoard().addPieceToBoard(1, 0, PieceType.ROOK, u2);
+		gc.getBoard().addPieceToBoard(1, 1, PieceType.KING, u);
+		gc.getBoard().addPieceToBoard(1, 2, PieceType.ROOK, u2);
+		assertFalse(gc.capturePiece(u, 1, 1));
+		
 		
 	}
 	
+	@Test
+	public void movePieceTest(){
+		
+		GameController gc2 = new GameController(2345, u, u2);
+		
+		//Checks invalid move
+		gc2.movePiece(0, 3, 1, 1);
+		assertTrue(gc2.getCurrentTurn().equals(u));
+		
+		//Checks correct move
+		gc2.movePiece(0, 3, 0, 2);
+		assertTrue(gc2.getCurrentTurn().equals(u2));
+		
+		//Clears the default board
+				for(int row = 0; row < 11; row++)
+				{
+					for(int col = 0; col < 11; col++)
+					{
+						// Sets each space to be a piece of type NONE belonging to use none
+						gc2.getBoard().addPieceToBoard(row, col, PieceType.NONE, none);
+					}
+				}
+		
+		//Sets up the attack winning Conditions one move away
+		gc2.setCurrentTurn(u);		
+		gc2.getBoard().addPieceToBoard(1, 1, PieceType.KING, u2);
+		gc2.getBoard().addPieceToBoard(0, 1, PieceType.ROOK, u);
+		gc2.getBoard().addPieceToBoard(1, 0, PieceType.ROOK, u);
+		gc2.getBoard().addPieceToBoard(1, 2, PieceType.ROOK, u);
+		gc2.getBoard().addPieceToBoard(2, 5, PieceType.ROOK, u);
+		gc2.movePiece(2, 5, 2, 1); //Makes the winning move and checks the conditions of the gameController
+		assertTrue(gc2.getWinner().equals(u));
+		assertFalse(u.getCurrentGames().contains(gc2));
+		assertFalse(u2.getCurrentGames().contains(gc2));
+		assertTrue(u.getPastGames().contains(gc2));
+		assertTrue(u2.getPastGames().contains(gc2));
+		
+		//Clears the default board
+		for(int row = 0; row < 11; row++)
+		{
+			for(int col = 0; col < 11; col++)
+			{
+				// Sets each space to be a piece of type NONE belonging to use none
+				gc2.getBoard().addPieceToBoard(row, col, PieceType.NONE, none);
+			}
+		}
+		
+		//Sets up the King Winning Conditions to be one move away
+		gc2.setCurrentTurn(u2);		
+		gc2.getBoard().addPieceToBoard(0, 5, PieceType.KING, u2);
+		gc2.movePiece(0, 5, 0, 0);
+		assertTrue(gc2.getWinner().equals(u2)); //Makes the winning move and checks the conditions of the gameController
+		assertFalse(u.getCurrentGames().contains(gc2));
+		assertFalse(u2.getCurrentGames().contains(gc2));
+		assertTrue(u.getPastGames().contains(gc2));
+		assertTrue(u2.getPastGames().contains(gc2));
+		
+		//Clears the default board
+		for(int row = 0; row < 11; row++)
+		{
+			for(int col = 0; col < 11; col++)
+			{
+				// Sets each space to be a piece of type NONE belonging to use none
+				gc2.getBoard().addPieceToBoard(row, col, PieceType.NONE, none);
+			}
+		}
+		//Checks a piece can be captured from above when piece is moved
+		gc2.setCurrentTurn(u);	
+		gc2.getBoard().addPieceToBoard(2, 2, PieceType.ROOK, u);
+		gc2.getBoard().addPieceToBoard(3, 2, PieceType.ROOK, u2);
+		gc2.getBoard().addPieceToBoard(7, 2, PieceType.ROOK, u);
+		gc2.movePiece(7, 2, 4, 2);
+		assertTrue(gc2.getBoard().getPieceType(3, 2).equals(PieceType.NONE));
+		
+		//Checks a piece can be captured from below when piece is moved
+		gc2.setCurrentTurn(u);	
+		gc2.getBoard().addPieceToBoard(5, 2, PieceType.ROOK, u);
+		gc2.getBoard().addPieceToBoard(8, 2, PieceType.ROOK, u2);
+		gc2.getBoard().addPieceToBoard(9, 2, PieceType.ROOK, u);
+		gc2.movePiece(5, 2, 7, 2);
+		assertTrue(gc2.getBoard().getPieceType(8, 2).equals(PieceType.NONE));
+		
+		//Checks a piece can be captured from the right when piece is moved
+		gc2.setCurrentTurn(u);	
+		gc2.getBoard().addPieceToBoard(8, 5, PieceType.ROOK, u);
+		gc2.getBoard().addPieceToBoard(8, 8, PieceType.ROOK, u2);
+		gc2.getBoard().addPieceToBoard(8, 9, PieceType.ROOK, u);
+		gc2.movePiece(8, 5, 8, 7);
+		assertTrue(gc2.getBoard().getPieceType(8, 8).equals(PieceType.NONE));
+		
+		//Checks a Piece can be captured from the left when piece is moved -BEN CHECK HERE
+		gc2.setCurrentTurn(u);	
+		gc2.getBoard().addPieceToBoard(2, 10, PieceType.KING, u);
+		gc2.getBoard().addPieceToBoard(2, 8, PieceType.ROOK, u2);
+		gc2.getBoard().addPieceToBoard(2, 7, PieceType.ROOK, u);
+		gc2.movePiece(2, 10, 2, 9);
+		assertTrue(gc2.getBoard().getPieceType(2, 8).equals(PieceType.NONE));
+		
+	}
+	
+	@Test
+	public void quitTest(){
+		GameController gc2 = new GameController(2345, u, u2);
+		
+		//If player1 quits
+		gc.quit(u);
+		assertTrue(gc.getWinner().equals(u2));
+		assertFalse(u.getCurrentGames().contains(gc));
+		assertFalse(u2.getCurrentGames().contains(gc));
+		assertTrue(u.getPastGames().contains(gc));
+		assertTrue(u2.getPastGames().contains(gc));
+		
+		//If player2 quits
+		gc2.quit(u2);
+		assertTrue(gc2.getWinner().equals(u));
+		assertFalse(u.getCurrentGames().contains(gc2));
+		assertFalse(u2.getCurrentGames().contains(gc2));
+		assertTrue(u.getPastGames().contains(gc2));
+		assertTrue(u2.getPastGames().contains(gc2));
+	}
 
+	
 	
 	
 

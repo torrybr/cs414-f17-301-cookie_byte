@@ -149,29 +149,21 @@ public class GameController {
 		//top left corner
 		if(board.pieces[0][0].getType().equals(PieceType.KING))
 		{
-			this.setStatus(GameStatus.FINISHED);
-			this.setWinner(defence);
 			return true;	
 		}
 		//top right corner
 		if(board.pieces[0][10].getType().equals(PieceType.KING))
 		{
-			this.setStatus(GameStatus.FINISHED);
-			this.setWinner(defence);
 			return true;	
 		}
 		//bottom left corner
 		if(board.pieces[10][0].getType().equals(PieceType.KING))
 		{
-			this.setStatus(GameStatus.FINISHED);
-			this.setWinner(defence);
 			return true;	
 		}
 		//bottom left corner			
 		if(board.pieces[10][10].getType().equals(PieceType.KING))
 		{
-			this.setStatus(GameStatus.FINISHED);
-			this.setWinner(defence);
 			return true;	
 		}
 		return false;
@@ -192,8 +184,6 @@ public class GameController {
 				{
 					kingRow = row;
 					kingCol = col;
-					System.out.println(kingRow);
-					System.out.println(kingCol);
 				}
 			}
 		}
@@ -268,11 +258,6 @@ public class GameController {
 		{
 			return true;
 		}
-		
-		System.out.println("Attack 1 - Row: " + (kingRow - 1) + " Col: " + kingCol);
-		System.out.println("Attack 2 - Row: " + (kingRow + 1) + " Col: " + kingCol);
-		System.out.println("Attack 3 - Row: " + kingRow + " Col: " + (kingCol - 1));
-		System.out.println("Attack 4 - Row: " + kingRow + " Col: " + (kingCol + 1));
 		return false;
 	}
 	
@@ -423,6 +408,11 @@ public class GameController {
 		{
 			return false;
 		}
+		//if the sandwiched piece is a king it returns false since piece needs to be surrounded on all 4 sides.
+		if(board.pieces[row][col].getType().equals(PieceType.KING))
+		{
+			return false;
+		}
 		
 		// Check to see if we are on an edge and if next to a corner, check if
 		// needs to be removed
@@ -492,6 +482,7 @@ public class GameController {
 		{
 			return false;
 		}
+		
 		if (board.pieces[row - 1][col].getType() != PieceType.NONE && board.pieces[row + 1][col].getType() != PieceType.NONE) {
 			if(!board.getPieceOwner(row-1, col).equals(board.getPieceOwner(row, col)) && !board.getPieceOwner(row+1, col).equals(board.getPieceOwner(row, col)))
 			{
@@ -523,6 +514,10 @@ public class GameController {
 				// TODO Attacker wins. Save game (winner, games history, etc)
 				this.setStatus(GameStatus.FINISHED);
 				this.setWinner(offence);
+				offence.removeCurrentGame(this);
+				defence.removeCurrentGame(this);
+				offence.addPastGame(this);
+				defence.addPastGame(this);
 				System.out.println("Player 1 wins!");
 				
 				
@@ -532,6 +527,10 @@ public class GameController {
 				// TODO Defender wins. Save game (winner, games history, etc)
 				this.setStatus(GameStatus.FINISHED);
 				this.setWinner(defence);
+				offence.removeCurrentGame(this);
+				defence.removeCurrentGame(this);
+				offence.addPastGame(this);
+				defence.addPastGame(this);
 				System.out.println("Player 2 wins!");
 			}
 			
@@ -563,6 +562,8 @@ public class GameController {
 				this.setCurrentTurn(offence);
 			}
 		}
+		else
+			System.out.println("Invalid Move");
 	}
 
 }
