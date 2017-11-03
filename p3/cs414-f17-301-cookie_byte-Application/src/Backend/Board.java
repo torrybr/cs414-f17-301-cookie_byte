@@ -10,7 +10,7 @@ public class Board {
 	// This class should only be used by other classes. 
 
 	Piece[][] pieces = new Piece[11][11];
-	User none;
+	User none = new User("nullUser", "nullUser", "null@null.null");
 	
 	public Board ()
 	{
