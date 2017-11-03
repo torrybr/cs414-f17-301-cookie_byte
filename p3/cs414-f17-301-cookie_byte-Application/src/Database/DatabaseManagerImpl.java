@@ -1,5 +1,6 @@
 package Database;
 
+import Backend.GameController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
@@ -10,8 +11,9 @@ import org.bson.Document;
 
 import javax.xml.ws.http.HTTPException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-
+import Backend.User;
 import static com.mongodb.client.model.Filters.eq;
 
 /**
@@ -29,6 +31,7 @@ public class DatabaseManagerImpl {
     final static Logger log = Logger.getLogger(DatabaseManagerImpl.class);
 
     private static final DatabaseManagerImpl d = new DatabaseManagerImpl();
+
 
 
     /**
@@ -153,25 +156,45 @@ public class DatabaseManagerImpl {
 
     }
 
+    public void createGame(Backend.Board theBoard, User player1, User player2) {
+        MongoDatabase db = mongoClient.getDatabase("cs414Application");
+        MongoCollection<Document> collection = db.getCollection("game");
+        final GameController gameController;
+
+        Document myGame = new Document();
+        myGame.put("GameID", theBoard.getGameID());
+        myGame.put("Player1", player1.getUserID());
+        myGame.put("Player2", player2.getUserID());
+        myGame.put("CurrentTurn", "player2"); //need to finish this
+
+        Document myBoard = new Document();
+
+        ArrayList<Document> array = new ArrayList<>();
+        for (Backend.Piece p : theBoard.pieces1DLayout) {
+            Document myUser = new Document();
+            Document Piece = new Document();
+            Document myPieceTypes = new Document();
+            myPieceTypes.put("pieceType", p.getType().toString());
+
+            myUser.put("userID", p.getPlayer().getUserID());
+            myUser.put("password", p.getPlayer().getPassword());
+            myUser.put("email", p.getPlayer().getEmail());
+
+            Piece.append("PieceType", myPieceTypes);
+            Piece.append("User", myUser);
+
+            array.add(Piece);
+        }
+        myBoard.put("pieces", array);
+        myGame.append("Board", myBoard);
+        collection.insertOne(myGame);
+    }
+
+
 
 
 
     public static void main(String[] args) {
-        //GameJavaObject gam = d.getGame("DemoGame");
-        //UsersJavaObject usr = d.getUserByNickname("player1");
-        //d.getmyGameJson("DemoGame");
-        //d.getmyUserJson("player1");
-
-        /** Example of changing the location array
-         *  Use "DemoGameTESTER FOR TESTING"
-         *
-        ArrayList list = new ArrayList();
-        list.add("0 4");
-        list.add("0 5");
-        list.add("0 6");
-        d.updatePieceLocation("DemoGameTESTER",list);
-
-         **/
 
 
     }
