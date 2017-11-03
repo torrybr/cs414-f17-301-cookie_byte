@@ -11,7 +11,7 @@ public class SetBoard {
 	Board board = new Board();
 	User offence;
 	User defence;
-	User none;
+	User none = new User("nullUser", "nullUser", "null@null.null");
 	
 	public SetBoard(Board brd, User off, User def)
 	{
