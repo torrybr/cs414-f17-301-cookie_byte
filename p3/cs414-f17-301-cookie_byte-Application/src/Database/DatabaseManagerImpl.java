@@ -13,11 +13,13 @@ import javax.xml.ws.http.HTTPException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import Backend.User;
+
 import static com.mongodb.client.model.Filters.eq;
 
 /**
- * Several methods for interacting with the game Database [ Updating, deleting , retrieving, saving ]
+ * Several methods for interacting with the Database [ Updating, deleting , retrieving, saving ]
  */
 public class DatabaseManagerImpl {
 
@@ -30,8 +32,8 @@ public class DatabaseManagerImpl {
     /* Logs system exceptions */
     final static Logger log = Logger.getLogger(DatabaseManagerImpl.class);
 
+    /*The Database connection*/
     private static final DatabaseManagerImpl d = new DatabaseManagerImpl();
-
 
 
     /**
@@ -76,10 +78,10 @@ public class DatabaseManagerImpl {
     }
 
     /**
-     * User nicknames are "player2" and "player1", so pass one of those in
+     * Get a specific user that has signed up.
      *
-     * @param nname
-     * @return a User object
+     * @param nname the nickname of the user.
+     * @return a User object for that nickname.
      */
     public UsersJavaObject getUserByNickname(String nname) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
@@ -100,19 +102,18 @@ public class DatabaseManagerImpl {
 
 
     /**
-     * Gets the game by GameID
-     * GameID played by both "player1" and "player2" are "DemoGame"
+     * Gets the game by GameID and maps it to java POGO Objects.
      *
-     * @param gameID
-     * @return the Game object where you can access different fields
+     * @param gameID the gameID for the game you want to retrieve.
+     * @return the BoardJavaObject for the game you are trying to access.
      */
-    public GameJavaObject getGame(String gameID) {
+    public BoardJavaObject getGame(int gameID) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            GameJavaObject game = objectMapper.readValue(collection.find(eq("GameID", gameID)).first().toJson(), GameJavaObject.class);
+            BoardJavaObject game = objectMapper.readValue(collection.find(eq("GameID", gameID)).first().toJson(), BoardJavaObject.class);
             return game;
         } catch (IOException e) {
             log.error("error parsing json to java pogo", e);
@@ -121,20 +122,35 @@ public class DatabaseManagerImpl {
         //System.out.println(collection.find(eq("GameID",gameID)).first().toJson());
     }
 
-    public void getmyGameJson(int gameID) {
+    /**
+     * A method for printing the JSON response of the Board from the MongoDB db server.
+     *
+     * @param gameID the id of the game you want to print out in json format.
+     */
+    private void getmyGameJson(int gameID) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
         System.out.println(collection.find(eq("GameID", gameID)).first().toJson());
     }
 
-    public void getmyUserJson(String nname) {
+    /**
+     * A method for printing the JSON response of the User from the MongoDB db server.
+     *
+     * @param nname the nickname of the user.
+     */
+    private void getmyUserJson(String nname) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
         System.out.println(collection.find(eq("nickname", nname)).first().toJson());
     }
 
-
-    public void updatePlayerTurn(String gameID,String playerTurn) {
+    /**
+     * Update the players turn in the game.
+     *
+     * @param gameID
+     * @param playerTurn
+     */
+    public void updatePlayerTurn(String gameID, String playerTurn) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
 
@@ -144,9 +160,10 @@ public class DatabaseManagerImpl {
 
     /**
      * Create an initial game and set the default board layout.
+     *
      * @param theBoard the board object
-     * @param player1 A User who is player 1
-     * @param player2 A User who is player 2
+     * @param player1  A User who is player 1
+     * @param player2  A User who is player 2
      */
     public void createGame(Backend.Board theBoard, User player1, User player2) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
