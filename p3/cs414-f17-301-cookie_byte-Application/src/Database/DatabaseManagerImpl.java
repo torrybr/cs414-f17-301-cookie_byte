@@ -121,7 +121,7 @@ public class DatabaseManagerImpl {
         //System.out.println(collection.find(eq("GameID",gameID)).first().toJson());
     }
 
-    public void getmyGameJson(String gameID) {
+    public void getmyGameJson(int gameID) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
         System.out.println(collection.find(eq("GameID", gameID)).first().toJson());
@@ -139,20 +139,6 @@ public class DatabaseManagerImpl {
         MongoCollection<Document> collection = db.getCollection("game");
 
         collection.updateOne(eq("GameID", gameID), new Document("$set", new Document("CurrentTurn", playerTurn)));
-
-    }
-
-    /**
-     * x1,y1 AND x2,y2 piece positions in a list of size 0,1,2,3. Based on x,y coordinates
-     * @param gameID the game to update
-     * @param points the new points of the pieces
-     */
-    public void updatePieceLocation(String gameID,List<String> points) {
-
-        MongoDatabase db = mongoClient.getDatabase("cs414Application");
-        MongoCollection<Document> collection = db.getCollection("game");
-
-        collection.updateOne(eq("GameID", gameID), new Document("$set", new Document("PieceLocation", points)));
 
     }
 

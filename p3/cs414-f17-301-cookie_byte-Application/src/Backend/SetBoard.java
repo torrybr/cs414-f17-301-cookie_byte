@@ -87,6 +87,7 @@ public class SetBoard {
 			}
 		}
 		db.createGame(board,offence,defence);
+		db.getmyGameJson(0);
 	}
 }
 
