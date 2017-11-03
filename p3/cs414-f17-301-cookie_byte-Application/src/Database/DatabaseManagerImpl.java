@@ -156,6 +156,12 @@ public class DatabaseManagerImpl {
 
     }
 
+    /**
+     * Create an initial game and set the default board layout.
+     * @param theBoard the board object
+     * @param player1 A User who is player 1
+     * @param player2 A User who is player 2
+     */
     public void createGame(Backend.Board theBoard, User player1, User player2) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
@@ -188,14 +194,5 @@ public class DatabaseManagerImpl {
         myBoard.put("pieces", array);
         myGame.append("Board", myBoard);
         collection.insertOne(myGame);
-    }
-
-
-
-
-
-    public static void main(String[] args) {
-
-
     }
 }
