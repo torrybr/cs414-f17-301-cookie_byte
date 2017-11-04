@@ -31,7 +31,7 @@ public class Invite {
 		userTo.addCurrentGame(gme);
 		userFrom.addCurrentGame(gme);
 		// Remove invite from receiving user
-		userTo.removeInvite(this);
+		userTo.removeInvite(this);//////////////////
 	}
 	
 	public void declineInvite()

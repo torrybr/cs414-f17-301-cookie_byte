@@ -1,5 +1,7 @@
 package Backend;
 
+import Database.DatabaseManagerImpl;
+
 public class SetBoard {
 	
 	// SetBoard uses the board class to set the correct starting location of all pieces
@@ -12,6 +14,7 @@ public class SetBoard {
 	User offence;
 	User defence;
 	User none = new User("nullUser", "nullUser", "null@null.null");
+	DatabaseManagerImpl db = new DatabaseManagerImpl();
 	
 	public SetBoard(Board brd, User off, User def)
 	{
@@ -83,6 +86,7 @@ public class SetBoard {
 				}
 			}
 		}
+		db.createGame(board,offence,defence);
 	}
 }
 
