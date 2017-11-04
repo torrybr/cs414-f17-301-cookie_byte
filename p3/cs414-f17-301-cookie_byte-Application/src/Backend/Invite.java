@@ -8,10 +8,10 @@ public class Invite {
 	InvitationStatus status;
 	
 	
-	public Invite (User to, User from, int GameID){
+	public Invite (User to, User from, int gmeID){
 		this.userTo = to;
 		this.userFrom = from;
-		this.gameID = GameID;
+		this.gameID = gmeID;
 		// Set invite to pending
 		status = InvitationStatus.PENDING;	
 		// Add invite to userTo's list of invites
