@@ -22,9 +22,9 @@ public class Profile extends Application{
 	protected Stage main;
 	public ClientDriver driver;
 	
-	//public Profile(ClientDriver driver){
-	//	this.driver = driver;
-	//}
+	public Profile(ClientDriver driver){
+		this.driver = driver;
+	}
 	
 	public void start(Stage primaryStage) {
 		main = primaryStage;

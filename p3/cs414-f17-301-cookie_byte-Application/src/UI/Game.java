@@ -1,6 +1,8 @@
 package UI;
 
 import Backend.GameController;
+import Backend.Piece;
+import Backend.PieceType;
 import Drivers.ClientDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -20,6 +22,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 public class Game extends Application{
 	
 	public ClientDriver clientDriver;
@@ -35,13 +39,13 @@ public class Game extends Application{
 	protected Stage main;
 	Tile[][] holder;
 	
-	 /*public Game(ClientDriver client,GameController game){
+	 public Game(ClientDriver client,GameController game){
 	 	this.clientDriver = client;
 	 	this.gameDriver = game;
-	 	//user1 = gameDriver.getPlayer1().getNickname();
-	 	//user2 = gameDriver.getPlayer2().getNickname();
+	 	user1 = gameDriver.getPlayer1().getUserID();
+	 	user2 = gameDriver.getPlayer2().getUserID();
 	 	move = gameDriver.getCurrentTurn().getUserID();
-	 }*/
+	 }
 	
 	private Parent createContent() {
 		Pane root = new Pane();
@@ -57,6 +61,7 @@ public class Game extends Application{
 					holder[i][j].setTranslateX(50 + (50 * i));
 					holder[i][j].setTranslateY(50 + (50 * j));
 					holder[i][j].setBackground(new Background(new BackgroundFill(Color.GRAY,CornerRadii.EMPTY,Insets.EMPTY)));
+					holder[i][j].setOrigBackground(new Background(new BackgroundFill(Color.GRAY,CornerRadii.EMPTY,Insets.EMPTY)));
 					holder[i][j].setLocationButton(i, j);
 					root.getChildren().add(holder[i][j]);
 				}
@@ -65,6 +70,7 @@ public class Game extends Application{
 					holder[i][j].setTranslateX(50 + (50 * i));
 					holder[i][j].setTranslateY(50 + (50 * j));
 					holder[i][j].setBackground(new Background(new BackgroundFill(Color.WHITE,CornerRadii.EMPTY,Insets.EMPTY)));
+					holder[i][j].setOrigBackground(new Background(new BackgroundFill(Color.WHITE,CornerRadii.EMPTY,Insets.EMPTY)));
 					holder[i][j].setLocationButton(i, j);
 					root.getChildren().add(holder[i][j]);
 				}
@@ -84,7 +90,8 @@ public class Game extends Application{
 	private class Tile extends StackPane {
 		
 		protected BoardPiece tempB;
-		
+		protected Background origBackground;
+
 		public Tile(String value) {
 			Rectangle border = new Rectangle(50, 50);
 			border.setFill(null);
@@ -112,6 +119,11 @@ public class Game extends Application{
 			tempB.setX(x);
 			tempB.setY(y);
 		}
+
+		protected void setOrigBackground(Background background){
+			origBackground = background;
+		}
+
 		
 	}
 	
@@ -255,16 +267,6 @@ public class Game extends Application{
 		ImageView iv24 = new ImageView(image);
 		iv24.setFitHeight(30);
 		iv24.setFitWidth(30);
-		ImageView[] images = {iv,iv2,iv3,iv4,iv5,iv6,iv7,iv8,iv9,iv10,iv11,iv12,iv13,iv14,iv15,iv16,iv17,iv18,iv19,iv20,iv21,iv22,iv23,iv24};
-
-		//List<String> locations = gameDriver.getLocations();
-
-		for(int i = 0;i<24;i++){
-			//String[] temp = locations.get(i).split(" ");
-			///int x = Integer.parseInt(temp[0]);
-			//int y = Integer.parseInt(temp[1]);
-			//((BoardPiece) holder[x][y].getChildren().get(0)).setGraphic(images[i]);
-		}
 
 		ImageView iv25 = new ImageView(image1);
 		iv25.setFitHeight(30);
@@ -306,36 +308,81 @@ public class Game extends Application{
 		iv37.setFitHeight(30);
 		iv37.setFitWidth(30);
 
+		int imgcounter = 0;
+		int img1counter = 0;
+		ImageView[] images = {iv,iv2,iv3,iv4,iv5,iv6,iv7,iv8,iv9,iv10,iv11,iv12,iv13,iv14,iv15,iv16,iv17,iv18,iv19,iv20,iv21,iv22,iv23,iv24};
+		ImageView[] images1 = {iv25,iv26,iv27,iv28,iv29,iv30,iv32,iv33,iv34,iv35,iv36,iv37};
+		Piece[][] boardPieces = gameDriver.getBoard().getPieces();
+
+
+		for(int i = 0;i<11;i++){
+			for(int j = 0;j<11;j++){
+				if(boardPieces[i][j].getType() == PieceType.NONE);
+				else{//set space to the piece in boardPieces. use images and imgcounter for offense and images1 and img1counter for defense. use imageview iv31 for king
+					if(boardPieces[i][j].getType() == PieceType.ROOK){//regular piece
+						if(boardPieces[i][j].getPlayer() == gameDriver.getOffence()){//offense
+							//set tile i,j to boardPiece
+							((BoardPiece) holder[i][j].getChildren().get(0)).setGraphic(images[imgcounter]);
+							imgcounter++;
+						}
+						else{//defense
+							//set tile i,j to boardPiece
+							((BoardPiece) holder[i][j].getChildren().get(0)).setGraphic(images1[img1counter]);
+							img1counter++;
+						}
+					}
+					else{//king
+						((BoardPiece) holder[i][j].getChildren().get(0)).setGraphic(iv31);
+					}
+
+				}
+			}
+		}
+
+
+		//old code
+		/*for(int i = 0;i<24;i++){
+			//String[] temp = locations.get(i).split(" ");
+			///int x = Integer.parseInt(temp[0]);
+			//int y = Integer.parseInt(temp[1]);
+			//((BoardPiece) holder[x][y].getChildren().get(0)).setGraphic(images[i]);
+		}
+
 		//king at 30
-		ImageView[] images2 = {iv25,iv26,iv27,iv28,iv29,iv30,iv31,iv32,iv33,iv34,iv35,iv36,iv37};
 		for(int i = 24;i<37;i++){
 			//String[] temp = locations.get(i).split(" ");
 			//int x = Integer.parseInt(temp[0]);
 			//int y = Integer.parseInt(temp[1]);
 			//((BoardPiece) holder[x][y].getChildren().get(0)).setGraphic(images2[i-24]);
-		}
+		}*/
+
+
+
 	}
 	
 	protected void movePieces(int oldx, int oldy) {
 		if(piece1 == -1) {
-			//highlight square
 			piece1 = oldx;
 			piece2 = oldy;
+			//highlight square
 		}
 		else {
-			/*if(gameDriver.makeMove(piece1,piece2,oldx,oldy,clientDriver.getName())) {
-				ImageView tempiv2 = (ImageView) ((Labeled) holder[oldx][oldy].getChildren().get(0)).getGraphic();
+			if(gameDriver.isMoveValid(gameDriver.getBoard().getPiece(piece1,piece2),clientDriver.getProfile(),piece1,piece2,oldx,oldy)){
+				//old code
+				/*ImageView tempiv2 = (ImageView) ((Labeled) holder[oldx][oldy].getChildren().get(0)).getGraphic();
 				ImageView tempiv = (ImageView) ((Labeled) holder[piece1][piece2].getChildren().get(0)).getGraphic();
 				((Labeled) holder[piece1][piece2].getChildren().get(0)).setGraphic(tempiv2);
 				((Labeled) holder[oldx][oldy].getChildren().get(0)).setGraphic(tempiv);
+				*/
 				piece1 = -1;
 				piece2 = -1;
-				gameDriver.saveMove();
-			}*/
-			//else{
-			//	piece1 = -1;
-			//	piece2 = -1;
-			//}
+				gameDriver.movePiece(piece1,piece2,oldx,oldy);
+				setGame();
+			}
+			else{
+				piece1 = -1;
+				piece2 = -1;
+			}
 		}
 	}
 	

@@ -106,7 +106,20 @@ public class GameController {
 	{
 		return board;
 	}
-	
+
+	public User getPlayer1() {
+		return player1;
+	}
+
+	public User getPlayer2() {
+		return player2;
+	}
+	public User getDefence(){
+		return defence;
+	}
+	public User getOffence(){
+		return offence;
+	}
 	public boolean isItMyTurn(User player)
 	{
 		if(currentTurn.equals(player))

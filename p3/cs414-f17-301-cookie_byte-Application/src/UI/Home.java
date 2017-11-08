@@ -40,10 +40,10 @@ public class Home extends Application {
 		BorderPane border = new BorderPane();
 		HBox hbox = addHBox();
 		border.setTop(hbox);
-		//border.setLeft(addVBoxGames("Current Games",clientDriver.getGameIDs()));
-		//border.setRight(addVBoxFriends("Invites",clientDriver.getInviteIDs()));
+		border.setLeft(addVBoxGames("Current Games",clientDriver.getGameIDs()));
+		border.setRight(addVBoxFriends("Invites",clientDriver.getInviteIDs()));
 		Scene scene = new Scene(border,500,400);
-		//primaryStage.setTitle(clientDriver.profile.getNickname()+" Home");
+		primaryStage.setTitle(clientDriver.profile.getUserID()+" Home");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
@@ -99,20 +99,22 @@ public class Home extends Application {
 	    	for(int i = 0;i < invites.size();i++) {
 	    		options[i] = new Button(invites.get(i));
 	    		options[i].setPrefSize(100, 20);
-	    		/*options[i].setOnAction(new EventHandler<ActionEvent>() {
-	    	       	 
+				int tempi = i;
+	    		options[i].setOnAction(new EventHandler<ActionEvent>() {
 	                @Override
 	                public void handle(ActionEvent e) {
-	                		GameDriver gameD = new GameDriver(Integer.parseInt(options[i].getText()));
+
+	                		GameController gameD = new GameController(Integer.parseInt(options[tempi].getText()));
 	                		try {
 	                				Game game = new Game(clientDriver,gameD);
+	                				game.start(main);
 	    					} catch (Exception e1) {
 	    						// TODO Auto-generated catch block
 	    						e1.printStackTrace();
 	    					}
 	                    
 	                }
-	            });*/
+	            });
 	    		VBox.setMargin(options[i], new Insets(0, 0, 0, 8));
 		    vbox.getChildren().add(options[i]);
 	    	}
@@ -169,9 +171,9 @@ public class Home extends Application {
 	       	 
             @Override
             public void handle(ActionEvent e) {
-            		//Profile prof = new Profile(clientDriver);
+            		Profile prof = new Profile(clientDriver);
             		try {
-						//prof.start(main);
+						prof.start(main);
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
