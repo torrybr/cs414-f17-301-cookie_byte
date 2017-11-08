@@ -1,5 +1,6 @@
 package UI;
 
+import Backend.GameController;
 import Drivers.ClientDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -21,14 +22,13 @@ public class CreateGame  extends Application {
 	
 	public CreateGame(ClientDriver driver){
 	 	this.client = driver;
-	 	//sender = driver.profile.getNickname();
 	}
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		main = primaryStage;
 		BorderPane border = new BorderPane();
 		border.setTop(addHBox());
-		border.setLeft(addVBox("Create game with....","p1"));
+		border.setLeft(addVBox("Create game with....","player1"));
 		Scene scene = new Scene(border,635,375);
 		primaryStage.setTitle("Login");
 		primaryStage.setScene(scene);
@@ -102,7 +102,8 @@ public class CreateGame  extends Application {
 	}
 	
 	public void send() {
-		//GameDriver gameDriver = new GameDriver(sender,reciever);
+		//create a new game with those sender reciever as player 1 player 2. How to create unique game ID?
+		//GameController gameDriver = new GameController(sender,reciever);
 		//Game game = new Game(client,gameDriver);
 		try {
 		//	game.start(main);

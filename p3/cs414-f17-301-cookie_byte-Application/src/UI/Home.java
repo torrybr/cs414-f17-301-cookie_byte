@@ -63,16 +63,16 @@ public class Home extends Application {
 	    	for(int i = 0;i < games.size();i++) {
 	    		options[i] = new Button(games.get(i));
 	    		options[i].setPrefSize(100, 20);
-	    		int tempint = i;
+	    		int tempi = i;
 	    		options[i].setOnAction(new EventHandler<ActionEvent>() {
 	    	       	 
 	                @Override
 	                public void handle(ActionEvent e) {
 	                		//int temp = Integer.valueOf((options[tempint].getText()));
-	                		//GameController gc = new GameController(temp);
+						GameController gameD = new GameController(Integer.parseInt(options[tempi].getText()));
 	                		try {
-	                		//		Game game = new Game(clientDriver,gc);
-	                		//		game.start(main);
+								Game game = new Game(clientDriver,gameD);
+								game.start(main);
 	    					} catch (Exception e1) {
 	    						e1.printStackTrace();
 	    					}
@@ -103,11 +103,9 @@ public class Home extends Application {
 	    		options[i].setOnAction(new EventHandler<ActionEvent>() {
 	                @Override
 	                public void handle(ActionEvent e) {
-
-	                		GameController gameD = new GameController(Integer.parseInt(options[tempi].getText()));
+	                		InviteView iv = new InviteView(clientDriver);
 	                		try {
-	                				Game game = new Game(clientDriver,gameD);
-	                				game.start(main);
+	                				iv.start(main);
 	    					} catch (Exception e1) {
 	    						// TODO Auto-generated catch block
 	    						e1.printStackTrace();
