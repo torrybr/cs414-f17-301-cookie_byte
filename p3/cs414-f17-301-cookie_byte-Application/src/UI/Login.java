@@ -1,5 +1,6 @@
 package UI;
 
+import Drivers.ClientDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -24,7 +25,7 @@ public class Login extends Application {
 	public String loggedInUser;
 	public Stage primary;
 	public LoginAuth auth= new LoginAuth();
-	
+
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -130,7 +131,8 @@ public class Login extends Application {
 	
 	public void loginResult(boolean result) {
 		if(result) {//succesful login
-			Home nextPage = new Home(loggedInUser);
+			ClientDriver driver = new ClientDriver(loggedInUser);
+			Home nextPage = new Home(driver);
 			try {
 				nextPage.start(primary);
 			} catch (Exception e) {

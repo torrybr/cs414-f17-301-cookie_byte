@@ -66,9 +66,9 @@ public class ClientDriver {
 	//public User getUser(String username){
 		//get user from db by username
 	//}
-	//public String getName(){
-		//return profile.getNickname();
-	//}
+	public User getProfile(){
+		return profile;
+	}
 	public static void main(String[] args) {
 		
 	}
