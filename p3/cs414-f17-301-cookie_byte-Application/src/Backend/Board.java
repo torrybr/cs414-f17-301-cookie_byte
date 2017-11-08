@@ -35,7 +35,10 @@ public class Board {
     public Piece getPiece(int row, int col) {
         return pieces[row][col];
     }
-
+    
+    public Piece[][] getPieces() {
+        return pieces;
+    }
     // Method to get type of piece; returns PieceType
     public PieceType getPieceType(int row, int col) {
         return pieces[row][col].getType();
@@ -46,7 +49,7 @@ public class Board {
     public User getPieceOwner(int row, int col) {
         return pieces[row][col].getPlayer();
     }
-
+    public P
     // Add piece to board
     public void addPieceToBoard(int row, int col, PieceType typeOfPiece, User pieceOwner) {
         // Create the piece
