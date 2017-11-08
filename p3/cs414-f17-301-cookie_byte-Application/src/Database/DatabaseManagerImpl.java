@@ -1,20 +1,22 @@
 package Database;
 
-import Backend.GameController;
+import Backend.*;
+import Backend.Piece;
+import Backend.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.apache.log4j.Logger;
+import org.bson.BSON;
 import org.bson.Document;
 
 import javax.xml.ws.http.HTTPException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
-
-import Backend.User;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -119,7 +121,6 @@ public class DatabaseManagerImpl {
             log.error("error parsing json to java pogo", e);
         }
         return null;
-        //System.out.println(collection.find(eq("GameID",gameID)).first().toJson());
     }
 
     /**
@@ -158,6 +159,10 @@ public class DatabaseManagerImpl {
 
     }
 
+    private int createGameID() {
+        return 0;
+    }
+
     /**
      * Create an initial game and set the default board layout.
      *
@@ -168,10 +173,10 @@ public class DatabaseManagerImpl {
     public void createGame(Backend.Board theBoard, User player1, User player2) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
-        final GameController gameController;
+        //final GameController gameController = new GameController();
 
         Document myGame = new Document();
-        myGame.put("GameID", theBoard.getGameID());
+        myGame.put("GameID", createGameID()); //1234322
         myGame.put("Player1", player1.getUserID());
         myGame.put("Player2", player2.getUserID());
         myGame.put("CurrentTurn", "player2"); //need to finish this
@@ -197,5 +202,32 @@ public class DatabaseManagerImpl {
         myBoard.put("pieces", array);
         myGame.append("Board", myBoard);
         collection.insertOne(myGame);
+    }
+
+    /**
+     * When a piece has been moved, use this method to save the new piece location to the database.
+     * This should be called after every piece has been moved in order to save the state of the game.
+     *
+     * @param gameID the ID of game we need to update
+     * @param p      the Piece that has moved
+     */
+    public void updateGame(int gameID, Backend.Piece p, int row, int col) {
+        MongoDatabase db = mongoClient.getDatabase("cs414Application");
+        MongoCollection<Document> collection = db.getCollection("game");
+        int index = (row * 11) + col;
+
+        /* Create a new document for the peice we are updating */
+        Document myPieceTypes = new Document();
+        myPieceTypes.put("pieceType", p.getType().toString());
+
+        collection.updateOne(eq("Board.pieces." + index + ".PieceType"), new Document("$set", myPieceTypes));
+    }
+
+
+    public static void main(String[] args) {
+        BoardJavaObject theGame = d.getGame(0);
+        Piece p = new Piece()
+        d.updateGame(0,);
+
     }
 }

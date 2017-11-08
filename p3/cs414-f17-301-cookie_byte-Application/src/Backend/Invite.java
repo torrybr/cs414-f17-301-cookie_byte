@@ -31,7 +31,10 @@ public class Invite {
 		userTo.addCurrentGame(gme);
 		userFrom.addCurrentGame(gme);
 		// Remove invite from receiving user
-		userTo.removeInvite(this);//////////////////
+		userTo.removeInvite(this);
+		/**
+		 * WHen accepted save game to users table
+		 */
 	}
 	
 	public void declineInvite()
@@ -40,6 +43,9 @@ public class Invite {
 		status = InvitationStatus.DECLINED;
 		// Remove invite from receiving user
 		userTo.removeInvite(this);
+		/**
+		 * remove the user invite from <invites></invites>
+		 */
 	}
 	
 	@Override
