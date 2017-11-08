@@ -49,7 +49,7 @@ public class Board {
     public User getPieceOwner(int row, int col) {
         return pieces[row][col].getPlayer();
     }
-    public P
+
     // Add piece to board
     public void addPieceToBoard(int row, int col, PieceType typeOfPiece, User pieceOwner) {
         // Create the piece
