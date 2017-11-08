@@ -41,7 +41,7 @@ public class InviteTest {
 		
 		assertTrue(to.getInvites().size() == 0);
 		assertEquals(to.getCurrentGames().get(1), from.getCurrentGames().get(1));
-		assertEquals(111, to.getCurrentGames().get(1).getGameID());
+		assertEquals(111, to.getCurrentGames().get(1).getGameID()); // This appears to be failing due to system saving current games twice each time. i.e. I add a game to user a, and that game is in ArrayList position 0 AND 1. Next game added takes up positions 2 AND 3
 		
 	}
 	@Test

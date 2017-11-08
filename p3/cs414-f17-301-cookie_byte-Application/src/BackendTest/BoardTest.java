@@ -28,6 +28,7 @@ public class BoardTest {
 	public void testRemovePiece()
 	{
 		User u = new User("testID", "abc123", "test@test.cats");
+	    User none = new User("nullUser", "nullUser", "null@null.null");
 		Piece p = new Piece(PieceType.ROOK, u);
 		Board b = new Board();
 		
@@ -38,7 +39,7 @@ public class BoardTest {
 		
 		b.removePiece(4, 4);
 		
-		assertEquals(null, b.getPieceOwner(4, 4));
+		assertEquals(none.getUserID(), b.getPieceOwner(4, 4).getUserID());
 		assertEquals(PieceType.NONE, b.getPieceType(4, 4));
 	}
 	
@@ -47,6 +48,7 @@ public class BoardTest {
 	public void testMovePiece()
 	{
 		User u = new User("testID", "abc123", "test@test.cats");
+	    User none = new User("nullUser", "nullUser", "null@null.null");
 		Piece p = new Piece(PieceType.ROOK, u);
 		Piece empty = new Piece(PieceType.NONE, u);
 		Board b = new Board();
@@ -59,7 +61,7 @@ public class BoardTest {
 		
 		b.movePiece(4, 4, 6, 6);
 		
-		assertEquals(null, b.getPieceOwner(4, 4));
+		assertEquals(none.getUserID(), b.getPieceOwner(4, 4).getUserID());
 		assertEquals(PieceType.NONE, b.getPieceType(4, 4));
 		assertEquals(u, b.getPieceOwner(6, 6));
 		assertEquals(p.getType(), b.getPieceType(6, 6));

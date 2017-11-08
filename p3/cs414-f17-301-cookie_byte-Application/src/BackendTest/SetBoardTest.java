@@ -16,6 +16,7 @@ public class SetBoardTest {
 	{
 		User off = new User("a", "pass1", "a@a.a");
 		User def = new User("b", "pass2", "b@b.b");
+	    User none = new User("nullUser", "nullUser", "null@null.null");
 		Board b = new Board();
 		SetBoard sb = new SetBoard(b, off, def);
 		
@@ -106,11 +107,11 @@ public class SetBoardTest {
 		assertEquals(PieceType.ROOK, b.getPieceType(7, 5));
 		
 		// A few random checks for piece type NONE
-		assertEquals(null, b.getPieceOwner(0, 0));
+		assertEquals(none.getUserID(), b.getPieceOwner(0, 0).getUserID());
 		assertEquals(PieceType.NONE, b.getPieceType(0, 0));
-		assertEquals(null, b.getPieceOwner(5, 2));
+		assertEquals(none.getUserID(), b.getPieceOwner(5, 2).getUserID());
 		assertEquals(PieceType.NONE, b.getPieceType(5, 2));
-		assertEquals(null, b.getPieceOwner(3, 9));
+		assertEquals(none.getUserID(), b.getPieceOwner(3, 9).getUserID());
 		assertEquals(PieceType.NONE, b.getPieceType(3, 9));
 	}
 	
