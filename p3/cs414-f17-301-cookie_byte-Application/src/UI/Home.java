@@ -1,6 +1,7 @@
 package UI;
 
 import Backend.GameController;
+import Backend.User;
 import Drivers.ClientDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -69,7 +70,9 @@ public class Home extends Application {
 	                @Override
 	                public void handle(ActionEvent e) {
 	                		//int temp = Integer.valueOf((options[tempint].getText()));
-						GameController gameD = new GameController(Integer.parseInt(options[tempi].getText()));
+						//GameController gameD = new GameController(options[tempi].getText()));
+	                		User user2 = new User("b", "blank", "blank");
+	                		GameController gameD = new GameController(0,clientDriver.profile,user2);
 	                		try {
 								Game game = new Game(clientDriver,gameD);
 								game.start(main);
