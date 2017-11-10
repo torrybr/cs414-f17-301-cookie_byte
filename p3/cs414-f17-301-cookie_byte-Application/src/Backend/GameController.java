@@ -1,5 +1,14 @@
 package Backend;
 
+import java.awt.List;
+import java.util.ArrayList;
+
+import Database.BoardJavaObject;
+import Database.DatabaseManagerImpl;
+import Database.GameJavaObject;
+import Database.Piece;
+import Database.UsersJavaObject;
+
 public class GameController {
 	
 	// Gameplay sets up board, selects offence and defence, and holds the win conditions for the this. 
@@ -20,6 +29,7 @@ public class GameController {
 	int kingLocationCol;
 	int kingLocationRow;
 	int gameID;
+	public DatabaseManagerImpl DBDriver = new DatabaseManagerImpl();
 
 	
 	Piece[][] pieces = new Piece[11][11];
@@ -65,7 +75,36 @@ public class GameController {
 	//  Constructor used to get game from database
 	public GameController(int gmeID)
 	{	
+		// Pull down gameID
 		this.gameID = gmeID;
+		
+		// TODO set to 0 for testing. Fix this later
+		BoardJavaObject pullGame = DBDriver.getGame(0);
+		
+		// Pull down player1
+		String temp1 = pullGame.getPlayer1();
+		UsersJavaObject tempUser = DBDriver.getUserByNickname(temp1);
+		this.player1.userID = tempUser.getUserID();
+		
+		// Pull down player2
+		String temp2 = pullGame.getPlayer2();
+		UsersJavaObject tempUser2 = DBDriver.getUserByNickname(temp2);
+		this.player2.userID = tempUser2.getUserID();
+		
+		// Set the current turn
+		 String currTurn = pullGame.getCurrentTurn();
+		 UsersJavaObject tempUser3 = DBDriver.getUserByNickname(currTurn);
+		 User settingCurrTurn = new User(tempUser3.getUserID(), tempUser3.getPassword(), tempUser3.getEmail());
+		 setCurrentTurn(settingCurrTurn);
+	 
+		 // TODO FIX THIS Retrieve saved board FIX THIS
+		 this.board = (Board) pullGame.getBoard().getPieces();
+		 
+		 
+		// Set game status
+		 this.status = GameStatus.ACTIVE;
+		
+		
 	}
 	
 	public void quit(User quitter)
@@ -603,5 +642,4 @@ public class GameController {
 		else
 			System.out.println("Invalid Move");
 	}
-
 }
