@@ -27,9 +27,9 @@ public class Invite {
 		GameController gme = new GameController(gameID, userTo, userFrom);
 		// Sets game to active
 		gme.setStatus(GameStatus.ACTIVE);
-		// Add game to both users
-		userTo.addCurrentGame(gme);
-		userFrom.addCurrentGame(gme);
+		// Add game to both users THIS IS NOW DONE IN DB
+		// userTo.addCurrentGame(gme);
+		// userFrom.addCurrentGame(gme);
 		// Remove invite from receiving user
 		userTo.removeInvite(this);//////////////////
 	}
@@ -40,14 +40,6 @@ public class Invite {
 		status = InvitationStatus.DECLINED;
 		// Remove invite from receiving user
 		userTo.removeInvite(this);
-	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + gameID;
-		return result;
 	}
 
 	@Override
