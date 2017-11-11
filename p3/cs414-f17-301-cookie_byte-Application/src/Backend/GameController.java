@@ -41,7 +41,7 @@ public class GameController {
 		this.player1 = player1;
 		this.player2 = player2;
 		this.status = GameStatus.PENDING;
-		gameID = gmeID;
+		this.gameID = gmeID;
 
 		
 		
