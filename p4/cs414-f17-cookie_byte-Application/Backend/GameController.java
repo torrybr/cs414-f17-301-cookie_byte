@@ -1,5 +1,13 @@
 package Backend;
 
+import java.awt.List;
+import java.util.ArrayList;
+
+import Database.BoardJavaObject;
+import Database.DatabaseManagerImpl;
+import Database.GameJavaObject;
+import Database.UsersJavaObject;
+
 public class GameController {
 	
 	// Gameplay sets up board, selects offence and defence, and holds the win conditions for the this. 
@@ -15,11 +23,13 @@ public class GameController {
 	User offence;
 	User currentTurn;
 	User winner;
+	User setCurrTurn;
 	GameStatus status;
 	Board board;
 	int kingLocationCol;
 	int kingLocationRow;
 	int gameID;
+	public DatabaseManagerImpl DBDriver = new DatabaseManagerImpl();
 
 	
 	Piece[][] pieces = new Piece[11][11];
@@ -31,7 +41,7 @@ public class GameController {
 		this.player1 = player1;
 		this.player2 = player2;
 		this.status = GameStatus.PENDING;
-		gameID = gmeID;
+		this.gameID = gmeID;
 
 		
 		
@@ -65,7 +75,36 @@ public class GameController {
 	//  Constructor used to get game from database
 	public GameController(int gmeID)
 	{	
+		// Pull down gameID
 		this.gameID = gmeID;
+		
+		// TODO set to 0 for testing. Fix this later
+		BoardJavaObject pullGame = DBDriver.getGame(0);
+		
+		// Pull down player1
+		String temp1 = pullGame.getPlayer1();
+		UsersJavaObject tempUser = DBDriver.getUserByNickname(temp1);
+		this.player1.userID = tempUser.getUserID();
+		
+		// Pull down player2
+		String temp2 = pullGame.getPlayer2();
+		UsersJavaObject tempUser2 = DBDriver.getUserByNickname(temp2);
+		this.player2.userID = tempUser2.getUserID();
+		
+		// Set the current turn
+		 String currTurn = pullGame.getCurrentTurn();
+		 UsersJavaObject tempUser3 = DBDriver.getUserByNickname(currTurn);
+		 this.setCurrTurn.userID = tempUser3.getUserID();
+		 setCurrentTurn(setCurrTurn);
+	 
+		 // TODO FIX THIS Retrieve saved board FIX THIS
+		this.board = (Board) pullGame.getBoard().getPieces();
+		 
+		 
+		// Set game status
+		 this.status = GameStatus.ACTIVE;
+		
+		
 	}
 	
 	public void quit(User quitter)
@@ -135,7 +174,7 @@ public class GameController {
 	}
 
 	public void setCurrentTurn(User player) {
-		currentTurn= player;
+		currentTurn = player;
 	}
 
 	public GameStatus getStatus() {
@@ -570,38 +609,33 @@ public class GameController {
 			if(capturePiece(this.getCurrentTurn(), rowTo+1, colTo)){
 				board.removePiece(rowTo+1, colTo);
 				System.out.println("Piece removed down.");
-				// SDB
 			}
 			if(capturePiece(this.getCurrentTurn(), rowTo-1, colTo)){
 				board.removePiece(rowTo-1, colTo);
 				System.out.println("Piece removed up.");
-				// SDB
 			}
 			if(capturePiece(this.getCurrentTurn(), rowTo, colTo+1)){
 				board.removePiece(rowTo, colTo+1);
 				System.out.println("Piece removed right.");
-				// SDB
 			}
 			if(capturePiece(this.getCurrentTurn(), rowTo, colTo-1)){
 				board.removePiece(rowTo, colTo-1);
 				System.out.println("Piece removed left.");
-				// SDB
 			}
 		
 			// Make sure to set the other player as the one to take a turn next
 			if(this.getCurrentTurn().equals(offence))
 			{
 				this.setCurrentTurn(defence);
-				// SDB
 			}
 			else
 			{
 				this.setCurrentTurn(offence);
-				// SDB
 			}
+			
+			//Save to DB here after each move
 		}
 		else
 			System.out.println("Invalid Move");
 	}
-
 }
