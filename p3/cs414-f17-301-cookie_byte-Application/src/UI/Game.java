@@ -35,7 +35,8 @@ public class Game extends Application{
 	protected String user1 = "?";
 	protected String user2 = "?";
 	protected String move = "?";
-	
+
+	protected Text movetext;
 	protected Stage main;
 	Tile[][] holder;
 	
@@ -145,16 +146,16 @@ public class Game extends Application{
 		Text p2 = new Text("Player 2: " + user2);
 		p2.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
 		
-		Text movetext = new Text("Move: " + move);
+		movetext = new Text("Move: " + move);
 		movetext.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
 		
 	    buttonHome.setOnAction(new EventHandler<ActionEvent>() {
        	 
             @Override
             public void handle(ActionEvent e) {
-            		//Home home = new Home(clientDriver);
+            		Home home = new Home(clientDriver);
             		try {
-					//	home.start(main);
+						home.start(main);
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
@@ -166,11 +167,10 @@ public class Game extends Application{
 
 			@Override
 			public void handle(ActionEvent e) {
-				//gc quit this game(driver.getname)
-				//Home home = new Home(clientDriver);
+				//gameDriver.quit(clientDriver.profile);
+				Home home = new Home(clientDriver);
 				try {
-					System.out.println("hello");
-					//	home.start(main);
+					home.start(main);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -342,24 +342,6 @@ public class Game extends Application{
 		}
 
 
-		//old code
-		/*for(int i = 0;i<24;i++){
-			//String[] temp = locations.get(i).split(" ");
-			///int x = Integer.parseInt(temp[0]);
-			//int y = Integer.parseInt(temp[1]);
-			//((BoardPiece) holder[x][y].getChildren().get(0)).setGraphic(images[i]);
-		}
-
-		//king at 30
-		for(int i = 24;i<37;i++){
-			//String[] temp = locations.get(i).split(" ");
-			//int x = Integer.parseInt(temp[0]);
-			//int y = Integer.parseInt(temp[1]);
-			//((BoardPiece) holder[x][y].getChildren().get(0)).setGraphic(images2[i-24]);
-		}*/
-
-
-
 	}
 	
 	protected void movePieces(int oldx, int oldy) {
@@ -371,15 +353,11 @@ public class Game extends Application{
 		else {
 			if(gameDriver.isMoveValid(gameDriver.getBoard().getPiece(piece1,piece2),clientDriver.getProfile(),piece1,piece2,oldx,oldy)){
 				//old code
-				/*ImageView tempiv2 = (ImageView) ((Labeled) holder[oldx][oldy].getChildren().get(0)).getGraphic();
-				ImageView tempiv = (ImageView) ((Labeled) holder[piece1][piece2].getChildren().get(0)).getGraphic();
-				((Labeled) holder[piece1][piece2].getChildren().get(0)).setGraphic(tempiv2);
-				((Labeled) holder[oldx][oldy].getChildren().get(0)).setGraphic(tempiv);
-				*/
 				gameDriver.movePiece(piece1,piece2,oldx,oldy);
 				piece1 = -1;
 				piece2 = -1;
 				setGame();
+				//movetext.setText(gameDriver.getCurrentTurn().getUserID());
 			}
 			else{
 				piece1 = -1;

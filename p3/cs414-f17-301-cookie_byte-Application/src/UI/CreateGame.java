@@ -28,7 +28,7 @@ public class CreateGame  extends Application {
 		main = primaryStage;
 		BorderPane border = new BorderPane();
 		border.setTop(addHBox());
-		border.setLeft(addVBox("Create game with....","player1"));
+		border.setLeft(addVBox("Create game with....","player2"));
 		Scene scene = new Scene(border,635,375);
 		primaryStage.setTitle("Login");
 		primaryStage.setScene(scene);
@@ -81,7 +81,6 @@ public class CreateGame  extends Application {
             		try {
 						home.start(main);
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
                 
