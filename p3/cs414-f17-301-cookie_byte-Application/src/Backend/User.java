@@ -71,6 +71,23 @@ public class User {
 	{
 		currentGames.add(g);
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (userID == null) {
+			if (other.userID != null)
+				return false;
+		} else if (!userID.equals(other.userID))
+			return false;
+		return true;
+	}
 	//remove from current games: removeCurrentGame(GameController g)
 	public void removeCurrentGame(GameController g)
 	{
