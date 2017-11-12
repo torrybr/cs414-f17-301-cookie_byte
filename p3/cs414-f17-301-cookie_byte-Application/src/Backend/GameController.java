@@ -1,6 +1,6 @@
 package Backend;
 
-import java.awt.List;
+import java.util.List;
 import java.util.ArrayList;
 
 import Database.BoardJavaObject;
@@ -23,7 +23,6 @@ public class GameController {
 	User offence;
 	User currentTurn;
 	User winner;
-	User setCurrTurn;
 	GameStatus status;
 	Board board;
 	int kingLocationCol;
@@ -78,28 +77,82 @@ public class GameController {
 		// Pull down gameID
 		this.gameID = gmeID;
 		
-		// TODO set to 0 for testing. Fix this later
+		// TODO set to 0 for testing. Fix this later (make it gameID)
 		BoardJavaObject pullGame = DBDriver.getGame(0);
 		
 		// Pull down player1
 		String temp1 = pullGame.getPlayer1();
 		UsersJavaObject tempUser = DBDriver.getUserByNickname(temp1);
-		this.player1.userID = tempUser.getUserID();
+		User pl1 = new User(null, null, null);
+		pl1.userID = tempUser.getNickname();
+		pl1.email = tempUser.getEmail();
+		pl1.password = tempUser.getPassword();
+		
+		this.player1 = pl1;
 		
 		// Pull down player2
 		String temp2 = pullGame.getPlayer2();
 		UsersJavaObject tempUser2 = DBDriver.getUserByNickname(temp2);
-		this.player2.userID = tempUser2.getUserID();
+		User pl2 = new User(null, null, null);
+		pl2.userID = tempUser2.getNickname();
+		pl2.email = tempUser2.getEmail();
+		pl2.password = tempUser2.getPassword();
+		this.player2 = pl2;
+		
+		// Set offence
+		String tempoff = pullGame.getPlayer2();
+		UsersJavaObject tempUseroff = DBDriver.getUserByNickname(tempoff);
+		User off = new User(null, null, null);
+		off.userID = tempUseroff.getNickname();
+		off.email = tempUseroff.getEmail();
+		off.password = tempUseroff.getPassword();
+		this.offence = off;
+		
+		// Set defence
+		String tempdef = pullGame.getPlayer2();
+		UsersJavaObject tempUserdef = DBDriver.getUserByNickname(tempdef);
+		User def = new User(null, null, null);
+		def.userID = tempUserdef.getNickname();
+		def.email = tempUserdef.getEmail();
+		def.password = tempUserdef.getPassword();
+		this.defence = def;
 		
 		// Set the current turn
 		 String currTurn = pullGame.getCurrentTurn();
 		 UsersJavaObject tempUser3 = DBDriver.getUserByNickname(currTurn);
-		 this.setCurrTurn.userID = tempUser3.getUserID();
-		 setCurrentTurn(setCurrTurn);
+		 User ct = new User(null, null, null);
+		 ct.userID = tempUser3.getNickname();
+		 ct.email = tempUser3.getEmail();
+		 ct.password = tempUser3.getPassword();
+		 setCurrentTurn(ct);
 	 
-		 // TODO FIX THIS Retrieve saved board FIX THIS
-		this.board = (Board) pullGame.getBoard().getPieces();
+		 // Retrieve board
+		 Board tempBoard = new Board();
 		 
+		 List<Database.Piece> dbPieces = new ArrayList<>();
+		 dbPieces = pullGame.getBoard().getPieces();
+		 
+		 int pullFrom = 0;
+		 for(int row = 0; row < 11; row++)
+		 {
+			 for(int col = 0; col < 11; col++)
+			 {
+				 // Pull in pieceOwner user info
+				 User pieceOwner;
+				 // getUserID actually returns nickname here (getNickname() does it above)
+				 pieceOwner = new User(dbPieces.get(pullFrom).getUser().getUserID(), dbPieces.get(pullFrom).getUser().getPassword(), dbPieces.get(pullFrom).getUser().getEmail());
+				 // Pull in pieceType info
+				 String pt = dbPieces.get(pullFrom).getPieceType().getPieceType();
+				 // Make piece
+				 Piece p;
+				 p = new Backend.Piece(PieceType.valueOf(pt), pieceOwner);
+				 
+				 // Put piece on temp board
+				 tempBoard.addPieceToBoard(row, col, p.getType(), p.getPlayer());
+				 pullFrom++;
+			 }
+		 }
+		 this.board = tempBoard;
 		 
 		// Set game status
 		 this.status = GameStatus.ACTIVE;
@@ -637,5 +690,10 @@ public class GameController {
 		}
 		else
 			System.out.println("Invalid Move");
+	}
+	
+	public static void main(String args[])
+	{
+		GameController g = new GameController(0);
 	}
 }

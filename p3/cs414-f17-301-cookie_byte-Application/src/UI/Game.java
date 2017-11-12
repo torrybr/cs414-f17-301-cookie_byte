@@ -307,11 +307,63 @@ public class Game extends Application{
 		ImageView iv37 = new ImageView(image1);
 		iv37.setFitHeight(30);
 		iv37.setFitWidth(30);
+		ImageView iv38 = new ImageView(image1);
+		iv38.setFitHeight(30);
+		iv38.setFitWidth(30);
+		ImageView iv39 = new ImageView(image1);
+		iv39.setFitHeight(30);
+		iv39.setFitWidth(30);
+		ImageView iv40 = new ImageView(image1);
+		iv40.setFitHeight(30);
+		iv40.setFitWidth(30);
+		ImageView iv41 = new ImageView(image1);
+		iv41.setFitHeight(30);
+		iv41.setFitWidth(30);
+		ImageView iv42 = new ImageView(image1);
+		iv42.setFitHeight(30);
+		iv42.setFitWidth(30);
+		ImageView iv43 = new ImageView(image1);
+		iv43.setFitHeight(30);
+		iv43.setFitWidth(30);
+		ImageView iv44 = new ImageView(image1);
+		iv44.setFitHeight(30);
+		iv44.setFitWidth(30);
+		ImageView iv45 = new ImageView(image1);
+		iv45.setFitHeight(30);
+		iv45.setFitWidth(30);
+		ImageView iv46 = new ImageView(image1);
+		iv46.setFitHeight(30);
+		iv46.setFitWidth(30);
+		ImageView iv47 = new ImageView(image1);
+		iv47.setFitHeight(30);
+		iv47.setFitWidth(30);
+		ImageView iv48 = new ImageView(image1);
+		iv48.setFitHeight(30);
+		iv48.setFitWidth(30);
+		ImageView iv49 = new ImageView(image1);
+		iv49.setFitHeight(30);
+		iv49.setFitWidth(30);
+		ImageView iv50 = new ImageView(image1);
+		iv50.setFitHeight(30);
+		iv50.setFitWidth(30);
+		ImageView iv51 = new ImageView(image1);
+		iv51.setFitHeight(30);
+		iv51.setFitWidth(30);
+		ImageView iv52 = new ImageView(image1);
+		iv52.setFitHeight(30);
+		iv52.setFitWidth(30);
+		ImageView iv53 = new ImageView(image1);
+		iv53.setFitHeight(30);
+		iv53.setFitWidth(30);
+		ImageView iv54 = new ImageView(image1);
+		iv54.setFitHeight(30);
+		iv54.setFitWidth(30);
+		
 
 		int imgcounter = 0;
 		int img1counter = 0;
 		ImageView[] images = {iv,iv2,iv3,iv4,iv5,iv6,iv7,iv8,iv9,iv10,iv11,iv12,iv13,iv14,iv15,iv16,iv17,iv18,iv19,iv20,iv21,iv22,iv23,iv24};
-		ImageView[] images1 = {iv25,iv26,iv27,iv28,iv29,iv30,iv32,iv33,iv34,iv35,iv36,iv37};
+		ImageView[] images1 = {iv25,iv26,iv27,iv28,iv29,iv30,iv32,iv33,iv34,iv35,iv36,iv37,iv38,iv39,iv40,iv41,iv42,iv43,iv44,iv45,iv46,iv47,iv48,iv49,iv50,iv51,iv52,iv53,iv54};
 		Piece[][] boardPieces = gameDriver.getBoard().getPieces();
 
 
@@ -322,13 +374,15 @@ public class Game extends Application{
 				}
 				else{//set space to the piece in boardPieces. use images and imgcounter for offense and images1 and img1counter for defense. use imageview iv31 for king
 					if(boardPieces[i][j].getType() == PieceType.ROOK){//regular piece
-						if(boardPieces[i][j].getPlayer() == gameDriver.getOffence()){//offense
+						if(boardPieces[i][j].getPlayer().equals(gameDriver.getOffence())){//offense
 							//set tile i,j to boardPiece
+							System.out.println(boardPieces[i][j].getPlayer().getUserID()+" o");
 							((BoardPiece) holder[i][j].getChildren().get(0)).setGraphic(images[imgcounter]);
 							imgcounter++;
 						}
 						else{//defense
 							//set tile i,j to boardPiece
+							System.out.println(boardPieces[i][j].getPlayer().getUserID());
 							((BoardPiece) holder[i][j].getChildren().get(0)).setGraphic(images1[img1counter]);
 							img1counter++;
 						}
