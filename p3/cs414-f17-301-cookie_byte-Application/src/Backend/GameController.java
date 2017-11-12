@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import Database.BoardJavaObject;
 import Database.DatabaseManagerImpl;
 import Database.GameJavaObject;
-import Database.Piece;
 import Database.UsersJavaObject;
 
 public class GameController {
@@ -24,6 +23,7 @@ public class GameController {
 	User offence;
 	User currentTurn;
 	User winner;
+	User setCurrTurn;
 	GameStatus status;
 	Board board;
 	int kingLocationCol;
@@ -94,11 +94,11 @@ public class GameController {
 		// Set the current turn
 		 String currTurn = pullGame.getCurrentTurn();
 		 UsersJavaObject tempUser3 = DBDriver.getUserByNickname(currTurn);
-		 User settingCurrTurn = new User(tempUser3.getUserID(), tempUser3.getPassword(), tempUser3.getEmail());
-		 setCurrentTurn(settingCurrTurn);
+		 this.setCurrTurn.userID = tempUser3.getUserID();
+		 setCurrentTurn(setCurrTurn);
 	 
 		 // TODO FIX THIS Retrieve saved board FIX THIS
-		 this.board = (Board) pullGame.getBoard().getPieces();
+		this.board = (Board) pullGame.getBoard().getPieces();
 		 
 		 
 		// Set game status
@@ -174,7 +174,7 @@ public class GameController {
 	}
 
 	public void setCurrentTurn(User player) {
-		currentTurn= player;
+		currentTurn = player;
 	}
 
 	public GameStatus getStatus() {
@@ -609,35 +609,31 @@ public class GameController {
 			if(capturePiece(this.getCurrentTurn(), rowTo+1, colTo)){
 				board.removePiece(rowTo+1, colTo);
 				System.out.println("Piece removed down.");
-				// SDB
 			}
 			if(capturePiece(this.getCurrentTurn(), rowTo-1, colTo)){
 				board.removePiece(rowTo-1, colTo);
 				System.out.println("Piece removed up.");
-				// SDB
 			}
 			if(capturePiece(this.getCurrentTurn(), rowTo, colTo+1)){
 				board.removePiece(rowTo, colTo+1);
 				System.out.println("Piece removed right.");
-				// SDB
 			}
 			if(capturePiece(this.getCurrentTurn(), rowTo, colTo-1)){
 				board.removePiece(rowTo, colTo-1);
 				System.out.println("Piece removed left.");
-				// SDB
 			}
 		
 			// Make sure to set the other player as the one to take a turn next
 			if(this.getCurrentTurn().equals(offence))
 			{
 				this.setCurrentTurn(defence);
-				// SDB
 			}
 			else
 			{
 				this.setCurrentTurn(offence);
-				// SDB
 			}
+			
+			//Save to DB here after each move
 		}
 		else
 			System.out.println("Invalid Move");
