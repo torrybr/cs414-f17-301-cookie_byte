@@ -181,6 +181,8 @@ public class GameController {
 		player1.addPastGame(this);
 		player2.addPastGame(this);
 		
+		// Do a database save here
+		
 	}
 	
 	// Send game to database method
@@ -692,6 +694,7 @@ public class GameController {
 			System.out.println("Invalid Move");
 	}
 	
+	//TODO remove main
 	public static void main(String args[])
 	{
 		GameController g = new GameController(0);
