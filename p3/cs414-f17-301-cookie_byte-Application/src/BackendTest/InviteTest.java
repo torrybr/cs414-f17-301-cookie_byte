@@ -18,7 +18,9 @@ public class InviteTest {
 		// If pass, invite created successfully
 		assertTrue(to.getInvites().contains(i));
 	}
-	
+
+	//TODO Check for users in game instead of games with gameID . Create a third users , both invites will involve one of users so you dont have to check gameID
+
 	@Test
 	public void testAcceptInvite()
 	{

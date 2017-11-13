@@ -1,20 +1,25 @@
 package Database;
 
-import Backend.GameController;
+import Backend.*;
+import Backend.Piece;
+import Backend.PieceType;
+import Backend.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.introspect.TypeResolutionContext;
+import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.apache.log4j.Logger;
+import org.bson.BSON;
 import org.bson.Document;
 
 import javax.xml.ws.http.HTTPException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
-
-import Backend.User;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -119,7 +124,6 @@ public class DatabaseManagerImpl {
             log.error("error parsing json to java pogo", e);
         }
         return null;
-        //System.out.println(collection.find(eq("GameID",gameID)).first().toJson());
     }
 
     /**
@@ -158,6 +162,10 @@ public class DatabaseManagerImpl {
 
     }
 
+    private int createGameID() {
+        return 0;
+    }
+
     /**
      * Create an initial game and set the default board layout.
      *
@@ -168,12 +176,14 @@ public class DatabaseManagerImpl {
     public void createGame(Backend.Board theBoard, User player1, User player2) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
-        final GameController gameController;
+        final GameController gameController = new GameController(theBoard.getGameID(),player1,player2);
 
         Document myGame = new Document();
-        myGame.put("GameID", theBoard.getGameID());
+        myGame.put("GameID", createGameID()); //1234322
         myGame.put("Player1", player1.getUserID());
         myGame.put("Player2", player2.getUserID());
+        myGame.put("Offense",gameController.getOffence().getUserID());
+        myGame.put("Defense",gameController.getDefense().getUserID());
         myGame.put("CurrentTurn", "player2"); //need to finish this
 
         Document myBoard = new Document();
@@ -198,4 +208,47 @@ public class DatabaseManagerImpl {
         myGame.append("Board", myBoard);
         collection.insertOne(myGame);
     }
+
+    /**
+     * When a piece has been moved, use this method to save the new piece location to the database.
+     * This should be called after every piece has been moved in order to save the state of the game.
+     *
+     * @param gameID the ID of game we need to update
+     *
+     */
+    public void updateGame(int gameID, int row, int col,Piece p) {
+        MongoDatabase db = mongoClient.getDatabase("cs414Application");
+        MongoCollection<Document> collection = db.getCollection("game");
+
+        int index = (row * 11) + col;
+
+        Document myUser = new Document();
+        Document Piece = new Document();
+        Document myPieceTypes = new Document();
+        myPieceTypes.put("pieceType", p.getType().toString());
+
+        myUser.put("userID", p.getPlayer().getUserID());
+        myUser.put("password", p.getPlayer().getPassword());
+        myUser.put("email", p.getPlayer().getEmail());
+
+        Piece.append("PieceType", myPieceTypes);
+        Piece.append("User", myUser);
+
+        //collection.updateOne(eq("Board.pieces." + index + ".PieceType"), new Document("$set", myPieceTypes));
+        Document qs = new Document();
+        qs.parse("{ \"GameID\": NumberInt(0), \"Board.pieces.0\": { $exists: true } }");
+        Document query = Document.parse("{ \"GameID\": NumberInt(0), \"Board.pieces.0\": { $exists: true } }");
+        BasicDBObject q = BasicDBObject.parse("{ \"GameID\": NumberInt(0), \"Board.pieces.0\": { $exists: true } }");
+
+        System.out.println(collection.find(query).first().toJson());
+    }
+
+
+    public static void main(String[] args) {
+        BoardJavaObject theGame = d.getGame(0);
+        User u = new User("testme","testme","testme@gg");
+        Piece x = new Piece(PieceType.KING,u);
+        d.updateGame(0,0,0,x);
+    }
+
 }

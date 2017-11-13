@@ -29,6 +29,12 @@ public class BoardJavaObject {
     private String player1;
     @JsonProperty("Player2")
     private String player2;
+
+    @JsonProperty("Offense")
+    private String offense;
+    @JsonProperty("Defense")
+    private String defense;
+
     @JsonProperty("CurrentTurn")
     private String currentTurn;
     @JsonProperty("Board")
@@ -75,6 +81,18 @@ public class BoardJavaObject {
     public void setPlayer2(String player2) {
         this.player2 = player2;
     }
+
+
+    @JsonProperty("Offense")
+    public String getOffense() {
+        return offense;
+    }
+
+    @JsonProperty("Defense")
+    public String getDefense() {
+        return defense;
+    }
+
 
     @JsonProperty("CurrentTurn")
     public String getCurrentTurn() {
