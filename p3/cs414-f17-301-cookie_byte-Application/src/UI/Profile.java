@@ -53,35 +53,42 @@ public class Profile extends Application{
 		Label userName = new Label("Email:");
 		grid.add(userName, 0, 1);
 		
-		Text email = new Text("?");
+		Text email = new Text(driver.getProfile().getEmail());
 		email.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
 		grid.add(email, 1, 1);
 		
 		Label nn = new Label("Nickname:");
 		grid.add(nn, 0, 2);
 		
-		Text name = new Text("?");
+		Text name = new Text(driver.getProfile().getUserID());
 		name.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
 		grid.add(name, 1, 2);
 		
 		Label wins = new Label("Wins:");
 		grid.add(wins, 0, 3);
 
-		Text winstext = new Text("?");
+		Text winstext = new Text(Integer.toString(driver.getProfile().getWins()));
 		winstext.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
 		grid.add(winstext, 1, 3);
 		
-		Label loses = new Label("Loses:");
+		Label loses = new Label("Loses: ");
 		grid.add(loses, 0, 4);
 
-		Text losestext = new Text("?");
+		Text losestext = new Text(Integer.toString(driver.getProfile().getLosses()));
 		losestext.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
 		grid.add(losestext, 1, 4);
 		
-		Label winp = new Label("Win %:");
+		float winpct = 0;
+		if(driver.getProfile().getLosses()+driver.getProfile().getWins() == 0){
+			
+		}
+		else{
+			winpct = driver.getProfile().getWins()/(driver.getProfile().getLosses()+driver.getProfile().getWins());
+		}
+		Label winp = new Label("Win %: "+winpct);
 		grid.add(winp, 0, 5);
 
-		Text winpercentage = new Text("?");
+		Text winpercentage = new Text(Float.toString(winpct));
 		winpercentage.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
 		grid.add(winpercentage, 1, 5);
 		
