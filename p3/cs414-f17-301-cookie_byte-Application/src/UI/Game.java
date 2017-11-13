@@ -154,13 +154,13 @@ public class Game extends Application{
 		buttonHome.setPrefSize(100, 20);
 
 	    Text p1 = new Text("Player 1: " + user1);
-		p1.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+		p1.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
 		
 		Text p2 = new Text("Player 2: " + user2);
-		p2.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+		p2.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
 		
 		movetext = new Text("Current Turn: " + move);
-		movetext.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+		movetext.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
 		
 	    buttonHome.setOnAction(new EventHandler<ActionEvent>() {
        	 
@@ -204,8 +204,8 @@ public class Game extends Application{
 	    final Pane spacer = new Pane();
 	    HBox.setHgrow(spacer, Priority.ALWAYS);
 	    spacer.setMinSize(10, 1);
-	    hbox.getChildren().addAll(spacer,p1,p2,movetext,buttonQuit,buttonRefresh);
-		hbox.getChildren().addAll(buttonHome);
+	    hbox.getChildren().addAll(p1,p2,movetext);
+		hbox.getChildren().addAll(buttonQuit,buttonRefresh,buttonHome);
 
 	    return hbox;
 	}

@@ -66,6 +66,38 @@ public class Invite {
 		return true;
 	}
 	
+	public User getUserTo() {
+		return userTo;
+	}
+
+	public void setUserTo(User userTo) {
+		this.userTo = userTo;
+	}
+
+	public User getUserFrom() {
+		return userFrom;
+	}
+
+	public void setUserFrom(User userFrom) {
+		this.userFrom = userFrom;
+	}
+
+	public int getGameID() {
+		return gameID;
+	}
+
+	public void setGameID(int gameID) {
+		this.gameID = gameID;
+	}
+
+	public InvitationStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(InvitationStatus status) {
+		this.status = status;
+	}
+
 	public String toString() 
 	{
 		 return "Invite [FromUser=" + userFrom + ", ToUser=" + userTo + ", GameID=" + gameID + "]";
