@@ -16,28 +16,28 @@ public class PLayADemoGame {
 		play.movePiece(3, 0, 2, 0);
 		
 		// b gets to move
-		play.movePiece(4, 6, 2, 6);
+		//play.movePiece(4, 6, 2, 6);
 		
 		// a
-		play.movePiece(2, 0, 2, 5);
+		//play.movePiece(2, 0, 2, 5);
 		
 		// b
-		play.movePiece(4, 4, 2, 4);
+		//play.movePiece(4, 4, 2, 4);
 		
 		// Try to move b again when it is a's turn
-		play.movePiece(2, 4, 2, 3);
+		//play.movePiece(2, 4, 2, 3);
 		
 		// Try to move a nowhere
-		play.movePiece(6, 0, 6, 0);
+		//play.movePiece(6, 0, 6, 0);
 		
 		// Try to move player a rook to corner
-		play.movePiece(7, 0, 10, 0);
+		//play.movePiece(7, 0, 10, 0);
 		
 		// Move player a
-		play.movePiece(7, 0, 9, 0);
+		//play.movePiece(7, 0, 9, 0);
 		
 		// Try to move a null piece
-		play.movePiece(3, 9, 4, 9);
+		//play.movePiece(3, 9, 4, 9);
 	}
 
 }
