@@ -403,19 +403,33 @@ public class Game extends Application{
 			piece1 = oldx;
 			piece2 = oldy;
 			//highlight square
+			holder[oldx][oldy].setBackground(new Background(new BackgroundFill(Color.YELLOW,CornerRadii.EMPTY,Insets.EMPTY)));
 		}
 		else {
 			if(gameDriver.isMoveValid(gameDriver.getBoard().getPiece(piece1,piece2),clientDriver.getProfile(),piece1,piece2,oldx,oldy)){
 				//old code
 				gameDriver.movePiece(piece1,piece2,oldx,oldy);
+				if((piece1+piece2)%2 == 0){
+					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.GRAY,CornerRadii.EMPTY,Insets.EMPTY)));
+				}
+				else{
+					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.WHITE,CornerRadii.EMPTY,Insets.EMPTY)));
+				}
 				piece1 = -1;
 				piece2 = -1;
 				setGame();
 				movetext.setText("Move: "+gameDriver.getCurrentTurn().getUserID());
 			}
 			else{
+				if((piece1+piece2)%2 == 0){
+					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.GRAY,CornerRadii.EMPTY,Insets.EMPTY)));
+				}
+				else{
+					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.WHITE,CornerRadii.EMPTY,Insets.EMPTY)));
+				}
 				piece1 = -1;
 				piece2 = -1;
+				
 			}
 		}
 	}
