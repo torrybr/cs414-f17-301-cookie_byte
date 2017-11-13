@@ -88,13 +88,13 @@ public class Game extends Application{
 		holder[10][10].setBackground(new Background(new BackgroundFill(Color.BLACK,CornerRadii.EMPTY,Insets.EMPTY)));;
 		
 		setGame();
-		ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
+		/*ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
 		exec.scheduleAtFixedRate(new Runnable() {
 			@Override
 			public void run() {
 				refresh();
 			}
-		}, 0, 2, TimeUnit.SECONDS);
+		}, 0, 2, TimeUnit.SECONDS);*/
 		return root;
 	}
 	
@@ -147,6 +147,9 @@ public class Game extends Application{
 	    Button buttonHome = new Button("Home");
 	    buttonHome.setPrefSize(100, 20);
 
+		Button buttonRefresh= new Button("Refresh");
+		buttonHome.setPrefSize(100, 20);
+
 		Button buttonQuit = new Button("Quit this game");
 		buttonHome.setPrefSize(100, 20);
 
@@ -173,6 +176,15 @@ public class Game extends Application{
             }
         });
 
+		buttonRefresh.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+					refresh();
+
+			}
+		});
+
 		buttonQuit.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -192,7 +204,7 @@ public class Game extends Application{
 	    final Pane spacer = new Pane();
 	    HBox.setHgrow(spacer, Priority.ALWAYS);
 	    spacer.setMinSize(10, 1);
-	    hbox.getChildren().addAll(spacer,p1,p2,movetext,buttonQuit);
+	    hbox.getChildren().addAll(spacer,p1,p2,movetext,buttonQuit,buttonRefresh);
 		hbox.getChildren().addAll(buttonHome);
 
 	    return hbox;
