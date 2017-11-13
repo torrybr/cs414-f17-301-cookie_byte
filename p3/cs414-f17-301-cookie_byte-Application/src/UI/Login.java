@@ -147,7 +147,7 @@ public class Login extends Application {
 			Label label = new Label("Login Failed. \nPlease try again.");
 			//connect to server, wait for response. 
 			Button btnLogin = new Button();
-			btnLogin.setText("temp");
+			btnLogin.setText("Cancel");
 			btnLogin.setOnAction(new EventHandler<ActionEvent>() {
 				 @Override
 				 public void handle(ActionEvent event) {
@@ -160,7 +160,7 @@ public class Login extends Application {
 			Scene scene = new Scene(box, 200, 100);
 			stage.setScene(scene);
 			stage.show();
-		}
+		}//
 	}
 	public void createNewUser() {
 		Stage stage = new Stage();
