@@ -215,32 +215,36 @@ public class DatabaseManagerImpl {
      *
      * @param gameID the ID of game we need to update
      */
-    public void updateGame(int gameID, int row, int col, Piece p) {
+    public void updateGame(int gameID, Backend.Board theBoard) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
 
-        int index = (row * 11) + col;
+        ArrayList<Document> array = new ArrayList<>();
+        for (Backend.Piece p : theBoard.pieces1DLayout) {
+            Document myUser = new Document();
+            Document Piece = new Document();
+            Document myPieceTypes = new Document();
+            myPieceTypes.put("pieceType", p.getType().toString());
 
-        Document myUser = new Document();
-        Document Piece = new Document();
-        Document myPieceTypes = new Document();
-        myPieceTypes.put("pieceType", p.getType().toString());
+            myUser.put("userID", p.getPlayer().getUserID());
+            myUser.put("password", p.getPlayer().getPassword());
+            myUser.put("email", p.getPlayer().getEmail());
 
-        myUser.put("userID", p.getPlayer().getUserID());
-        myUser.put("password", p.getPlayer().getPassword());
-        myUser.put("email", p.getPlayer().getEmail());
+            Piece.append("PieceType", myPieceTypes);
+            Piece.append("User", myUser);
 
-        Piece.append("PieceType", myPieceTypes);
-        Piece.append("User", myUser);
+            array.add(Piece);
+
+        }
 
         BasicDBObject data = new BasicDBObject();
-        data.put("Board.pieces." + index, Piece);
+        data.put("Board.pieces", array);
 
         BasicDBObject command = new BasicDBObject();
         command.put("$set", data);
-
-        Document query = Document.parse("{ \"GameID\": NumberInt(0), \"Board.pieces.0\": { $exists: true } }");
+        Document query = Document.parse("{ \"GameID\": NumberInt(" + 0 + ")}");
         collection.updateOne(query, command);
     }
+
 
 }

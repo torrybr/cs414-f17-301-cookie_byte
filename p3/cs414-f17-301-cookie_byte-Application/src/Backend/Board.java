@@ -30,12 +30,12 @@ public class Board {
     public int getGameID(){
         return gameID;
     }
-        // Method to get a piece; returns Piece
+    // Method to get a piece; returns Piece
 
     public Piece getPiece(int row, int col) {
         return pieces[row][col];
     }
-    
+
     public Piece[][] getPieces() {
         return pieces;
     }
@@ -68,7 +68,7 @@ public class Board {
         // Take the piece off the board
         pieces[row][col].setType(PieceType.NONE);
         pieces[row][col].setPlayer(none);
-        
+
         Piece nope = new Piece(PieceType.NONE, none);
         pieces1DLayout.set((row * 11) + col, nope);
     }
@@ -89,6 +89,12 @@ public class Board {
         pieces[rowTo][colTo].setType(typeOfPiece);
 
         
+        // Put the pieces in a 1D array for storing in Database, based on thier row/column positions & remove moved piece
+        Piece p = new Piece(typeOfPiece, pieceOwner);
+        Piece nope = new Piece(PieceType.NONE, none);
+        pieces1DLayout.set((rowTo * 11) + colTo, p);
+        pieces1DLayout.set((rowFrom * 11) + colFrom, nope);
+
         // Put the pieces in a 1D array for storing in Database, based on thier row/column positions & remove moved piece
         Piece p = new Piece(typeOfPiece, pieceOwner);
         Piece nope = new Piece(PieceType.NONE, none);
