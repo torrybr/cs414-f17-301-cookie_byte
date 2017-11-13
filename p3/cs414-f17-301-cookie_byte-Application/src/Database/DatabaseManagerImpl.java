@@ -15,11 +15,13 @@ import org.apache.log4j.Logger;
 import org.bson.BSON;
 import org.bson.Document;
 
+import javax.print.Doc;
 import javax.xml.ws.http.HTTPException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
+import java.util.StringJoiner;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -76,10 +78,36 @@ public class DatabaseManagerImpl {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
 
+        ArrayList<String> the_game_history = new ArrayList<>();
+        ArrayList<Document> the_invites = new ArrayList<>();
+        ArrayList<Document> current_games = new ArrayList<>();
+
+        Document game_history = new Document();
+        Document invites = new Document();
+
+
+
         Document user = new Document("nickname", nickname)
                 .append("email", email)
                 .append("password", password);
+
+        user.append("game_history", the_game_history);
+
+        user.append("invites", the_invites);
+
+        user.append("current_games",current_games);
+
         collection.insertOne(user);
+    }
+
+    public void addInvite(String nickname,Backend.Invite){
+        MongoDatabase db = mongoClient.getDatabase("cs414Application");
+        MongoCollection<Document> collection = db.getCollection("users");
+
+        Document myUser = new Document();
+
+   
+
     }
 
     /**
@@ -154,7 +182,7 @@ public class DatabaseManagerImpl {
      * @param gameID
      * @param playerTurn
      */
-    public void updatePlayerTurn(String gameID, String playerTurn) {
+    public void updatePlayerTurn(int gameID, String playerTurn) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
 
@@ -242,8 +270,15 @@ public class DatabaseManagerImpl {
 
         BasicDBObject command = new BasicDBObject();
         command.put("$set", data);
-        Document query = Document.parse("{ \"GameID\": NumberInt(" + 0 + ")}");
+        Document query = Document.parse("{ \"GameID\": NumberInt(" + gameID + ")}");
         collection.updateOne(query, command);
+    }
+
+    public static void main(String[] args) {
+        BoardJavaObject theGame = d.getGame(0);
+        User u = new User("testme","testme","testme@gg");
+        Piece x = new Piece(PieceType.KING,u);
+        d.createNewUser("Torry","torrybr@rams.colostate.edu","dogogone");
     }
 
 
