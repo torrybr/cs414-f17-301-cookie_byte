@@ -1,22 +1,26 @@
 package Backend;
 
+import Database.DatabaseManagerImpl;
+import Database.UsersJavaObject;
+
 public class Invite {
 
 	User userTo;
 	User userFrom;
 	int gameID;
 	InvitationStatus status;
+	DatabaseManagerImpl DBDriver = new DatabaseManagerImpl();
 	
 	
-	public Invite (User to, User from, int gmeID){
-		this.userTo = to;
+	public Invite (String to, User from, int gmeID){
+		UsersJavaObject temp = DBDriver.getUserByNickname(to);
+		userTo = new User(temp.getNickname(),temp.getPassword(),temp.getEmail());
 		this.userFrom = from;
 		this.gameID = gmeID;
 		// Set invite to pending
 		status = InvitationStatus.PENDING;	
 		// Add invite to userTo's list of invites
 		userTo.addInvite(this);
-		
 	}
 	
 	public void acceptInvite()
