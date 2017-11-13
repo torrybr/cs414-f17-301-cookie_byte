@@ -100,11 +100,18 @@ public class DatabaseManagerImpl {
         collection.insertOne(user);
     }
 
-    public void addInvite(String nickname,Backend.Invite){
+    public void addInvite(String nickname,Backend.Invite theInvite){
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
 
-        Document myUser = new Document();
+        //Document myUser = new Document();
+        Document invite = new Document();
+        Document userTo = new Document();
+        Document userFrom = new Document();
+        Document invitationStatus = new Document();
+
+        invitationStatus.append(theInvite.)
+
 
    
 
@@ -278,7 +285,7 @@ public class DatabaseManagerImpl {
         BoardJavaObject theGame = d.getGame(0);
         User u = new User("testme","testme","testme@gg");
         Piece x = new Piece(PieceType.KING,u);
-        d.createNewUser("Torry","torrybr@rams.colostate.edu","dogogone");
+        d.getmyUserJson("c");
     }
 
 

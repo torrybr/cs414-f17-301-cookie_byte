@@ -95,11 +95,6 @@ public class Board {
         pieces1DLayout.set((rowTo * 11) + colTo, p);
         pieces1DLayout.set((rowFrom * 11) + colFrom, nope);
 
-        // Put the pieces in a 1D array for storing in Database, based on thier row/column positions & remove moved piece
-        Piece p = new Piece(typeOfPiece, pieceOwner);
-        Piece nope = new Piece(PieceType.NONE, none);
-        pieces1DLayout.set((rowTo * 11) + colTo, p);
-        pieces1DLayout.set((rowFrom * 11) + colFrom, nope);
 
     }
 
