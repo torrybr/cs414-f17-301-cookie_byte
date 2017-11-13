@@ -76,9 +76,25 @@ public class DatabaseManagerImpl {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
 
+        ArrayList<String> the_game_history = new ArrayList<>();
+        ArrayList<Document> the_invites = new ArrayList<>();
+        ArrayList<Document> current_games = new ArrayList<>();
+
+        Document game_history = new Document();
+        Document invites = new Document();
+
+
+
         Document user = new Document("nickname", nickname)
                 .append("email", email)
                 .append("password", password);
+
+        user.append("game_history", the_game_history);
+
+        user.append("invites", the_invites);
+
+        user.append("current_games",current_games);
+
         collection.insertOne(user);
     }
 
