@@ -57,7 +57,7 @@ public class Profile extends Application{
 		email.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
 		grid.add(email, 1, 1);
 		
-		Label nn = new Label("Nickname:");
+		Label nn = new Label("Username:");
 		grid.add(nn, 0, 2);
 		
 		Text name = new Text(driver.getProfile().getUserID());
@@ -92,7 +92,7 @@ public class Profile extends Application{
 		winpercentage.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
 		grid.add(winpercentage, 1, 5);
 		
-		Label past = new Label("Past Games:");
+		Label past = new Label("Past Games: GameID 2");
 		grid.add(past, 0, 6);
 
 		Text pastgames = new Text("?");
