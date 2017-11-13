@@ -2,8 +2,11 @@ package Database;
 
 import Backend.*;
 import Backend.Piece;
+import Backend.PieceType;
 import Backend.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.introspect.TypeResolutionContext;
+import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
@@ -179,6 +182,8 @@ public class DatabaseManagerImpl {
         myGame.put("GameID", createGameID()); //1234322
         myGame.put("Player1", player1.getUserID());
         myGame.put("Player2", player2.getUserID());
+        myGame.put("Offense",);
+        myGame.put("Defense",)
         myGame.put("CurrentTurn", "player2"); //need to finish this
 
         Document myBoard = new Document();
@@ -209,25 +214,40 @@ public class DatabaseManagerImpl {
      * This should be called after every piece has been moved in order to save the state of the game.
      *
      * @param gameID the ID of game we need to update
-     * @param p      the Piece that has moved
+     *
      */
-    public void updateGame(int gameID, Backend.Piece p, int row, int col) {
+    public void updateGame(int gameID, int row, int col,Piece p) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
+
         int index = (row * 11) + col;
 
-        /* Create a new document for the peice we are updating */
+        Document myUser = new Document();
+        Document Piece = new Document();
         Document myPieceTypes = new Document();
         myPieceTypes.put("pieceType", p.getType().toString());
 
-        collection.updateOne(eq("Board.pieces." + index + ".PieceType"), new Document("$set", myPieceTypes));
+        myUser.put("userID", p.getPlayer().getUserID());
+        myUser.put("password", p.getPlayer().getPassword());
+        myUser.put("email", p.getPlayer().getEmail());
+
+        Piece.append("PieceType", myPieceTypes);
+        Piece.append("User", myUser);
+
+        //collection.updateOne(eq("Board.pieces." + index + ".PieceType"), new Document("$set", myPieceTypes));
+        Document qs = new Document();
+        qs.parse("{ \"GameID\": NumberInt(0), \"Board.pieces.0\": { $exists: true } }");
+        Document query = Document.parse("{ \"GameID\": NumberInt(0), \"Board.pieces.0\": { $exists: true } }");
+        BasicDBObject q = BasicDBObject.parse("{ \"GameID\": NumberInt(0), \"Board.pieces.0\": { $exists: true } }");
+
+        System.out.println(collection.find(query).first().toJson());
     }
 
 
     public static void main(String[] args) {
         BoardJavaObject theGame = d.getGame(0);
-        Piece p = new Piece()
-        d.updateGame(0,);
-
+        User u = new User("testme","testme","testme@gg");
+        Piece x = new Piece(PieceType.KING,u);
+        d.updateGame(0,0,0,x);
     }
 }
