@@ -42,7 +42,7 @@ public class ClientDriver {
 	public ClientDriver(String username) {
 		//get user info from DB
 		UsersJavaObject temp = DBDriver.getUserByNickname(username);
-		profile = new User(temp.getUserID(),temp.getPassword(),temp.getEmail());
+		profile = new User(temp.getNickname(),temp.getPassword(),temp.getEmail());
 		gameIDs = temp.getCurrentGames();
 		inviteIDs = temp.getInvites();
 	}

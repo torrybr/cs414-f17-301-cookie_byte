@@ -22,8 +22,6 @@ public class UsersJavaObject {
 
     @JsonProperty("_id")
     private Id id;
-    @JsonProperty("userID")
-    private String userID;
     @JsonProperty("password")
     private String password;
     @JsonProperty("nickname")
@@ -47,16 +45,6 @@ public class UsersJavaObject {
     @JsonProperty("_id")
     public void setId(Id id) {
         this.id = id;
-    }
-
-    @JsonProperty("userID")
-    public String getUserID() {
-        return userID;
-    }
-
-    @JsonProperty("userID")
-    public void setUserID(String userID) {
-        this.userID = userID;
     }
 
     @JsonProperty("password")
