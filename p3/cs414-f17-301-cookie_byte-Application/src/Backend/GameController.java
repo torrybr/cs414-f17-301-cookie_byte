@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import Database.BoardJavaObject;
 import Database.DatabaseManagerImpl;
-import Database.GameJavaObject;
 import Database.UsersJavaObject;
 
 public class GameController {
@@ -68,7 +67,10 @@ public class GameController {
 			SetBoard setupGame = new SetBoard(board, player2, player1);
 			setupGame.setBoard();
 			this.setStatus(GameStatus.ACTIVE);
-		} */
+		} */	
+		
+			DBDriver.createGame(board, player1, player2, offence, defence);
+			
 	}
 	
 	//  Constructor used to get game from database
@@ -100,7 +102,7 @@ public class GameController {
 		this.player2 = pl2;
 		
 		// Set offence
-		String tempoff = pullGame.getPlayer2();
+		String tempoff = pullGame.getOffense();
 		UsersJavaObject tempUseroff = DBDriver.getUserByNickname(tempoff);
 		User off = new User(null, null, null);
 		off.userID = tempUseroff.getNickname();
@@ -109,13 +111,13 @@ public class GameController {
 		this.offence = off;
 		
 		// Set defence
-		String tempdef = pullGame.getPlayer2();
+		String tempdef = pullGame.getDefense();
 		UsersJavaObject tempUserdef = DBDriver.getUserByNickname(tempdef);
 		User def = new User(null, null, null);
 		def.userID = tempUserdef.getNickname();
 		def.email = tempUserdef.getEmail();
 		def.password = tempUserdef.getPassword();
-		this.defence = def;
+		this.defence = def; 
 		
 		// Set the current turn
 		 String currTurn = pullGame.getCurrentTurn();
@@ -697,6 +699,8 @@ public class GameController {
 	//TODO remove main
 	public static void main(String args[])
 	{
-		GameController g = new GameController(0);
+		User a = new User("A", "1234", "a@a.a");
+		User d = new User("D", "133234", "b@b.b");
+		GameController g = new GameController(0, a, d);
 	}
 }

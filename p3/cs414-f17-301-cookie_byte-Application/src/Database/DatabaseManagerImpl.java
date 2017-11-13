@@ -173,18 +173,18 @@ public class DatabaseManagerImpl {
      * @param player1  A User who is player 1
      * @param player2  A User who is player 2
      */
-    public void createGame(Backend.Board theBoard, User player1, User player2) {
+    public void createGame(Backend.Board theBoard, User player1, User player2, User offence, User defence) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
-        final GameController gameController = new GameController(theBoard.getGameID(),player1,player2);
+//        final GameController gameController = new GameController(theBoard.getGameID(),player1,player2);
 
         Document myGame = new Document();
         myGame.put("GameID", createGameID()); //1234322
         myGame.put("Player1", player1.getUserID());
         myGame.put("Player2", player2.getUserID());
-        myGame.put("Offense",gameController.getOffence().getUserID());
-        myGame.put("Defense",gameController.getDefense().getUserID());
-        myGame.put("CurrentTurn", "player2"); //need to finish this
+        myGame.put("Offense", offence.getUserID());
+        myGame.put("Defense", defence.getUserID());
+        myGame.put("CurrentTurn", "A"); //need to finish this
 
         Document myBoard = new Document();
 
