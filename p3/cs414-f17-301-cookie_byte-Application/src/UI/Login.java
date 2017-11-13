@@ -41,7 +41,7 @@ public class Login extends Application {
 			scenetitle.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
 			grid.add(scenetitle, 0, 0, 2, 1);
 
-			Label userName = new Label("Email:");
+			Label userName = new Label("Username:");
 			userName.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
 			grid.add(userName, 0, 1);
 
@@ -183,7 +183,7 @@ public class Login extends Application {
 		TextField userTextField = new TextField();
 		grid.add(userTextField, 1, 1);
 		
-		Label nickName = new Label("Nickname:");
+		Label nickName = new Label("Username:");
 		nickName.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
 		grid.add(nickName, 0, 2);
 

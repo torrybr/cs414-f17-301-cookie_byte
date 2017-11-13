@@ -29,7 +29,7 @@ public class Game extends Application{
 	public ClientDriver clientDriver;
 	public GameController gameDriver;
 	
-	
+	protected int gameID;
 	protected int piece1 = -1;
 	protected int piece2 = -1;
 	protected String user1 = "?";
@@ -40,12 +40,13 @@ public class Game extends Application{
 	protected Stage main;
 	Tile[][] holder;
 	
-	 public Game(ClientDriver client,GameController game){
+	 public Game(ClientDriver client,GameController game,int gameID){
 	 	this.clientDriver = client;
 	 	this.gameDriver = game;
 	 	user1 = gameDriver.getPlayer1().getUserID();
 	 	user2 = gameDriver.getPlayer2().getUserID();
 	 	move = gameDriver.getCurrentTurn().getUserID();
+	 	this.gameID = gameID;
 	 }
 	
 	private Parent createContent() {
@@ -139,14 +140,17 @@ public class Game extends Application{
 
 		Button buttonQuit = new Button("Quit this game");
 		buttonHome.setPrefSize(100, 20);
-	    
+
+		Button buttonRefresh= new Button("Quit this game");
+		buttonHome.setPrefSize(100, 20);
+
 	    Text p1 = new Text("Player 1: " + user1);
 		p1.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
 		
 		Text p2 = new Text("Player 2: " + user2);
 		p2.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
 		
-		movetext = new Text("Move: " + move);
+		movetext = new Text("Current Turn: " + move);
 		movetext.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
 		
 	    buttonHome.setOnAction(new EventHandler<ActionEvent>() {
@@ -162,6 +166,16 @@ public class Game extends Application{
                 
             }
         });
+//
+		buttonRefresh.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+				gameDriver = new GameController(gameID);
+				setGame();
+				changeTurn();
+			}
+		});
 
 		buttonQuit.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -182,7 +196,7 @@ public class Game extends Application{
 	    final Pane spacer = new Pane();
 	    HBox.setHgrow(spacer, Priority.ALWAYS);
 	    spacer.setMinSize(10, 1);
-	    hbox.getChildren().addAll(spacer,p1,p2,movetext,buttonQuit);
+	    hbox.getChildren().addAll(spacer,p1,p2,movetext,buttonRefresh,buttonQuit);
 		hbox.getChildren().addAll(buttonHome);
 
 	    return hbox;
@@ -418,7 +432,7 @@ public class Game extends Application{
 				piece1 = -1;
 				piece2 = -1;
 				setGame();
-				movetext.setText("Move: "+gameDriver.getCurrentTurn().getUserID());
+				changeTurn();
 			}
 			else{
 				if((piece1+piece2)%2 == 0){
@@ -437,7 +451,9 @@ public class Game extends Application{
 	public void badMoveMessage() {
 		
 	}
-	
+	public void changeTurn(){
+		movetext.setText("Current Turn: "+gameDriver.getCurrentTurn().getUserID());
+	}
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		main = primaryStage;
