@@ -154,7 +154,7 @@ public class DatabaseManagerImpl {
      * @param gameID
      * @param playerTurn
      */
-    public void updatePlayerTurn(String gameID, String playerTurn) {
+    public void updatePlayerTurn(int gameID, String playerTurn) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
 

@@ -692,6 +692,7 @@ public class GameController {
 			
 			//Save to DB here after each move
 			DBDriver.updateGame(this.gameID, this.board);
+			DBDriver.updatePlayerTurn(this.gameID, this.getCurrentTurn().userID);
 		}
 		else
 			System.out.println("Invalid Move");
