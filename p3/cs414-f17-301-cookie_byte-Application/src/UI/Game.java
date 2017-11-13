@@ -23,6 +23,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Game extends Application{
 	
@@ -85,7 +88,13 @@ public class Game extends Application{
 		holder[10][10].setBackground(new Background(new BackgroundFill(Color.BLACK,CornerRadii.EMPTY,Insets.EMPTY)));;
 		
 		setGame();
-		
+		/*ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
+		exec.scheduleAtFixedRate(new Runnable() {
+			@Override
+			public void run() {
+				refresh();
+			}
+		}, 0, 2, TimeUnit.SECONDS);*/
 		return root;
 	}
 	
@@ -138,10 +147,10 @@ public class Game extends Application{
 	    Button buttonHome = new Button("Home");
 	    buttonHome.setPrefSize(100, 20);
 
-		Button buttonQuit = new Button("Quit this game");
+		Button buttonRefresh= new Button("Refresh");
 		buttonHome.setPrefSize(100, 20);
 
-		Button buttonRefresh= new Button("Quit this game");
+		Button buttonQuit = new Button("Quit this game");
 		buttonHome.setPrefSize(100, 20);
 
 	    Text p1 = new Text("Player 1: " + user1);
@@ -166,14 +175,13 @@ public class Game extends Application{
                 
             }
         });
-//
+
 		buttonRefresh.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent e) {
-				gameDriver = new GameController(gameID);
-				setGame();
-				changeTurn();
+					refresh();
+
 			}
 		});
 
@@ -196,7 +204,7 @@ public class Game extends Application{
 	    final Pane spacer = new Pane();
 	    HBox.setHgrow(spacer, Priority.ALWAYS);
 	    spacer.setMinSize(10, 1);
-	    hbox.getChildren().addAll(spacer,p1,p2,movetext,buttonRefresh,buttonQuit);
+	    hbox.getChildren().addAll(spacer,p1,p2,movetext,buttonQuit,buttonRefresh);
 		hbox.getChildren().addAll(buttonHome);
 
 	    return hbox;
@@ -451,6 +459,12 @@ public class Game extends Application{
 	public void badMoveMessage() {
 		
 	}
+	public void refresh(){
+		gameDriver = new GameController(gameID);
+		setGame();
+		changeTurn();
+	}
+
 	public void changeTurn(){
 		movetext.setText("Current Turn: "+gameDriver.getCurrentTurn().getUserID());
 	}
