@@ -176,14 +176,14 @@ public class DatabaseManagerImpl {
     public void createGame(Backend.Board theBoard, User player1, User player2) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
-        //final GameController gameController = new GameController();
+        final GameController gameController = new GameController(theBoard.getGameID(),player1,player2);
 
         Document myGame = new Document();
         myGame.put("GameID", createGameID()); //1234322
         myGame.put("Player1", player1.getUserID());
         myGame.put("Player2", player2.getUserID());
-        myGame.put("Offense","TESTOFFENSE");
-        myGame.put("Defense","TESTDEFENSE");
+        myGame.put("Offense",gameController.getOffence().getUserID());
+        myGame.put("Defense",gameController.getDefense().getUserID());
         myGame.put("CurrentTurn", "player2"); //need to finish this
 
         Document myBoard = new Document();
@@ -243,12 +243,12 @@ public class DatabaseManagerImpl {
         System.out.println(collection.find(query).first().toJson());
     }
 
-    /*
+
     public static void main(String[] args) {
         BoardJavaObject theGame = d.getGame(0);
         User u = new User("testme","testme","testme@gg");
         Piece x = new Piece(PieceType.KING,u);
         d.updateGame(0,0,0,x);
     }
-    */
+
 }
