@@ -214,9 +214,8 @@ public class DatabaseManagerImpl {
      * This should be called after every piece has been moved in order to save the state of the game.
      *
      * @param gameID the ID of game we need to update
-     *
      */
-    public void updateGame(int gameID, int row, int col,Piece p) {
+    public void updateGame(int gameID, int row, int col, Piece p) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
 
@@ -234,21 +233,14 @@ public class DatabaseManagerImpl {
         Piece.append("PieceType", myPieceTypes);
         Piece.append("User", myUser);
 
-        //collection.updateOne(eq("Board.pieces." + index + ".PieceType"), new Document("$set", myPieceTypes));
-        Document qs = new Document();
-        qs.parse("{ \"GameID\": NumberInt(0), \"Board.pieces.0\": { $exists: true } }");
+        BasicDBObject data = new BasicDBObject();
+        data.put("Board.pieces." + index, Piece);
+
+        BasicDBObject command = new BasicDBObject();
+        command.put("$set", data);
+
         Document query = Document.parse("{ \"GameID\": NumberInt(0), \"Board.pieces.0\": { $exists: true } }");
-        BasicDBObject q = BasicDBObject.parse("{ \"GameID\": NumberInt(0), \"Board.pieces.0\": { $exists: true } }");
-
-        System.out.println(collection.find(query).first().toJson());
-    }
-
-
-    public static void main(String[] args) {
-        BoardJavaObject theGame = d.getGame(0);
-        User u = new User("testme","testme","testme@gg");
-        Piece x = new Piece(PieceType.KING,u);
-        d.updateGame(0,0,0,x);
+        collection.updateOne(query, command);
     }
 
 }
