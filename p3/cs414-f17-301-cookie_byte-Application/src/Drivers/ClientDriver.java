@@ -46,7 +46,13 @@ public class ClientDriver {
 		gameIDs = temp.getCurrentGames();
 		inviteIDs = temp.getInvites();
 	}
-	
+	public ClientDriver(){
+		
+	}
+	public boolean checkAuth(String username, String pass){
+		//DBDriver.
+		return true;
+	}
 	public String[] viewProfile() {
 		String[] returnable = new String[6];
 		returnable[0] = profile.getEmail();
