@@ -3,6 +3,9 @@ package BackendTest;
 import Backend.GameController;
 import Backend.Invite;
 import Backend.User;
+import Database.DatabaseManagerImpl;
+import Database.UsersJavaObject;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -26,14 +29,16 @@ public class UserTest {
 	//testing adding one invite
 	public void testAddOneInvite()
 	{
-		User u = new User("A", "B", "C");
+		DatabaseManagerImpl DBDriver = new DatabaseManagerImpl();
+		UsersJavaObject temp = DBDriver.getUserByNickname("A");
+		User u = new User(temp.getNickname(),temp.getPassword(),temp.getEmail());
 		User u2 = new User("D", "E", "F");
-		Invite i = new Invite(u, u2, 0); //add invite will be called here
-		for(int j = 0; j < u.getInvites().size(); j++) 
+		Invite i = new Invite("A", u2, 0); //add invite will be called here
+		for(int j = 0; j < temp.getInvites().size(); j++) 
 		{
-		assertEquals(i, u.getInvites().get(j));
+		assertEquals(i, temp.getInvites().get(j));
 		}
-		assertEquals(1, u.getInvites().size());
+		assertEquals(1, temp.getInvites().size());
 	}
 	
 	@Test
@@ -43,9 +48,9 @@ public class UserTest {
 		User u = new User("A", "B", "C");
 		User u2 = new User("D", "E", "F");
 		List<Invite> invites = new ArrayList<Invite>();
-		Invite i = new Invite(u, u2, 0); //add invite will be called here
-		Invite i2 = new Invite(u, u2, 1); //add invite will be called here
-		Invite i3 = new Invite(u, u2, 2); //add invite will be called here
+		Invite i = new Invite("A", u2, 0); //add invite will be called here
+		Invite i2 = new Invite("A", u2, 1); //add invite will be called here
+		Invite i3 = new Invite("A", u2, 2); //add invite will be called here
 		invites.add(i);
 		invites.add(i2);
 		invites.add(i3);
@@ -63,7 +68,7 @@ public class UserTest {
 	{
 		User u = new User("A", "B", "C");
 		User u2 = new User("D", "E", "F");
-		Invite i = new Invite(u, u2, 0); //add invite will be called here
+		Invite i = new Invite("A", u2, 0); //add invite will be called here
 		u.removeInvite(i);
 		assertEquals(0, u.getInvites().size());
 	}
@@ -72,11 +77,13 @@ public class UserTest {
 	//testing removing multiple invites
 	public void testRemoveMultipleInvites()
 	{
-		User u = new User("A", "B", "C");
+		DatabaseManagerImpl DBDriver = new DatabaseManagerImpl();
+		UsersJavaObject temp = DBDriver.getUserByNickname("A");
+		User u = new User(temp.getNickname(),temp.getPassword(),temp.getEmail());
 		User u2 = new User("D", "E", "F");
-		Invite i = new Invite(u, u2, 0); //add invite will be called here
-		Invite i2 = new Invite(u, u2, 1); //add invite will be called here
-		Invite i3 = new Invite(u, u2, 2); //add invite will be called here
+		Invite i = new Invite("A", u2, 0); //add invite will be called here
+		Invite i2 = new Invite("A", u2, 1); //add invite will be called here
+		Invite i3 = new Invite("A", u2, 2); //add invite will be called here
 		
 		u.removeInvite(i);
 		u.removeInvite(i3);
@@ -86,6 +93,7 @@ public class UserTest {
 		{
 		assertEquals(i2, u.getInvites().get(j));
 		}
+		
 	}
 	
 	@Test
