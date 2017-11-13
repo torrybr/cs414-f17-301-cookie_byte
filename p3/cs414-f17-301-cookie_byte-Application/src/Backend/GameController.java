@@ -532,26 +532,26 @@ public class GameController {
 			} else if (row == 0) {
 				// Checking next to top right corner
 				if (col == 1) {
-					if (board.pieces[0][2].getType() != PieceType.NONE && board.pieces[0][2].getPlayer() != player) {
+					if (board.pieces[0][2].getType() != PieceType.NONE && !board.pieces[0][2].getPlayer().equals(player)) {
 						return true;
 					}
 				}
 				// Checking next to top left corner
 				if (col == 9) {
-					if (board.pieces[0][8].getType() != PieceType.NONE && board.pieces[0][8].getPlayer() != player) {
+					if (board.pieces[0][8].getType() != PieceType.NONE && !board.pieces[0][8].getPlayer().equals(player)) {
 						return true;
 					}
 				}
 			} else if (row == 10) {
 				// Checking next to bottom right corner
 				if (col == 1) {
-					if (board.pieces[10][2].getType() != PieceType.NONE && board.pieces[10][2].getPlayer() != player) {
+					if (board.pieces[10][2].getType() != PieceType.NONE && !board.pieces[10][2].getPlayer().equals(player)) {
 						return true;
 					}
 				}
 				// Checking next to bottom left corner
 				if (col == 9) {
-					if (board.pieces[10][8].getType() != PieceType.NONE && board.pieces[10][8].getPlayer() != player) {
+					if (board.pieces[10][8].getType() != PieceType.NONE && !board.pieces[10][8].getPlayer().equals(player)) {
 						return true;
 					}
 				}
@@ -562,26 +562,26 @@ public class GameController {
 			} else if (col == 0) {
 				// Checking next to top right corner
 				if (row == 1) {
-					if (board.pieces[2][0].getType() != PieceType.NONE && board.pieces[2][0].getPlayer() != player) {
+					if (board.pieces[2][0].getType() != PieceType.NONE && !board.pieces[2][0].getPlayer().equals(player)) {
 						return true;
 					}
 				}
 				// Checking next to top left corner
 				if (row == 9) {
-					if (board.pieces[8][0].getType() != PieceType.NONE && board.pieces[8][0].getPlayer() != player) {
+					if (board.pieces[8][0].getType() != PieceType.NONE && !board.pieces[8][0].getPlayer().equals(player)) {
 						return true;
 					}
 				}
 			} else if (col == 10) {
 				// Checking next to bottom right corner
 				if (row == 1) {
-					if (board.pieces[2][10].getType() != PieceType.NONE && board.pieces[2][10].getPlayer() != player) {
+					if (board.pieces[2][10].getType() != PieceType.NONE && !board.pieces[2][10].getPlayer().equals(player)) {
 						return true;
 					}
 				}
 				// Checking next to bottom left corner
 				if (row == 9) {
-					if (board.pieces[8][10].getType() != PieceType.NONE && board.pieces[8][10].getPlayer() != player) {
+					if (board.pieces[8][10].getType() != PieceType.NONE && !board.pieces[8][10].getPlayer().equals(player)) {
 						return true;
 					}
 				}
