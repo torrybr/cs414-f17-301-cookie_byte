@@ -182,8 +182,8 @@ public class DatabaseManagerImpl {
         myGame.put("GameID", createGameID()); //1234322
         myGame.put("Player1", player1.getUserID());
         myGame.put("Player2", player2.getUserID());
-        myGame.put("Offense",);
-        myGame.put("Defense",)
+        myGame.put("Offense","TESTOFFENSE");
+        myGame.put("Defense","TESTDEFENSE");
         myGame.put("CurrentTurn", "player2"); //need to finish this
 
         Document myBoard = new Document();
@@ -243,11 +243,12 @@ public class DatabaseManagerImpl {
         System.out.println(collection.find(query).first().toJson());
     }
 
-
+    /*
     public static void main(String[] args) {
         BoardJavaObject theGame = d.getGame(0);
         User u = new User("testme","testme","testme@gg");
         Piece x = new Piece(PieceType.KING,u);
         d.updateGame(0,0,0,x);
     }
+    */
 }
