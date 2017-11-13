@@ -31,7 +31,7 @@ public class ClientDriver {
 	
 	public ClientDriver(String username, String password, String email) {
 		//Db create user profile
-		//DBDriver.createNewUser(username,password,email);
+		DBDriver.createNewUser(username,password,email);
 	}
 	
 	public ClientDriver(User profile, List<String> inviteIDs, List<String> gameIDs) {
