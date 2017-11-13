@@ -248,7 +248,7 @@ public class Login extends Application {
 	}
 	
 	public void createAccountClicked(String email, String nickname, String password) {
-		//ClientDriver newClient = new ClientDriver(email, nickname, password);
+		ClientDriver newClient = new ClientDriver(email, nickname, password);
 		primary.show();
 	}
 	

@@ -374,7 +374,7 @@ public class Game extends Application{
 				}
 				else{//set space to the piece in boardPieces. use images and imgcounter for offense and images1 and img1counter for defense. use imageview iv31 for king
 					if(boardPieces[i][j].getType() == PieceType.ROOK){//regular piece
-						if(boardPieces[i][j].getPlayer().equals(gameDriver.getOffence())){//offense
+						if(boardPieces[i][j].getPlayer().getUserID().equals(gameDriver.getOffence().getUserID())){//offense
 							//set tile i,j to boardPiece
 							System.out.println(boardPieces[i][j].getPlayer().getUserID()+" o");
 							((BoardPiece) holder[i][j].getChildren().get(0)).setGraphic(images[imgcounter]);
@@ -403,19 +403,33 @@ public class Game extends Application{
 			piece1 = oldx;
 			piece2 = oldy;
 			//highlight square
+			holder[oldx][oldy].setBackground(new Background(new BackgroundFill(Color.YELLOW,CornerRadii.EMPTY,Insets.EMPTY)));
 		}
 		else {
 			if(gameDriver.isMoveValid(gameDriver.getBoard().getPiece(piece1,piece2),clientDriver.getProfile(),piece1,piece2,oldx,oldy)){
 				//old code
 				gameDriver.movePiece(piece1,piece2,oldx,oldy);
+				if((piece1+piece2)%2 == 0){
+					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.GRAY,CornerRadii.EMPTY,Insets.EMPTY)));
+				}
+				else{
+					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.WHITE,CornerRadii.EMPTY,Insets.EMPTY)));
+				}
 				piece1 = -1;
 				piece2 = -1;
 				setGame();
-				//movetext.setText(gameDriver.getCurrentTurn().getUserID());
+				movetext.setText("Move: "+gameDriver.getCurrentTurn().getUserID());
 			}
 			else{
+				if((piece1+piece2)%2 == 0){
+					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.GRAY,CornerRadii.EMPTY,Insets.EMPTY)));
+				}
+				else{
+					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.WHITE,CornerRadii.EMPTY,Insets.EMPTY)));
+				}
 				piece1 = -1;
 				piece2 = -1;
+				
 			}
 		}
 	}

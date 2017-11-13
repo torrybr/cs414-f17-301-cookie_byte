@@ -697,11 +697,13 @@ public class GameController {
 			System.out.println("Invalid Move");
 	}
 	
-	//TODO remove main
+	
+	/*
 	public static void main(String args[])
 	{
-		User a = new User("A", "1234", "a@a.a");
-		User d = new User("D", "133234", "b@b.b");
-		GameController g = new GameController(0, a, d);
+		User A = new User("A", "1234", "a@a.a");
+		User D = new User("D", "133234", "b@b.b");
+		GameController g = new GameController(0, D, A);
 	}
+	*/
 }
