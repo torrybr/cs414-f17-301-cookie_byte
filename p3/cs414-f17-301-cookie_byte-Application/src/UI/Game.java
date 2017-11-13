@@ -374,7 +374,7 @@ public class Game extends Application{
 				}
 				else{//set space to the piece in boardPieces. use images and imgcounter for offense and images1 and img1counter for defense. use imageview iv31 for king
 					if(boardPieces[i][j].getType() == PieceType.ROOK){//regular piece
-						if(boardPieces[i][j].getPlayer().equals(gameDriver.getOffence())){//offense
+						if(boardPieces[i][j].getPlayer().getUserID().equals(gameDriver.getOffence().getUserID())){//offense
 							//set tile i,j to boardPiece
 							System.out.println(boardPieces[i][j].getPlayer().getUserID()+" o");
 							((BoardPiece) holder[i][j].getChildren().get(0)).setGraphic(images[imgcounter]);
@@ -411,7 +411,7 @@ public class Game extends Application{
 				piece1 = -1;
 				piece2 = -1;
 				setGame();
-				//movetext.setText(gameDriver.getCurrentTurn().getUserID());
+				movetext.setText("Move: "+gameDriver.getCurrentTurn().getUserID());
 			}
 			else{
 				piece1 = -1;
