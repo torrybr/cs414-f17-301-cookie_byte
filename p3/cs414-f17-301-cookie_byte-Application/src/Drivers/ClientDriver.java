@@ -50,8 +50,11 @@ public class ClientDriver {
 		
 	}
 	public boolean checkAuth(String username, String pass){
-		//DBDriver.
-		return true;
+		UsersJavaObject temp = DBDriver.getUserByNickname(username);
+		if(temp.getPassword().equals(pass))
+			return true;
+		else 
+			return false;
 	}
 	public String[] viewProfile() {
 		String[] returnable = new String[6];
