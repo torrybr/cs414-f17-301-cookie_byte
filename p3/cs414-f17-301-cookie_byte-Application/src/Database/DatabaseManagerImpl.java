@@ -238,9 +238,7 @@ public class DatabaseManagerImpl {
 
         BasicDBObject command = new BasicDBObject();
         command.put("$set", data);
-
-        Document query = Document.parse("{ \"GameID\": NumberInt(0), \"Board.pieces.0\": { $exists: true } }");
+        Document query = Document.parse("{ \"GameID\": NumberInt(" + gameID + "), \"Board.pieces." + index + "\": { $exists: true } }");
         collection.updateOne(query, command);
     }
-
 }
