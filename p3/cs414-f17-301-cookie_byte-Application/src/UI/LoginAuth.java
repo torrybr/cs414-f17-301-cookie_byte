@@ -6,10 +6,10 @@ import Drivers.ClientDriver;
 public class LoginAuth {
 	DatabaseManagerImpl DBDriver;
 
-
 	public boolean checkAuth(String username, String password) {
-		//connect to DB
-		return true;
+		ClientDriver cd = new ClientDriver();
+		
+		return cd.checkAuth(username, password);
 	}
 	public void deleteUser(ClientDriver driver){
 		//db delete user

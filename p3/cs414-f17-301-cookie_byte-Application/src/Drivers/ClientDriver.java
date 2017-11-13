@@ -31,7 +31,7 @@ public class ClientDriver {
 	
 	public ClientDriver(String username, String password, String email) {
 		//Db create user profile
-		//DBDriver.createNewUser(username,password,email);
+		DBDriver.createNewUser(username,password,email);
 	}
 	
 	public ClientDriver(User profile, List<String> inviteIDs, List<String> gameIDs) {
@@ -42,11 +42,17 @@ public class ClientDriver {
 	public ClientDriver(String username) {
 		//get user info from DB
 		UsersJavaObject temp = DBDriver.getUserByNickname(username);
-		profile = new User(temp.getUserID(),temp.getPassword(),temp.getEmail());
+		profile = new User(temp.getNickname(),temp.getPassword(),temp.getEmail());
 		gameIDs = temp.getCurrentGames();
 		inviteIDs = temp.getInvites();
 	}
-	
+	public ClientDriver(){
+		
+	}
+	public boolean checkAuth(String username, String pass){
+		//DBDriver.
+		return true;
+	}
 	public String[] viewProfile() {
 		String[] returnable = new String[6];
 		returnable[0] = profile.getEmail();
