@@ -1,25 +1,22 @@
 package Database;
 
 import Backend.*;
+import Backend.Invite;
 import Backend.Piece;
 import Backend.PieceType;
 import Backend.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.introspect.TypeResolutionContext;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.apache.log4j.Logger;
-import org.bson.BSON;
 import org.bson.Document;
 
 import javax.xml.ws.http.HTTPException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.DoubleSummaryStatistics;
-import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -84,7 +81,6 @@ public class DatabaseManagerImpl {
         Document invites = new Document();
 
 
-
         Document user = new Document("nickname", nickname)
                 .append("email", email)
                 .append("password", password);
@@ -93,9 +89,44 @@ public class DatabaseManagerImpl {
 
         user.append("invites", the_invites);
 
-        user.append("current_games",current_games);
+        user.append("current_games", current_games);
 
         collection.insertOne(user);
+    }
+
+    public void addInvite(String nickname, Backend.Invite theInvite) {
+        MongoDatabase db = mongoClient.getDatabase("cs414Application");
+        MongoCollection<Document> collection = db.getCollection("users");
+
+        //Document myUser = new Document();
+        Document invite = new Document();
+        invite.append("gameID", theInvite.getGameID());
+
+        Document userTo = new Document();
+        userTo.append("userID", theInvite.getUserTo().getUserID());
+        userTo.append("password", theInvite.getUserTo().getPassword());
+        userTo.append("email", theInvite.getUserTo().getEmail());
+        invite.append("userTo", userTo);
+
+        Document userFrom = new Document();
+        userFrom.append("userID", theInvite.getUserFrom().getUserID());
+        userFrom.append("password", theInvite.getUserFrom().getPassword());
+        userFrom.append("email", theInvite.getUserFrom().getEmail());
+        invite.append("userFrom", userFrom);
+
+        Document invitationStatus = new Document();
+        invitationStatus.append("invitationStatus", theInvite.getStatus().toString());
+        invite.append("InvitationStatus", invitationStatus);
+
+        Document query = new Document().parse("{ \"nickname\": \"" + nickname + "\" }");
+
+        BasicDBObject data = new BasicDBObject();
+        data.put("invites", invite);
+
+        BasicDBObject command = new BasicDBObject();
+        command.put("$push", data);
+
+        collection.findOneAndUpdate(query, command);
     }
 
     /**
@@ -258,8 +289,23 @@ public class DatabaseManagerImpl {
 
         BasicDBObject command = new BasicDBObject();
         command.put("$set", data);
-        Document query = Document.parse("{ \"GameID\": NumberInt(" + 0 + ")}");
+        Document query = Document.parse("{ \"GameID\": NumberInt(" + gameID + ")}");
         collection.updateOne(query, command);
+    }
+
+    public static void main(String[] args) {
+        BoardJavaObject theGame = d.getGame(0);
+        User to = new User("c", "pass1", "a@a.a");
+        User from = new User("D", "pass2", "b@b.b");
+
+        // First invite sent and accepted
+
+        //Invite i = new Invite("c", from, 123);
+        Backend.Invite i = new Invite("c",from,66);
+        Piece x = new Piece(PieceType.KING, to);
+
+        //d.getmyUserJson("c");
+        d.addInvite("c", i);
     }
 
 
