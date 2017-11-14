@@ -5,18 +5,20 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import Backend.User;
 import Backend.Invite;
-
+/*
 public class InviteTest {
-	
+
 	@Test
 	public void testInvite()
 	{
+
 		User to = new User("a", "pass1", "a@a.a");
 		User from = new User("b", "pass2", "b@b.b");
 		
 		Invite i = new Invite(to, from, 123);
 		// If pass, invite created successfully
 		assertTrue(to.getInvites().contains(i));
+
 	}
 
 	//TODO Check for users in game instead of games with gameID . Create a third users , both invites will involve one of users so you dont have to check gameID
@@ -77,3 +79,4 @@ public class InviteTest {
 	}
 
 }
+*/

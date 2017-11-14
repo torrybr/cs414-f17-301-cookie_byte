@@ -1,39 +1,42 @@
+
 package Database;
-
-
-import com.fasterxml.jackson.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "_id",
-        "userID",
-        "password",
-        "nickname",
-        "email",
-        "game_history",
-        "invites",
-        "current_games"
+    "_id",
+    "nickname",
+    "email",
+    "password",
+    "game_history",
+    "invites",
+    "current_games"
 })
 public class UsersJavaObject {
 
     @JsonProperty("_id")
     private Id id;
-    @JsonProperty("password")
-    private String password;
     @JsonProperty("nickname")
     private String nickname;
     @JsonProperty("email")
     private String email;
+    @JsonProperty("password")
+    private String password;
     @JsonProperty("game_history")
-    private List<String> gameHistory = null;
+    private List<Object> gameHistory = null;
     @JsonProperty("invites")
-    private List<String> invites = null;
+    private List<Invite> invites = null;
     @JsonProperty("current_games")
-    private List<String> currentGames = null;
+    private List<Object> currentGames = null;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -45,16 +48,6 @@ public class UsersJavaObject {
     @JsonProperty("_id")
     public void setId(Id id) {
         this.id = id;
-    }
-
-    @JsonProperty("password")
-    public String getPassword() {
-        return password;
-    }
-
-    @JsonProperty("password")
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     @JsonProperty("nickname")
@@ -77,33 +70,43 @@ public class UsersJavaObject {
         this.email = email;
     }
 
+    @JsonProperty("password")
+    public String getPassword() {
+        return password;
+    }
+
+    @JsonProperty("password")
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @JsonProperty("game_history")
-    public List<String> getGameHistory() {
+    public List<Object> getGameHistory() {
         return gameHistory;
     }
 
     @JsonProperty("game_history")
-    public void setGameHistory(List<String> gameHistory) {
+    public void setGameHistory(List<Object> gameHistory) {
         this.gameHistory = gameHistory;
     }
 
     @JsonProperty("invites")
-    public List<String> getInvites() {
+    public List<Invite> getInvites() {
         return invites;
     }
 
     @JsonProperty("invites")
-    public void setInvites(List<String> invites) {
+    public void setInvites(List<Invite> invites) {
         this.invites = invites;
     }
 
     @JsonProperty("current_games")
-    public List<String> getCurrentGames() {
+    public List<Object> getCurrentGames() {
         return currentGames;
     }
 
     @JsonProperty("current_games")
-    public void setCurrentGames(List<String> currentGames) {
+    public void setCurrentGames(List<Object> currentGames) {
         this.currentGames = currentGames;
     }
 

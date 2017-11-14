@@ -4,8 +4,8 @@ import Backend.GameController;
 import Backend.Invite;
 import Backend.User;
 import Database.DatabaseManagerImpl;
-import Database.UsersJavaObject;
 
+import Database.UsersJavaObject;
 import org.junit.Test;
 
 import java.util.ArrayList;

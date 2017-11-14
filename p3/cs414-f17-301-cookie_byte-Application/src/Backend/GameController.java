@@ -142,7 +142,7 @@ public class GameController {
 				 // Pull in pieceOwner user info
 				 User pieceOwner;
 				 // getUserID actually returns nickname here (getNickname() does it above)
-				 pieceOwner = new User(dbPieces.get(pullFrom).getUser().getUserID(), dbPieces.get(pullFrom).getUser().getPassword(), dbPieces.get(pullFrom).getUser().getEmail());
+				 pieceOwner = new User(dbPieces.get(pullFrom).getUser().getNickname(), dbPieces.get(pullFrom).getUser().getPassword(), dbPieces.get(pullFrom).getUser().getEmail());
 				 // Pull in pieceType info
 				 String pt = dbPieces.get(pullFrom).getPieceType().getPieceType();
 				 // Make piece
