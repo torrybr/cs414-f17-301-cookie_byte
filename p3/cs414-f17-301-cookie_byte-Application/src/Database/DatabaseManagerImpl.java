@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.StringJoiner;
 
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.in;
 
 /**
  * Several methods for interacting with the Database [ Updating, deleting , retrieving, saving ]
@@ -106,15 +107,33 @@ public class DatabaseManagerImpl {
 
         //Document myUser = new Document();
         Document invite = new Document();
+        invite.append("gameID",theInvite.getGameID());
+
         Document userTo = new Document();
+        userTo.append("userID",theInvite.getUserTo().getUserID());
+        userTo.append("password",theInvite.getUserTo().getPassword());
+        userTo.append("email",theInvite.getUserTo().getEmail());
+        invite.append("userTo",userTo);
+
         Document userFrom = new Document();
+        userFrom.append("userID",theInvite.getUserFrom().getUserID());
+        userFrom.append("password",theInvite.getUserFrom().getPassword());
+        userFrom.append("email",theInvite.getUserFrom().getEmail());
+        invite.append("userFrom",userFrom);
+
         Document invitationStatus = new Document();
+        invitationStatus.append("invitationStatus",theInvite.getStatus());
+        invite.append("InvitationStatus",invitationStatus);
 
-        invitationStatus.append(theInvite.)
+        Document query = new Document().parse("{ \"nickname\": \""+nickname+"\" }");
 
+        BasicDBObject data = new BasicDBObject();
+        data.put("invites", invite);
 
-   
+        BasicDBObject command = new BasicDBObject();
+        command.put("$push", data);
 
+        collection.updateOne(query, command);
     }
 
     /**

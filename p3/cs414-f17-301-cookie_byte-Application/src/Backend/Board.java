@@ -94,7 +94,6 @@ public class Board {
         Piece nope = new Piece(PieceType.NONE, none);
         pieces1DLayout.set((rowTo * 11) + colTo, p);
         pieces1DLayout.set((rowFrom * 11) + colFrom, nope);
-
     }
 
 
