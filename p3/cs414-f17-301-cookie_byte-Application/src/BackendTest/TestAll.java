@@ -11,7 +11,7 @@ import org.junit.runners.Suite;
 	//Runs all test classes
 	UserTest.class,
 	BoardTest.class,
-	InviteTest.class,
+	//InviteTest.class,
 	PieceTest.class,
 	SetBoardTest.class,
 	GameControllerTest.class

@@ -16,13 +16,16 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
+import Backend.Invite;
+
 public class InviteView extends Application {
 	protected Stage main;
-	//public Invite inviteDriver;
+	public Invite inviteDriver;
 	public ClientDriver driver;
 	
-	public InviteView(ClientDriver driver) {
+	public InviteView(ClientDriver driver, Invite invite) {
 		this.driver = driver;
+		inviteDriver = invite;
 	}
 	
 	@Override
@@ -32,7 +35,7 @@ public class InviteView extends Application {
 		BorderPane border = new BorderPane();
 		border.setTop(addHBox());
 		Scene scene = new Scene(border,635,375);
-		//primaryStage.setTitle("Invite from "+);//add invite sender
+		primaryStage.setTitle("Invite from "+inviteDriver.getUserFrom().getUserID());//add invite sender
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
@@ -57,6 +60,7 @@ public class InviteView extends Application {
             @Override
             public void handle(ActionEvent e) {
             	//accept invite in db
+            	inviteDriver.acceptInvite();
 				Home home = new Home(driver);
             		try {
 						home.start(main);
@@ -73,6 +77,7 @@ public class InviteView extends Application {
             @Override
             public void handle(ActionEvent e) {
             		//decline invite in db
+            		inviteDriver.declineInvite();
             		Home home = new Home(driver);
             		try {
 						home.start(main);
