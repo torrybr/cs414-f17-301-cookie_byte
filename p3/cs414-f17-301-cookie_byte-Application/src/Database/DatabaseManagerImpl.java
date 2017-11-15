@@ -245,6 +245,20 @@ public class DatabaseManagerImpl {
     }
 
     /**
+     * Update the status of the game from PENDING, ACTIVE, FINSIHED.
+     * @param gameID the id of the game you what to access.
+     * @param theStatus the new status of the game.
+     */
+
+    public void updateGameStatus(int gameID, GameStatus theStatus) {
+        MongoDatabase db = mongoClient.getDatabase("cs414Application");
+        MongoCollection<Document> collection = db.getCollection("game");
+
+        collection.updateOne(eq("GameID", gameID), new Document("$set", new Document("GameStatus", theStatus.toString())));
+
+    }
+
+    /**
      * Update the players turn in the game.
      *
      * @param gameID
