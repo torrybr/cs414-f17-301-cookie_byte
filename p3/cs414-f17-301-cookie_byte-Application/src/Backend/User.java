@@ -67,9 +67,10 @@ public class User {
 			int tempGameID = dbInvites.get(i).getInvite().getGameID();
 		
 			Invite invite = new Invite(to, tempFrom, tempGameID);
+			String status = dbInvites.get(i).getInvite().getInvitationStatus().getInvitationStatus();
+			invite.setStatus(InvitationStatus.valueOf(status));
 			
 			newList.add(invite);
-		
 		}
 		
 		
