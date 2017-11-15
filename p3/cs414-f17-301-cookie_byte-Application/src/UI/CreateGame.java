@@ -29,7 +29,10 @@ public class CreateGame  extends Application {
 		main = primaryStage;
 		BorderPane border = new BorderPane();
 		border.setTop(addHBox());
-		border.setLeft(addVBox("Create game with....","D"));
+		String other = "D";
+		if(client.getProfile().getUserID().equals("D"))
+			other = "A";
+		border.setLeft(addVBox("Create game with....",other));
 		Scene scene = new Scene(border,635,375);
 		primaryStage.setTitle("Login");
 		primaryStage.setScene(scene);
@@ -55,6 +58,8 @@ public class CreateGame  extends Application {
             public void handle(ActionEvent e) {
             		reciever = options[0].getText();
             		send();
+            		String name = client.getProfile().getUserID();
+            		client = new ClientDriver(name);
             		Home home = new Home(client);
             		try {
 						home.start(main);
