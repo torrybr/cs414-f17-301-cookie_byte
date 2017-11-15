@@ -24,7 +24,7 @@ public class Invite {
 		DBDriver.addInvite(to, this);
 	}
 	
-	public Invite (String to, User from, int gmeID, String a){
+	public Invite (String to, User from, int gmeID, int a){
 		UsersJavaObject temp = DBDriver.getUserByNickname(to);
 		userTo = new User(temp.getNickname(),temp.getPassword(),temp.getEmail());
 		this.userFrom = from;
@@ -67,6 +67,7 @@ public class Invite {
 		// userFrom.addCurrentGame(gme);
 		// Remove invite from receiving user
 		userTo.removeInvite(this);
+		//DBDriver.setInviteStatus(nickname, theInvite);
 		/**
 		 * WHen accepted save game to users table
 		 */

@@ -70,13 +70,9 @@ public class Home extends Application {
 	    	       	 
 	                @Override
 	                public void handle(ActionEvent e) {
-	                		//int temp = Integer.valueOf((options[tempi].getText()));
-							//GameController gameD = new GameController(Integer.getInteger(options[tempi].getText()));
-	                		GameController gameD = new GameController(0);
-	                		//User user2 = new User("b", "blank", "blank");
-	                		//GameController gameD = new GameController(0,clientDriver.profile,user2);
+	                		GameController gameD = new GameController(Integer.parseInt((options[tempi].getText())));
 	                		try {
-								Game game = new Game(clientDriver,gameD,tempi);
+								Game game = new Game(clientDriver,gameD);
 								game.start(main);
 	    					} catch (Exception e1) {
 	    						e1.printStackTrace();

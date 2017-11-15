@@ -18,7 +18,6 @@ public class User {
 	private List<GameController> currentGames = new ArrayList<GameController>();
 	private int wins = 0;
 	private int losses = 0;
-	DatabaseManagerImpl DBDriver = new DatabaseManagerImpl();
 	
 	public User (String userID, String password, String email)
 	{
@@ -46,7 +45,7 @@ public class User {
 	{
 		return invites;
 	}
-	public List<Invite> getDbInvites()
+	public List<Invite> getDbInvites(DatabaseManagerImpl DBDriver)
 	{
 		List<Invite> newList = new ArrayList<Invite>();
 		
@@ -66,7 +65,7 @@ public class User {
 			
 			int tempGameID = dbInvites.get(i).getInvite().getGameID();
 		
-			Invite invite = new Invite(to, tempFrom, tempGameID, "A");
+			Invite invite = new Invite(to, tempFrom, tempGameID, 12);
 			String status = dbInvites.get(i).getInvite().getInvitationStatus().getInvitationStatus();
 			invite.setStatus(InvitationStatus.valueOf(status));
 			

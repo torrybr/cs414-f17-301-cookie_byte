@@ -44,13 +44,13 @@ public class Game extends Application{
 	protected Stage main;
 	Tile[][] holder;
 	
-	 public Game(ClientDriver client,GameController game,int gameID){
+	 public Game(ClientDriver client,GameController game){
 	 	this.clientDriver = client;
 	 	this.gameDriver = game;
 	 	user1 = gameDriver.getPlayer1().getUserID();
 	 	user2 = gameDriver.getPlayer2().getUserID();
 	 	move = gameDriver.getCurrentTurn().getUserID();
-	 	this.gameID = gameID;
+	 	this.gameID = gameDriver.getGameID();
 	 }
 	
 	private Parent createContent() {
@@ -417,13 +417,13 @@ public class Game extends Application{
 					if(boardPieces[i][j].getType() == PieceType.ROOK){//regular piece
 						if(boardPieces[i][j].getPlayer().getUserID().equals(gameDriver.getOffence().getUserID())){//offense
 							//set tile i,j to boardPiece
-							System.out.println(boardPieces[i][j].getPlayer().getUserID()+" o");
+							//System.out.println(boardPieces[i][j].getPlayer().getUserID()+" o");
 							((BoardPiece) holder[i][j].getChildren().get(0)).setGraphic(images[imgcounter]);
 							imgcounter++;
 						}
 						else{//defense
 							//set tile i,j to boardPiece
-							System.out.println(boardPieces[i][j].getPlayer().getUserID());
+							//System.out.println(boardPieces[i][j].getPlayer().getUserID());
 							((BoardPiece) holder[i][j].getChildren().get(0)).setGraphic(images1[img1counter]);
 							img1counter++;
 						}

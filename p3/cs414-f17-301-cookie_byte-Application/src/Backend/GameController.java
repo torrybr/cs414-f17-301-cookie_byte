@@ -80,7 +80,7 @@ public class GameController {
 		this.gameID = gmeID;
 		
 		// TODO set to 0 for testing. Fix this later (make it gameID)
-		BoardJavaObject pullGame = DBDriver.getGame(0);
+		BoardJavaObject pullGame = DBDriver.getGame(gameID);
 		
 		// Pull down player1
 		String temp1 = pullGame.getPlayer1();
