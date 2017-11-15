@@ -55,8 +55,8 @@ public class ClientDriver {
 		UsersJavaObject temp = DBDriver.getUserByNickname(username);
 		profile = new User(temp.getNickname(),temp.getPassword(),temp.getEmail());
 		gameIDs = temp.getCurrentGames();
-		//inviteIDs = temp.getInvites();
-		//getActiveInvites();
+		inviteIDs = profile.getDbInvites();
+		findActiveInvites();
 		
 	}
 	public ClientDriver(){

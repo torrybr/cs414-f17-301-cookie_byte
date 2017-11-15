@@ -61,6 +61,8 @@ public class InviteView extends Application {
             public void handle(ActionEvent e) {
             	//accept invite in db
             	inviteDriver.acceptInvite();
+            	String name = driver.getProfile().getUserID();
+        		driver = new ClientDriver(name);
 				Home home = new Home(driver);
             		try {
 						home.start(main);

@@ -24,6 +24,17 @@ public class Invite {
 		DBDriver.addInvite(to, this);
 	}
 	
+	public Invite (String to, User from, int gmeID, String a){
+		UsersJavaObject temp = DBDriver.getUserByNickname(to);
+		userTo = new User(temp.getNickname(),temp.getPassword(),temp.getEmail());
+		this.userFrom = from;
+		this.gameID = gmeID;
+		// Set invite to pending
+		status = InvitationStatus.PENDING;	
+		// Add invite to userTo's list of invites
+	}
+	
+	
 	public Invite(String to, User from){
 		UsersJavaObject temp = DBDriver.getUserByNickname(to);
 		userTo = new User(temp.getNickname(),temp.getPassword(),temp.getEmail());
