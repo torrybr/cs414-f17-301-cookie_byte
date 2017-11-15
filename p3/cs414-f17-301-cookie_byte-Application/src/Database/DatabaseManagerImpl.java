@@ -58,7 +58,7 @@ public class DatabaseManagerImpl {
     private boolean initializeDB() {
         try {
             uri = new MongoClientURI(
-                    "mongodb://app:tsM6N8irlTgHNzMa@cluster0-shard-00-00-u3hx4.mongodb.net:27017,cluster0-shard-00-01-u3hx4.mongodb.net:27017,cluster0-shard-00-02-u3hx4.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin");
+                    "mongodb://app:tsM6N8irlTgHNzMa@cluster0-shard-00-00-u3hx4.mongodb.net:27017,cluster0-shard-00-01-u3hx4.mongodb.net:27017,cluster0-shard-00-02-u3hx4.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&&connectTimeoutMS=200000");
             mongoClient = new MongoClient(uri);
             return true;
         } catch (HTTPException e) {
@@ -242,20 +242,6 @@ public class DatabaseManagerImpl {
     }
 
     /**
-     * Update the status of the game from PENDING, ACTIVE, FINSIHED.
-     * @param gameID the id of the game you what to access.
-     * @param theStatus the new status of the game.
-     */
-
-    public void updateGameStatus(int gameID, GameStatus theStatus) {
-        MongoDatabase db = mongoClient.getDatabase("cs414Application");
-        MongoCollection<Document> collection = db.getCollection("game");
-
-        collection.updateOne(eq("GameID", gameID), new Document("$set", new Document("GameStatus", theStatus.toString())));
-
-    }
-
-    /**
      * Update the players turn in the game.
      *
      * @param gameID
@@ -280,6 +266,39 @@ public class DatabaseManagerImpl {
         return randIntegers.get(randomInt);
 
     }
+    /**
+     * Update the status of the game from PENDING, ACTIVE, FINSIHED.
+     * @param gameID the id of the game you what to access.
+     * @param theStatus the new status of the game.
+     */
+
+    public void updateGameStatus(int gameID, GameStatus theStatus) {
+        MongoDatabase db = mongoClient.getDatabase("cs414Application");
+        MongoCollection<Document> collection = db.getCollection("game");
+
+        collection.updateOne(eq("GameID", gameID), new Document("$set", new Document("GameStatus", theStatus.toString())));
+
+    }
+    
+
+    public void addToCurrentGames(int gameID, User player) {
+
+
+        MongoDatabase db = mongoClient.getDatabase("cs414Application");
+        MongoCollection<Document> collection = db.getCollection("users");
+
+        Document main = new Document();
+        Document query = new Document().parse("{ \"nickname\": \"" + player.getUserID() + "\" }");
+
+        BasicDBObject data = new BasicDBObject();
+        //main.append("gameID",gameID);
+        data.put("current_games",gameID);
+
+        BasicDBObject command = new BasicDBObject();
+        command.put("$push", data);
+
+        collection.findOneAndUpdate(query, command);
+    }
 
     /**
      * Create an initial game and set the default board layout.
@@ -292,10 +311,10 @@ public class DatabaseManagerImpl {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
 //        final GameController gameController = new GameController(theBoard.getGameID(),player1,player2);
-
+        int theID = createGameID();
         Document myGame = new Document();
-        myGame.put("GameID", createGameID()); //12343
-        myGame.put("GameStatus","ACTIVE");
+        myGame.put("GameID", theID); //1234322
+
         myGame.put("Player1", player1.getUserID());
         myGame.put("Player2", player2.getUserID());
         myGame.put("Offense", offence.getUserID());
@@ -323,6 +342,11 @@ public class DatabaseManagerImpl {
         myBoard.put("pieces", array);
         myGame.append("Board", myBoard);
         collection.insertOne(myGame);
+
+        addToCurrentGames(theID,player1);
+        addToCurrentGames(theID,player2);
+
+
     }
 
     /**

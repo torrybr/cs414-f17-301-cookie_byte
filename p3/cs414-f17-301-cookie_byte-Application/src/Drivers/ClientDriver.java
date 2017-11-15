@@ -37,7 +37,7 @@ public class ClientDriver {
 		this.gameIDs = gameIDs;
 	}
 
-	public List<Integer> gameIDs;//only using one gameID rn for testing, will be a list
+	public List<Integer> gameIDs = new ArrayList<Integer>();//only using one gameID rn for testing, will be a list
 	public DatabaseManagerImpl DBDriver = new DatabaseManagerImpl();
 	
 	public ClientDriver(String username, String password, String email) {
@@ -54,8 +54,10 @@ public class ClientDriver {
 		//get user info from DB
 		UsersJavaObject temp = DBDriver.getUserByNickname(username);
 		profile = new User(temp.getNickname(),temp.getPassword(),temp.getEmail());
+		//List<Integer> tempo = temp.getCurrentGames();
+		// = (List<Integer>) tempo.get(0);
 		gameIDs = temp.getCurrentGames();
-		inviteIDs = profile.getDbInvites();
+		inviteIDs = profile.getDbInvites(DBDriver);
 		findActiveInvites();
 		
 	}
