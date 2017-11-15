@@ -50,14 +50,14 @@ public class User {
         this.id = id;
     }
 
-    @JsonProperty("nickname")
+    @JsonProperty("userID")
     public String getNickname() {
         return userID;
     }
 
-    @JsonProperty("nickname")
-    public void setNickname(String userID) {
-        this.userID = userID;
+    @JsonProperty("userID")
+    public void setNickname(String nickname) {
+        this.userID = nickname;
     }
 
     @JsonProperty("email")

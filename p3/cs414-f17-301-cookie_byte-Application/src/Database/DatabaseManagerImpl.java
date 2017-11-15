@@ -1,6 +1,7 @@
 package Database;
 
 import Backend.*;
+import Backend.InvitationStatus;
 import Backend.Invite;
 import Backend.Piece;
 import Backend.PieceType;
@@ -17,6 +18,10 @@ import org.bson.Document;
 import javax.xml.ws.http.HTTPException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -91,14 +96,56 @@ public class DatabaseManagerImpl {
         collection.insertOne(user);
     }
 
+    public void setInviteStatus(String nickname, Backend.Invite theInvite ) {
+        MongoDatabase db = mongoClient.getDatabase("cs414Application");
+        MongoCollection<Document> collection = db.getCollection("users");
+
+        Document match = Document.parse(" {\"nickname\": \"" + nickname +"\",\"invites\": { $elemMatch: {\"Invite.gameID\" : NumberInt("+theInvite.getGameID()+") }} }");
+
+        Document invitationStatus = new Document();
+        invitationStatus.append("invitationStatus", theInvite.getStatus().toString());
+        //invite.append("InvitationStatus", invitationStatus);
+
+        collection.updateOne(match, new Document("$set", new Document("InvitationStatus", invitationStatus)));
+
+    }
+
+    public void removeInvite(String nickname, Backend.Invite theInvite) {
+        MongoDatabase db = mongoClient.getDatabase("cs414Application");
+        MongoCollection<Document> collection = db.getCollection("users");
+
+        Document q = Document.parse(" {$pull: {\"Invite.gameID\" : NumberInt("+theInvite.getGameID()+") }}");
+        //Document command =
+        Document match = Document.parse(" {\"nickname\": \"" + nickname +"\",\"invites\": { $elemMatch: {\"Invite.gameID\" : NumberInt("+theInvite.getGameID()+") }} }");
+
+        Document update = new Document().parse("{\"Invite.gameID\" : NumberInt(" + theInvite.getGameID() + ") }");
+        //BasicDBObject update = new BasicDBObject();
+        //update.put(match, new BasicDBObject("$pull", q));
+        //Document invite = new Document();
+        //collection.findOneAndDelete(q);
+        //collection.updateOne(p, new BasicDBObject("$pull", update));
+        //collection.updateOne(match,q);
+
+        //BasicDBObject data = new BasicDBObject();
+        //data.put("Board.pieces", array);
+
+        //BasicDBObject command = new BasicDBObject();
+        //command.put("$set", data);
+        //Document query = Document.parse("{ \"GameID\": NumberInt(" + gameID + ")}");
+        //collection.updateOne(query, command);
+    }
+
+
     public void addInvite(String nickname, Backend.Invite theInvite) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
 
+        Document main = new Document();
         //Document myUser = new Document();
         Document invite = new Document();
         invite.append("gameID", theInvite.getGameID());
 
+        Document InviteObj = new Document();
         Document userTo = new Document();
         userTo.append("userID", theInvite.getUserTo().getUserID());
         userTo.append("password", theInvite.getUserTo().getPassword());
@@ -118,12 +165,14 @@ public class DatabaseManagerImpl {
         Document query = new Document().parse("{ \"nickname\": \"" + nickname + "\" }");
 
         BasicDBObject data = new BasicDBObject();
-        data.put("invites", invite);
+        main.append("Invite",invite);
+        data.put("invites", main);
 
         BasicDBObject command = new BasicDBObject();
         command.put("$push", data);
 
         collection.findOneAndUpdate(query, command);
+
     }
 
     /**
@@ -193,20 +242,6 @@ public class DatabaseManagerImpl {
     }
 
     /**
-     * Update the players turn in the game.
-     *
-     * @param gameID
-     * @param playerTurn
-     */
-    public void updatePlayerTurn(int gameID, String playerTurn) {
-        MongoDatabase db = mongoClient.getDatabase("cs414Application");
-        MongoCollection<Document> collection = db.getCollection("game");
-
-        collection.updateOne(eq("GameID", gameID), new Document("$set", new Document("CurrentTurn", playerTurn)));
-
-    }
-
-    /**
      * Update the status of the game from PENDING, ACTIVE, FINSIHED.
      * @param gameID the id of the game you what to access.
      * @param theStatus the new status of the game.
@@ -220,9 +255,45 @@ public class DatabaseManagerImpl {
 
     }
 
-    private int createGameID() {
-        return 0;
+    /**
+     * Update the players turn in the game.
+     *
+     * @param gameID
+     * @param playerTurn
+     */
+    public void updatePlayerTurn(int gameID, String playerTurn) {
+        MongoDatabase db = mongoClient.getDatabase("cs414Application");
+        MongoCollection<Document> collection = db.getCollection("game");
+
+        collection.updateOne(eq("GameID", gameID), new Document("$set", new Document("CurrentTurn", playerTurn)));
+
     }
+
+
+    public int createGameID() {
+
+        Random randomGenerator = new Random();
+
+        List<Integer> randIntegers = new Random().ints(1, 100000).distinct().limit(10000).boxed().collect(Collectors.toList());
+        int len = randIntegers.size();
+        int randomInt = randomGenerator.nextInt(len);
+        return randIntegers.get(randomInt);
+
+    }
+    /**
+     * Update the status of the game from PENDING, ACTIVE, FINSIHED.
+     * @param gameID the id of the game you what to access.
+     * @param theStatus the new status of the game.
+     */
+
+    public void updateGameStatus(int gameID, GameStatus theStatus) {
+        MongoDatabase db = mongoClient.getDatabase("cs414Application");
+        MongoCollection<Document> collection = db.getCollection("game");
+
+        collection.updateOne(eq("GameID", gameID), new Document("$set", new Document("GameStatus", theStatus.toString())));
+
+    }
+    
 
     /**
      * Create an initial game and set the default board layout.
@@ -304,7 +375,6 @@ public class DatabaseManagerImpl {
         Document query = Document.parse("{ \"GameID\": NumberInt(" + gameID + ")}");
         collection.updateOne(query, command);
     }
-
 
     public static void main(String args[]) {
         d.getmyGameJson(0);
