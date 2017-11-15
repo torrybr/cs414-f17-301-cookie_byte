@@ -1,6 +1,7 @@
 package UI;
 
 import Backend.GameController;
+import Backend.Invite;
 import Backend.User;
 import Drivers.ClientDriver;
 import javafx.application.Application;
@@ -42,7 +43,7 @@ public class Home extends Application {
 		HBox hbox = addHBox();
 		border.setTop(hbox);
 		border.setLeft(addVBoxGames("Current Games",clientDriver.getGameIDs()));
-		border.setRight(addVBoxFriends("Invites",clientDriver.getInviteIDs()));
+		border.setRight(addVBoxInvites("Invites",clientDriver.getActiveInvites()));
 		Scene scene = new Scene(border,500,400);
 		primaryStage.setTitle(clientDriver.profile.getUserID()+" Home");
 		primaryStage.setScene(scene);
@@ -51,7 +52,7 @@ public class Home extends Application {
 	}
 	
 	
-	public VBox addVBoxGames(String label,List<String> games) {
+	public VBox addVBoxGames(String label,List<Integer> games) {
 	    VBox vbox = new VBox();
 	    vbox.setPadding(new Insets(10));
 	    vbox.setSpacing(8);
@@ -62,7 +63,7 @@ public class Home extends Application {
 
 	    Button options[] = new Button[games.size()];
 	    	for(int i = 0;i < games.size();i++) {
-	    		options[i] = new Button(games.get(i));
+	    		options[i] = new Button(Integer.toString(games.get(i)));
 	    		options[i].setPrefSize(100, 20);
 	    		int tempi = i;
 	    		options[i].setOnAction(new EventHandler<ActionEvent>() {
@@ -90,7 +91,7 @@ public class Home extends Application {
 	    return vbox;
 	}
 	
-	public VBox addVBoxFriends(String label,List<String> invites) {
+	public VBox addVBoxInvites(String label,List<Invite> invites) {
 	    VBox vbox = new VBox();
 	    vbox.setPadding(new Insets(10));
 	    vbox.setSpacing(8);
@@ -101,13 +102,13 @@ public class Home extends Application {
 
 	    Button options[] = new Button[invites.size()];
 	    	for(int i = 0;i < invites.size();i++) {
-	    		options[i] = new Button(invites.get(i));
+	    		options[i] = new Button(invites.get(i).getUserFrom().getUserID());
 	    		options[i].setPrefSize(100, 20);
 				int tempi = i;
 	    		options[i].setOnAction(new EventHandler<ActionEvent>() {
 	                @Override
 	                public void handle(ActionEvent e) {
-	                		InviteView iv = new InviteView(clientDriver);
+	                		InviteView iv = new InviteView(clientDriver,invites.get(tempi));
 	                		try {
 	                				iv.start(main);
 	    					} catch (Exception e1) {

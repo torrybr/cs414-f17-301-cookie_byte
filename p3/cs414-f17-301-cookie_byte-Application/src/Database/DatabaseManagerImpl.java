@@ -69,6 +69,7 @@ public class DatabaseManagerImpl {
 
     /**
      * Method to insert a NEW user. This method does not validate input. It takes the exact string and inputs into DB.
+     * Creates empty list of game_history , invites , and current games
      *
      * @param nickname the unique name a user is identified by
      * @param email    the unique email a user uses to receive notifications
@@ -81,10 +82,6 @@ public class DatabaseManagerImpl {
         ArrayList<String> the_game_history = new ArrayList<>();
         ArrayList<Document> the_invites = new ArrayList<>();
         ArrayList<Document> current_games = new ArrayList<>();
-
-        Document game_history = new Document();
-        Document invites = new Document();
-
 
         Document user = new Document("nickname", nickname)
                 .append("email", email)
@@ -272,6 +269,7 @@ public class DatabaseManagerImpl {
 
     }
 
+
     public int createGameID() {
 
         Random randomGenerator = new Random();
@@ -282,6 +280,20 @@ public class DatabaseManagerImpl {
         return randIntegers.get(randomInt);
 
     }
+    /**
+     * Update the status of the game from PENDING, ACTIVE, FINSIHED.
+     * @param gameID the id of the game you what to access.
+     * @param theStatus the new status of the game.
+     */
+
+    public void updateGameStatus(int gameID, GameStatus theStatus) {
+        MongoDatabase db = mongoClient.getDatabase("cs414Application");
+        MongoCollection<Document> collection = db.getCollection("game");
+
+        collection.updateOne(eq("GameID", gameID), new Document("$set", new Document("GameStatus", theStatus.toString())));
+
+    }
+    
 
     /**
      * Create an initial game and set the default board layout.
@@ -296,7 +308,8 @@ public class DatabaseManagerImpl {
 //        final GameController gameController = new GameController(theBoard.getGameID(),player1,player2);
 
         Document myGame = new Document();
-        myGame.put("GameID", createGameID()); //1234322
+        myGame.put("GameID", createGameID()); //12343
+        myGame.put("GameStatus","ACTIVE");
         myGame.put("Player1", player1.getUserID());
         myGame.put("Player2", player2.getUserID());
         myGame.put("Offense", offence.getUserID());
@@ -363,26 +376,8 @@ public class DatabaseManagerImpl {
         collection.updateOne(query, command);
     }
 
-    public static void main(String[] args) {
-        BoardJavaObject theGame = d.getGame(0);
-        User to = new User("c", "pass1", "a@a.a");
-        User from = new User("D", "pass2", "b@b.b");
-
-        // First invite sent and accepted
-
-        //Invite i = new Invite("c", from, 123);
-        Backend.Invite i = new Invite("c",from,169);
-        i.setStatus(InvitationStatus.ACCECPTED);
-        Piece x = new Piece(PieceType.KING, to);
-
-        //d.getmyUserJson("c");
-        //d.addInvite("A", i);
-        d.removeInvite("A",i);
-        //d.getmyGameJson(0);
-        //i.setStatus(InvitationStatus.DECLINED);
-        //BoardJavaObject uu = d.getGame(0);
-        //System.out.println(uu.getBoard().getPieces().toString());
-        //d.setInviteStatus("A",i);
+    public static void main(String args[]) {
+        d.getmyGameJson(0);
     }
 
 

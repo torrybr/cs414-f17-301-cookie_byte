@@ -3,6 +3,11 @@ package Backend;
 import java.util.ArrayList;
 import java.util.List;
 
+import Database.DatabaseManagerImpl;
+import Database.UserFrom;
+import Database.UserTo;
+import Database.UsersJavaObject;
+
 public class User {
 	
 	String userID; //unique nickname (userID)  
@@ -13,6 +18,7 @@ public class User {
 	private List<GameController> currentGames = new ArrayList<GameController>();
 	private int wins = 0;
 	private int losses = 0;
+	DatabaseManagerImpl DBDriver = new DatabaseManagerImpl();
 	
 	public User (String userID, String password, String email)
 	{
@@ -39,6 +45,35 @@ public class User {
 	public List<Invite> getInvites()
 	{
 		return invites;
+	}
+	public List<Invite> getDbInvites()
+	{
+		List<Invite> newList = new ArrayList<Invite>();
+		
+		UsersJavaObject temp = DBDriver.getUserByNickname(userID);
+		List<Database.Invite> dbInvites = temp.getInvites();
+		
+		for(int i = 0; i < dbInvites.size(); i++) 
+		{
+			UserTo userto = dbInvites.get(i).getInvite().getUserTo();
+			String to = userto.getUserID();
+			
+			UserFrom userfrom = dbInvites.get(i).getInvite().getUserFrom();
+			String fromId = userfrom.getUserID();
+			String fromEmail = userfrom.getEmail();
+			String fromPassword = userfrom.getPassword();
+			User tempFrom = new User(fromId, fromPassword, fromEmail);
+			
+			int tempGameID = dbInvites.get(i).getInvite().getGameID();
+		
+			Invite invite = new Invite(to, tempFrom, tempGameID);
+			
+			newList.add(invite);
+		
+		}
+		
+		
+		return newList;
 	}
 	//add to invites: addInvite(Invite i) 
 	public void addInvite(Invite i)

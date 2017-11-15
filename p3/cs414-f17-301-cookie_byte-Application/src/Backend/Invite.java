@@ -21,8 +21,28 @@ public class Invite {
 		status = InvitationStatus.PENDING;	
 		// Add invite to userTo's list of invites
 		userTo.addInvite(this);
+		DBDriver.addInvite(to, this);
 	}
 	
+	public Invite(String to, User from){
+		UsersJavaObject temp = DBDriver.getUserByNickname(to);
+		userTo = new User(temp.getNickname(),temp.getPassword(),temp.getEmail());
+		this.userFrom = from;
+		status = InvitationStatus.PENDING;
+		DBDriver.addInvite(to, this);
+	}
+	
+	public Invite(User to,User from, int game, String status){
+		userTo = to;
+		userFrom = from;
+		gameID = game;
+		if(status.equals("PENDING"))
+			this.status = InvitationStatus.PENDING;
+		if(status.equals("ACCEPTED"))
+			this.status = InvitationStatus.PENDING;
+		if(status.equals("DECLINED"))
+			this.status = InvitationStatus.PENDING;
+	}
 	public void acceptInvite()
 	{
 		// Set invite to accepted
