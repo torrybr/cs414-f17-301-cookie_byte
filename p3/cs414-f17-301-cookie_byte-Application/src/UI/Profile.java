@@ -92,10 +92,10 @@ public class Profile extends Application{
 		winpercentage.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
 		grid.add(winpercentage, 1, 5);
 		
-		Label past = new Label("Past Games: GameID 2");
+		Label past = new Label("Past Games:  ");
 		grid.add(past, 0, 6);
 
-		Text pastgames = new Text("?");
+		Text pastgames = new Text("");
 		pastgames.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
 		grid.add(pastgames, 1, 6);
 		

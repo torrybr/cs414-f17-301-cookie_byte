@@ -144,20 +144,19 @@ public class Login extends Application {
 			VBox box = new VBox();
 			box.setPadding(new Insets(10));
 			box.setAlignment(Pos.CENTER);
-			Label label = new Label("Login Failed. \nPlease try again.");
+			Label label = new Label("Login Failed....");
 			//connect to server, wait for response. 
 			Button btnLogin = new Button();
-			btnLogin.setText("Cancel");
+			btnLogin.setText("Continue");
 			btnLogin.setOnAction(new EventHandler<ActionEvent>() {
 				 @Override
 				 public void handle(ActionEvent event) {
 					 stage.hide();
-					 
 				 }
 			});
 			box.getChildren().add(label);
 			box.getChildren().add(btnLogin);
-			Scene scene = new Scene(box, 200, 100);
+			Scene scene = new Scene(box, 150, 100);
 			stage.setScene(scene);
 			stage.show();
 		}//
@@ -249,7 +248,26 @@ public class Login extends Application {
 	
 	public void createAccountClicked(String email, String nickname, String password) {
 		ClientDriver newClient = new ClientDriver(email, nickname, password);
-		primary.show();
+		Stage stage = new Stage();
+		VBox box = new VBox();
+		box.setPadding(new Insets(10));
+		box.setAlignment(Pos.CENTER);
+		Label label = new Label("Created Account");
+		//connect to server, wait for response. 
+		Button btnLogin = new Button();
+		btnLogin.setText("Continue");
+		btnLogin.setOnAction(new EventHandler<ActionEvent>() {
+			 @Override
+			 public void handle(ActionEvent event) {
+				 stage.hide();
+				 primary.show();
+			 }
+		});
+		box.getChildren().add(label);
+		box.getChildren().add(btnLogin);
+		Scene scene = new Scene(box, 150, 100);
+		stage.setScene(scene);
+		stage.show();
 	}
 	
 	public static void main(String[] args) {

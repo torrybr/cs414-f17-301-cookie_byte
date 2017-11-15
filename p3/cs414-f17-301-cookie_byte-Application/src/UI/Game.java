@@ -12,6 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -153,10 +154,10 @@ public class Game extends Application{
 		Button buttonQuit = new Button("Quit this game");
 		buttonHome.setPrefSize(100, 20);
 
-	    Text p1 = new Text("Player 1: " + user1);
+	    Text p1 = new Text("Red: " + user1);
 		p1.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
 		
-		Text p2 = new Text("Player 2: " + user2);
+		Text p2 = new Text("Blue: " + user2);
 		p2.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
 		
 		movetext = new Text("Current Turn: " + move);
@@ -189,13 +190,31 @@ public class Game extends Application{
 
 			@Override
 			public void handle(ActionEvent e) {
-				//gameDriver.quit(clientDriver.profile);
-				Home home = new Home(clientDriver);
-				try {
-					home.start(main);
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
+				Stage stage = new Stage();
+				VBox box = new VBox();
+				box.setPadding(new Insets(10));
+				box.setAlignment(Pos.CENTER);
+				Label label = new Label("You just quit this game....LOSER");
+				//connect to server, wait for response. 
+				Button btnLogin = new Button();
+				btnLogin.setText("Home");
+				btnLogin.setOnAction(new EventHandler<ActionEvent>() {
+					 @Override
+					 public void handle(ActionEvent event) {
+						 stage.hide();
+						 Home home = new Home(clientDriver);
+							try {
+								home.start(main);
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+					 }
+				});
+				box.getChildren().add(label);
+				box.getChildren().add(btnLogin);
+				Scene scene = new Scene(box, 150, 100);
+				stage.setScene(scene);
+				stage.show();
 
 			}
 		});
@@ -443,6 +462,17 @@ public class Game extends Application{
 				changeTurn();
 			}
 			else{
+				Stage stage = new Stage();
+				VBox box = new VBox();
+				box.setPadding(new Insets(10));
+				box.setAlignment(Pos.CENTER);
+				Label label = new Label("Bad Move");
+				//connect to server, wait for response. 
+				box.getChildren().add(label);
+				Scene scene = new Scene(box, 150, 100);
+				stage.setScene(scene);
+				stage.show();
+				
 				if((piece1+piece2)%2 == 0){
 					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.GRAY,CornerRadii.EMPTY,Insets.EMPTY)));
 				}
@@ -456,9 +486,6 @@ public class Game extends Application{
 		}
 	}
 	
-	public void badMoveMessage() {
-		
-	}
 	public void refresh(){
 		gameDriver = new GameController(gameID);
 		setGame();

@@ -25,8 +25,8 @@ public class User {
 
     @JsonProperty("_id")
     private Id id;
-    @JsonProperty("nickname")
-    private String nickname;
+    @JsonProperty("userID")
+    private String userID;
     @JsonProperty("email")
     private String email;
     @JsonProperty("password")
@@ -52,12 +52,12 @@ public class User {
 
     @JsonProperty("nickname")
     public String getNickname() {
-        return nickname;
+        return userID;
     }
 
     @JsonProperty("nickname")
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setNickname(String userID) {
+        this.userID = userID;
     }
 
     @JsonProperty("email")

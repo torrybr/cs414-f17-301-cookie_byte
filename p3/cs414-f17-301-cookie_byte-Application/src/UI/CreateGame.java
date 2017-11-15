@@ -1,6 +1,7 @@
 package UI;
 
 import Backend.GameController;
+import Backend.Invite;
 import Drivers.ClientDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -28,7 +29,7 @@ public class CreateGame  extends Application {
 		main = primaryStage;
 		BorderPane border = new BorderPane();
 		border.setTop(addHBox());
-		border.setLeft(addVBox("Create game with....","player2"));
+		border.setLeft(addVBox("Create game with....","D"));
 		Scene scene = new Scene(border,635,375);
 		primaryStage.setTitle("Login");
 		primaryStage.setScene(scene);
@@ -54,6 +55,12 @@ public class CreateGame  extends Application {
             public void handle(ActionEvent e) {
             		reciever = options[0].getText();
             		send();
+            		Home home = new Home(client);
+            		try {
+						home.start(main);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
             }
         });
 	    
@@ -102,13 +109,7 @@ public class CreateGame  extends Application {
 	
 	public void send() {
 		//create a new game with those sender reciever as player 1 player 2. How to create unique game ID?
-		//GameController gameDriver = new GameController(sender,reciever);
-		//Game game = new Game(client,gameDriver);
-		try {
-		//	game.start(main);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Invite i = new Invite(reciever,client.getProfile());
 	}
 	
 }

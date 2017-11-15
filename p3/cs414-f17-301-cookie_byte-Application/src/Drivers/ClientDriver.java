@@ -1,32 +1,43 @@
 package Drivers;
 
+import Backend.InvitationStatus;
+import Backend.Invite;
 import Backend.User;
 import Database.DatabaseManagerImpl;
 import Database.UsersJavaObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClientDriver {
 	public User profile;
-	public List<String> inviteIDs;//only using one inviteID rn for testing, will be a list
-
-	public List<String> getInviteIDs() {
+	public List<Invite> inviteIDs;//only using one inviteID rn for testing, will be a list
+	public List<Invite> activeInvites = new ArrayList<Invite>();
+	public List<Invite> getInviteIDs() {
 		return inviteIDs;
 	}
 
-	public void setInviteIDs(List<String> inviteIDs) {
+	public void setInviteIDs(List<Invite> inviteIDs) {
 		this.inviteIDs = inviteIDs;
 	}
-
-	public List<String> getGameIDs() {
+	public void findActiveInvites(){
+		for(int i = 0;i<inviteIDs.size();i++){
+			if(inviteIDs.get(i).getStatus() == InvitationStatus.PENDING){
+				activeInvites.add(inviteIDs.get(i));
+			}
+		}
+	}
+	public List<Integer> getGameIDs() {
 		return gameIDs;
 	}
-
-	public void setGameIDs(List<String> gameIDs) {
+	public List<Invite> getActiveInvites(){
+		return activeInvites;
+	}
+	public void setGameIDs(List<Integer> gameIDs) {
 		this.gameIDs = gameIDs;
 	}
 
-	public List<String> gameIDs;//only using one gameID rn for testing, will be a list
+	public List<Integer> gameIDs;//only using one gameID rn for testing, will be a list
 	public DatabaseManagerImpl DBDriver = new DatabaseManagerImpl();
 	
 	public ClientDriver(String username, String password, String email) {
@@ -34,17 +45,19 @@ public class ClientDriver {
 		DBDriver.createNewUser(username,password,email);
 	}
 	
-	public ClientDriver(User profile, List<String> inviteIDs, List<String> gameIDs) {
+	public ClientDriver(User profile, List<String> inviteIDs, List<Integer> gameIDs) {
 		this.profile = profile;
-		this.inviteIDs = inviteIDs; 
+		//this.inviteIDs = inviteIDs; 
 		this.gameIDs = gameIDs;
 	}
 	public ClientDriver(String username) {
 		//get user info from DB
 		UsersJavaObject temp = DBDriver.getUserByNickname(username);
 		profile = new User(temp.getNickname(),temp.getPassword(),temp.getEmail());
-		//gameIDs = temp.getCurrentGames();
-		//nviteIDs = temp.getInvites();
+		gameIDs = temp.getCurrentGames();
+		//inviteIDs = temp.getInvites();
+		//getActiveInvites();
+		
 	}
 	public ClientDriver(){
 		
