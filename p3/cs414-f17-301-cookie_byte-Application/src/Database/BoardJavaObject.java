@@ -25,6 +25,8 @@ public class BoardJavaObject {
     private Id id;
     @JsonProperty("GameID")
     private Integer gameID;
+    @JsonProperty("GameStatus")
+    private GameStatus gameStatus;
     @JsonProperty("Player1")
     private String player1;
     @JsonProperty("Player2")

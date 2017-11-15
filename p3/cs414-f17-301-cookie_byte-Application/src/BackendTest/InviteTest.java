@@ -79,4 +79,8 @@ public class InviteTest {
 	}
 
 }
+<<<<<<< Updated upstream
 */
+=======
+*/
+>>>>>>> Stashed changes
