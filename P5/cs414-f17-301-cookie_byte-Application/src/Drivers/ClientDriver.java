@@ -41,6 +41,7 @@ public class ClientDriver {
 	
 	public ClientDriver(String username, String password, String email) {
 		//Db create user profile
+		DatabaseManagerImpl.initializeDB();
 		DatabaseManagerImpl.createNewUser(username,password,email);
 	}
 	
