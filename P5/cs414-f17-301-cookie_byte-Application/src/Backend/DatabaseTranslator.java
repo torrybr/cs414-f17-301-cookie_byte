@@ -11,6 +11,7 @@ import Database.UsersJavaObject;
 
 public abstract class DatabaseTranslator {
 
+	//Return a list of invites for the User 
 	public static List<Invite> getDbInvites(User u)
 	{
 		List<Invite> newList = new ArrayList<Invite>();
@@ -40,42 +41,43 @@ public abstract class DatabaseTranslator {
 		return newList;
 	}
 	
+	//Return a certain player from a certain game
 	public static User getPlayerFromGame(int player, int gameID) 
 	{	
 		UsersJavaObject thePlayer;
-		User playerReturned = null;
+		User playerToReturn = null;
 		
 		//check if returning player 1 or player 2
 		if(player == 1) 
 		{
 			thePlayer = DatabaseManagerImpl.getUserByNickname(DatabaseManagerImpl.getGame(gameID).getPlayer1());
-			playerReturned = new User(thePlayer.getNickname(), thePlayer.getPassword(), thePlayer.getEmail());
+			playerToReturn = new User(thePlayer.getNickname(), thePlayer.getPassword(), thePlayer.getEmail());
 		}
 		else
 		{
 			thePlayer = DatabaseManagerImpl.getUserByNickname(DatabaseManagerImpl.getGame(gameID).getPlayer2());
-			playerReturned = new User(thePlayer.getNickname(), thePlayer.getPassword(), thePlayer.getEmail());
+			playerToReturn = new User(thePlayer.getNickname(), thePlayer.getPassword(), thePlayer.getEmail());
 		}
 		
 		//check if player being returned is offence or defence
 		if(DatabaseManagerImpl.getGame(gameID).getOffense().equals(thePlayer.getNickname()))
 		{
-			playerReturned.setOffence(true);
+			playerToReturn.setOffence(true);
 		} else
 		{
-			playerReturned.setOffence(false);
+			playerToReturn.setOffence(false);
 		}
 		
 		//check if it is the players turn
 		if(DatabaseManagerImpl.getGame(gameID).getCurrentTurn().equals(thePlayer.getNickname()))
 		{
-			playerReturned.setTurn(true);
+			playerToReturn.setTurn(true);
 		} else
 		{
-			playerReturned.setTurn(false);
+			playerToReturn.setTurn(false);
 		}
 		
-		return playerReturned;
+		return playerToReturn;
 	}
 	
 }
