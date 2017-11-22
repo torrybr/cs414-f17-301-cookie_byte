@@ -8,6 +8,8 @@ public class User {
 	String userID; //unique nickname (userID)  
 	String password; //password  
 	String email; //unique email 
+	boolean isOffence;
+	boolean isTurn;
 	private int wins = 0;
 	private int losses = 0;
 	
@@ -30,6 +32,14 @@ public class User {
 	public String getEmail()
 	{
 		return email;
+	}
+	public void setOffence(boolean isOffence) 
+	{
+		this.isOffence = isOffence;
+	}
+	public void setTurn(boolean isTurn) 
+	{
+		this.isTurn = isTurn;
 	}
 	
 	//get invites: getInvites() 

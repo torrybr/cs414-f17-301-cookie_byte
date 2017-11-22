@@ -78,47 +78,39 @@ public class GameController {
 		// Pull down gameID
 		this.gameID = gmeID;
 		
-		// TODO set to 0 for testing. Fix this later (make it gameID)
-		BoardJavaObject pullGame = DatabaseManagerImpl.getGame(gameID);
-		
 		// Pull down player1
 		this.player1 = DatabaseTranslator.getPlayerFromGame(1, gmeID);
 		
 		// Pull down player2
 		this.player2 = DatabaseTranslator.getPlayerFromGame(2, gmeID);
 		
-		// Set offence
-		String tempoff = pullGame.getOffense();
-		UsersJavaObject tempUseroff = DatabaseManagerImpl.getUserByNickname(tempoff);
-		User off = new User(null, null, null);
-		off.userID = tempUseroff.getNickname();
-		off.email = tempUseroff.getEmail();
-		off.password = tempUseroff.getPassword();
-		this.offence = off;
-		
-		// Set defence
-		String tempdef = pullGame.getDefense();
-		UsersJavaObject tempUserdef = DatabaseManagerImpl.getUserByNickname(tempdef);
-		User def = new User(null, null, null);
-		def.userID = tempUserdef.getNickname();
-		def.email = tempUserdef.getEmail();
-		def.password = tempUserdef.getPassword();
-		this.defence = def; 
+		// Set offence and defense
+		if(player1.isOffence) 
+		{
+			this.offence = player1;
+			this.defence = player2;
+		}
+		if(player2.isOffence) 
+		{
+			this.offence = player2;
+			this.defence = player1;
+		}
 		
 		// Set the current turn
-		 String currTurn = pullGame.getCurrentTurn();
-		 UsersJavaObject tempUser3 = DatabaseManagerImpl.getUserByNickname(currTurn);
-		 User ct = new User(null, null, null);
-		 ct.userID = tempUser3.getNickname();
-		 ct.email = tempUser3.getEmail();
-		 ct.password = tempUser3.getPassword();
-		 setCurrentTurn(ct);
+		if(player1.isTurn) 
+		{
+			setCurrentTurn(player1);
+		}
+		if(player2.isTurn) 
+		{
+			setCurrentTurn(player2);
+		}
 	 
 		 // Retrieve board
 		 Board tempBoard = new Board();
 		 
 		 List<Database.Piece> dbPieces = new ArrayList<>();
-		 dbPieces = pullGame.getBoard().getPieces();
+		 dbPieces = DatabaseManagerImpl.getGame(gmeID).getBoard().getPieces();
 		 
 		 int pullFrom = 0;
 		 for(int row = 0; row < 11; row++)

@@ -43,18 +43,39 @@ public abstract class DatabaseTranslator {
 	public static User getPlayerFromGame(int player, int gameID) 
 	{	
 		UsersJavaObject thePlayer;
+		User playerReturned = null;
 		
+		//check if returning player 1 or player 2
 		if(player == 1) 
 		{
 			thePlayer = DatabaseManagerImpl.getUserByNickname(DatabaseManagerImpl.getGame(gameID).getPlayer1());
+			playerReturned = new User(thePlayer.getNickname(), thePlayer.getPassword(), thePlayer.getEmail());
 		}
 		else
 		{
-			thePlayer = DatabaseManagerImpl.getUserByNickname(DatabaseManagerImpl.getGame(gameID).getPlayer1());	
+			thePlayer = DatabaseManagerImpl.getUserByNickname(DatabaseManagerImpl.getGame(gameID).getPlayer2());
+			playerReturned = new User(thePlayer.getNickname(), thePlayer.getPassword(), thePlayer.getEmail());
 		}
 		
-		return new User(thePlayer.getNickname(), thePlayer.getPassword(), thePlayer.getEmail());		
+		//check if player being returned is offence or defence
+		if(DatabaseManagerImpl.getGame(gameID).getOffense().equals(thePlayer.getNickname()))
+		{
+			playerReturned.setOffence(true);
+		} else
+		{
+			playerReturned.setOffence(false);
+		}
 		
+		//check if it is the players turn
+		if(DatabaseManagerImpl.getGame(gameID).getCurrentTurn().equals(thePlayer.getNickname()))
+		{
+			playerReturned.setTurn(true);
+		} else
+		{
+			playerReturned.setTurn(false);
+		}
+		
+		return playerReturned;
 	}
 	
 }
