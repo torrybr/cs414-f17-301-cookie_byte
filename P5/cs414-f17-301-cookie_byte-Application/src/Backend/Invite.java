@@ -18,6 +18,7 @@ public class Invite {
 		// Set invite to pending
 		status = InvitationStatus.PENDING;	
 		// Add invite to userTo's list of invites
+		userTo.addInvite(this);
 		DatabaseManagerImpl.addInvite(to, this);
 	}
 	
@@ -63,6 +64,7 @@ public class Invite {
 		// userTo.addCurrentGame(gme);
 		// userFrom.addCurrentGame(gme);
 		// Remove invite from receiving user
+		userTo.removeInvite(this);
 		//DBDriver.setInviteStatus(nickname, theInvite);
 		/**
 		 * WHen accepted save game to users table
@@ -74,6 +76,7 @@ public class Invite {
 		// Set invite to declined
 		status = InvitationStatus.DECLINED;
 		// Remove invite from receiving user
+		userTo.removeInvite(this);
 		/**
 		 * remove the user invite from <invites></invites>
 		 */

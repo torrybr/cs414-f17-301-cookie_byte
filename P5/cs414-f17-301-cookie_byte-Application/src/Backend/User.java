@@ -1,5 +1,6 @@
 package Backend;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -17,6 +18,7 @@ public class User {
 		this.userID = userID;
 		this.password = password; 
 		this.email = email; 
+		
 	}
 	//get user information
 	public String getUserID() 
@@ -45,6 +47,40 @@ public class User {
 	{
 		return DatabaseTranslator.getDbInvites(this);
 	}
+
+	//add to invites: addInvite(Invite i) 
+	public void addInvite(Invite i)
+	{
+		//invites.add(i);
+	}
+	//remove from invites: removeInvite(Invite i) 
+	public void removeInvite(Invite i)
+	{
+		//invites.remove(i);
+	}
+	
+	//get pastGames: getPastGames()
+	public List<GameController> getPastGames()
+	{
+		return null;
+		//return pastGames;
+	}
+	//add to pastGames: addPastGame(GameController g)
+	public void addPastGame(GameController g)
+	{
+		//pastGames.add(g);
+	}
+	//get currentGames: getCurrentGames()
+	public List<GameController> getCurrentGames()
+	{
+		return null;
+		//return currentGames;
+	}
+	//add to currentGames: addCurrentGame(GameController g)
+	public void addCurrentGame(GameController g)
+	{
+		//currentGames.add(g);
+	}
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -61,6 +97,11 @@ public class User {
 		} else if (!userID.equals(other.userID))
 			return false;
 		return true;
+	}
+	//remove from current games: removeCurrentGame(GameController g)
+	public void removeCurrentGame(GameController g)
+	{
+		//currentGames.remove(g);
 	}
 	
 	//add to loss count: addLoss()

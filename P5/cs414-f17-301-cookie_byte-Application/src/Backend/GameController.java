@@ -110,7 +110,7 @@ public class GameController {
 		 Board tempBoard = new Board();
 		 
 		 List<Database.Piece> dbPieces = new ArrayList<>();
-		 dbPieces = DatabaseManagerImpl.getGame(gmeID).getBoard().getPieces();
+		 dbPieces = DatabaseManagerImpl.getGame(gameID).getBoard().getPieces();
 		 
 		 int pullFrom = 0;
 		 for(int row = 0; row < 11; row++)
