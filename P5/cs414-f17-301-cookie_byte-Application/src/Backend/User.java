@@ -12,6 +12,9 @@ public class User {
 	boolean isTurn;
 	private int wins = 0;
 	private int losses = 0;
+	private List<Invite> invites = new ArrayList<Invite>(); 
+	private List<GameController> pastGames = new ArrayList<GameController>(); 
+	private List<GameController> currentGames = new ArrayList<GameController>(); 
 	
 	public User (String userID, String password, String email)
 	{
@@ -51,35 +54,33 @@ public class User {
 	//add to invites: addInvite(Invite i) 
 	public void addInvite(Invite i)
 	{
-		//invites.add(i);
+		invites.add(i);
 	}
 	//remove from invites: removeInvite(Invite i) 
 	public void removeInvite(Invite i)
 	{
-		//invites.remove(i);
+		invites.remove(i);
 	}
 	
 	//get pastGames: getPastGames()
 	public List<GameController> getPastGames()
 	{
-		return null;
-		//return pastGames;
+		return pastGames;
 	}
 	//add to pastGames: addPastGame(GameController g)
 	public void addPastGame(GameController g)
 	{
-		//pastGames.add(g);
+		pastGames.add(g);
 	}
 	//get currentGames: getCurrentGames()
 	public List<GameController> getCurrentGames()
 	{
-		return null;
-		//return currentGames;
+		return currentGames;
 	}
 	//add to currentGames: addCurrentGame(GameController g)
 	public void addCurrentGame(GameController g)
 	{
-		//currentGames.add(g);
+		currentGames.add(g);
 	}
 	
 	@Override
@@ -101,7 +102,7 @@ public class User {
 	//remove from current games: removeCurrentGame(GameController g)
 	public void removeCurrentGame(GameController g)
 	{
-		//currentGames.remove(g);
+		currentGames.remove(g);
 	}
 	
 	//add to loss count: addLoss()
