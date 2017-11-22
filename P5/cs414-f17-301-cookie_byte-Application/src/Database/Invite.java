@@ -12,23 +12,50 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "Invite"
+    "userTo",
+    "userFrom",
+    "gameID",
+    "InvitationStatus"
 })
-public class Invite {
+public class Invite{
 
-    @JsonProperty("Invite")
-    private Invite_ invite;
+    @JsonProperty("userFrom")
+    private String userFrom;
+    @JsonProperty("gameID")
+    private Integer gameID;
+    @JsonProperty("InvitationStatus")
+    private InvitationStatus invitationStatus;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("Invite")
-    public Invite_ getInvite() {
-        return invite;
+    @JsonProperty("userFrom")
+    public String getUserFrom() {
+        return userFrom;
     }
 
-    @JsonProperty("Invite")
-    public void setInvite(Invite_ invite) {
-        this.invite = invite;
+    @JsonProperty("userFrom")
+    public void setUserFrom(String userFrom) {
+        this.userFrom = userFrom;
+    }
+
+    @JsonProperty("gameID")
+    public Integer getGameID() {
+        return gameID;
+    }
+
+    @JsonProperty("gameID")
+    public void setGameID(Integer gameID) {
+        this.gameID = gameID;
+    }
+
+    @JsonProperty("InvitationStatus")
+    public InvitationStatus getInvitationStatus() {
+        return invitationStatus;
+    }
+
+    @JsonProperty("InvitationStatus")
+    public void setInvitationStatus(InvitationStatus invitationStatus) {
+        this.invitationStatus = invitationStatus;
     }
 
     @JsonAnyGetter
@@ -40,5 +67,10 @@ public class Invite {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
+    @JsonProperty("Invite")
+	public Invite getInvite() {
+		return this;
+	}
 
 }

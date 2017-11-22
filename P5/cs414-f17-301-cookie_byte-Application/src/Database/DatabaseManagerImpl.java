@@ -144,24 +144,16 @@ public abstract class DatabaseManagerImpl {
         Document invite = new Document();
         invite.append("gameID", theInvite.getGameID());
 
-        Document InviteObj = new Document();
-        Document userTo = new Document();
-        userTo.append("userID", theInvite.getUserTo().getUserID());
-        userTo.append("password", theInvite.getUserTo().getPassword());
-        userTo.append("email", theInvite.getUserTo().getEmail());
-        invite.append("userTo", userTo);
-
         Document userFrom = new Document();
         userFrom.append("userID", theInvite.getUserFrom().getUserID());
-        userFrom.append("password", theInvite.getUserFrom().getPassword());
-        userFrom.append("email", theInvite.getUserFrom().getEmail());
         invite.append("userFrom", userFrom);
 
         Document invitationStatus = new Document();
         invitationStatus.append("invitationStatus", theInvite.getStatus().toString());
         invite.append("InvitationStatus", invitationStatus);
 
-        Document query = new Document().parse("{ \"nickname\": \"" + nickname + "\" }");
+        new Document();
+		Document query = Document.parse("{ \"nickname\": \"" + nickname + "\" }");
 
         BasicDBObject data = new BasicDBObject();
         main.append("Invite",invite);
@@ -171,7 +163,6 @@ public abstract class DatabaseManagerImpl {
         command.put("$push", data);
 
         collection.findOneAndUpdate(query, command);
-
     }
 
     /**
