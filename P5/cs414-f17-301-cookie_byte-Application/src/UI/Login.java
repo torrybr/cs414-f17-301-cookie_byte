@@ -1,5 +1,6 @@
 package UI;
 
+import Database.DatabaseManagerImpl;
 import Drivers.ClientDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -271,6 +272,7 @@ public class Login extends Application {
 	}
 	
 	public static void main(String[] args) {
+		DatabaseManagerImpl.initializeDB();
 		launch(args);
 	}
 }

@@ -3,19 +3,11 @@ package Backend;
 import java.util.ArrayList;
 import java.util.List;
 
-import Database.DatabaseManagerImpl;
-import Database.UserFrom;
-import Database.UserTo;
-import Database.UsersJavaObject;
-
 public class User {
 	
 	String userID; //unique nickname (userID)  
 	String password; //password  
 	String email; //unique email 
-	private List<Invite> invites = new ArrayList<Invite>();
-	private List<GameController> pastGames = new ArrayList<GameController>();
-	private List<GameController> currentGames = new ArrayList<GameController>();
 	private int wins = 0;
 	private int losses = 0;
 	
@@ -43,68 +35,41 @@ public class User {
 	//get invites: getInvites() 
 	public List<Invite> getInvites()
 	{
-		return invites;
+		return DatabaseTranslator.getDbInvites(this);
 	}
-	public List<Invite> getDbInvites()
-	{
-		List<Invite> newList = new ArrayList<Invite>();
-		
-		UsersJavaObject temp = DatabaseManagerImpl.getUserByNickname(userID);
-		List<Database.Invite> dbInvites = temp.getInvites();
-		
-		for(int i = 0; i < dbInvites.size(); i++) 
-		{
-			UserTo userto = dbInvites.get(i).getInvite().getUserTo();
-			String to = userto.getUserID();
-			
-			UserFrom userfrom = dbInvites.get(i).getInvite().getUserFrom();
-			String fromId = userfrom.getUserID();
-			String fromEmail = userfrom.getEmail();
-			String fromPassword = userfrom.getPassword();
-			User tempFrom = new User(fromId, fromPassword, fromEmail);
-			
-			int tempGameID = dbInvites.get(i).getInvite().getGameID();
-		
-			Invite invite = new Invite(to, tempFrom, tempGameID, 12);
-			String status = dbInvites.get(i).getInvite().getInvitationStatus().getInvitationStatus();
-			invite.setStatus(InvitationStatus.valueOf(status));
-			
-			newList.add(invite);
-		}
-		
-		
-		return newList;
-	}
+
 	//add to invites: addInvite(Invite i) 
 	public void addInvite(Invite i)
 	{
-		invites.add(i);
+		//invites.add(i);
 	}
 	//remove from invites: removeInvite(Invite i) 
 	public void removeInvite(Invite i)
 	{
-		invites.remove(i);
+		//invites.remove(i);
 	}
 	
 	//get pastGames: getPastGames()
 	public List<GameController> getPastGames()
 	{
-		return pastGames;
+		return null;
+		//return pastGames;
 	}
 	//add to pastGames: addPastGame(GameController g)
 	public void addPastGame(GameController g)
 	{
-		pastGames.add(g);
+		//pastGames.add(g);
 	}
 	//get currentGames: getCurrentGames()
 	public List<GameController> getCurrentGames()
 	{
-		return currentGames;
+		return null;
+		//return currentGames;
 	}
 	//add to currentGames: addCurrentGame(GameController g)
 	public void addCurrentGame(GameController g)
 	{
-		currentGames.add(g);
+		//currentGames.add(g);
 	}
 	
 	@Override
@@ -126,7 +91,7 @@ public class User {
 	//remove from current games: removeCurrentGame(GameController g)
 	public void removeCurrentGame(GameController g)
 	{
-		currentGames.remove(g);
+		//currentGames.remove(g);
 	}
 	
 	//add to loss count: addLoss()

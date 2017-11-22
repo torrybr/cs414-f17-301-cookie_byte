@@ -82,23 +82,10 @@ public class GameController {
 		BoardJavaObject pullGame = DatabaseManagerImpl.getGame(gameID);
 		
 		// Pull down player1
-		String temp1 = pullGame.getPlayer1();
-		UsersJavaObject tempUser = DatabaseManagerImpl.getUserByNickname(temp1);
-		User pl1 = new User(null, null, null);
-		pl1.userID = tempUser.getNickname();
-		pl1.email = tempUser.getEmail();
-		pl1.password = tempUser.getPassword();
-		
-		this.player1 = pl1;
+		this.player1 = DatabaseTranslator.getPlayerFromGame(1, gmeID);
 		
 		// Pull down player2
-		String temp2 = pullGame.getPlayer2();
-		UsersJavaObject tempUser2 = DatabaseManagerImpl.getUserByNickname(temp2);
-		User pl2 = new User(null, null, null);
-		pl2.userID = tempUser2.getNickname();
-		pl2.email = tempUser2.getEmail();
-		pl2.password = tempUser2.getPassword();
-		this.player2 = pl2;
+		this.player2 = DatabaseTranslator.getPlayerFromGame(2, gmeID);
 		
 		// Set offence
 		String tempoff = pullGame.getOffense();
