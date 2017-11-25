@@ -12,17 +12,16 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "userTo",
-    "userFrom",
     "gameID",
+    "userFrom",
     "InvitationStatus"
 })
 public class Invite{
 
-    @JsonProperty("userFrom")
-    private String userFrom;
     @JsonProperty("gameID")
     private Integer gameID;
+    @JsonProperty("userFrom")
+    private String userFrom;
     @JsonProperty("InvitationStatus")
     private InvitationStatus invitationStatus;
     @JsonIgnore
