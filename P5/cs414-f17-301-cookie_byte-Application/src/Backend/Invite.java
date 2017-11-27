@@ -9,6 +9,9 @@ public class Invite {
 	User userFrom;
 	int gameID;
 	InvitationStatus status;
+	boolean isTournament = false;
+	Tournament tournament;
+	
 	
 	public Invite (String to, User from, int gmeID){
 		UsersJavaObject temp = DatabaseManagerImpl.getUserByNickname(to);
@@ -21,6 +24,7 @@ public class Invite {
 		userTo.addInvite(this);
 		DatabaseManagerImpl.addInvite(to, this);
 	}
+	
 	
 	public Invite (String to, User from, int gmeID, int a){
 		UsersJavaObject temp = DatabaseManagerImpl.getUserByNickname(to);
@@ -41,6 +45,7 @@ public class Invite {
 		DatabaseManagerImpl.addInvite(to, this);
 	}
 	
+	
 	public Invite(User to,User from, int game, String status){
 		userTo = to;
 		userFrom = from;
@@ -52,29 +57,63 @@ public class Invite {
 		if(status.equals("DECLINED"))
 			this.status = InvitationStatus.PENDING;
 	}
+	
+	//Invitation constructor for Tournament
+	public Invite(User to, User from, String status, Tournament T){
+		userTo = to;
+		userFrom = from;
+		//this.gameID = gameID;
+		if(status.equals("PENDING"))
+			this.status = InvitationStatus.PENDING;
+		if(status.equals("ACCEPTED"))
+			this.status = InvitationStatus.PENDING;
+		if(status.equals("DECLINED"))
+			this.status = InvitationStatus.PENDING;
+		userTo.addInvite(this);
+		tournament = T;
+	}
+	
 	public void acceptInvite()
 	{
 		// Set invite to accepted
 		status = InvitationStatus.ACCECPTED;
 		//Actually creates the game with the two users
-		GameController gme = new GameController(gameID, userTo, userFrom);
-		// Sets game to active
-		gme.setStatus(GameStatus.ACTIVE);
-		// Add game to both users THIS IS NOW DONE IN DB
-		// userTo.addCurrentGame(gme);
-		// userFrom.addCurrentGame(gme);
-		// Remove invite from receiving user
+		
+		if(!isTournament){
+			GameController gme = new GameController(gameID, userTo, userFrom);
+			// Sets game to active
+			gme.setStatus(GameStatus.ACTIVE);
+			// Add game to both users THIS IS NOW DONE IN DB
+			// userTo.addCurrentGame(gme);
+			// userFrom.addCurrentGame(gme);
+			// Remove invite from receiving user
+		}
+		else
+		{
+			this.tournament.checkTournamentStatus();
+		}
+		
 		userTo.removeInvite(this);
 		//DBDriver.setInviteStatus(nickname, theInvite);
 		/**
 		 * WHen accepted save game to users table
 		 */
+		
+		// checks the status of a pending Tournament
+		
 	}
 	
 	public void declineInvite()
 	{
-		// Set invite to declined
+		//Set invite to declined
 		status = InvitationStatus.DECLINED;
+		
+		//if it is a tournament invite check the status of the tournament
+		if (isTournament)
+		{
+			this.tournament.checkTournamentStatus();
+		}
+		
 		// Remove invite from receiving user
 		userTo.removeInvite(this);
 		/**
@@ -128,9 +167,19 @@ public class Invite {
 		this.status = status;
 	}
 
+	public boolean isTournament() {
+		return isTournament;
+	}
+
+
+	public void setTournament(boolean isTournament) {
+		this.isTournament = isTournament;
+	}
+
+
 	public String toString() 
 	{
-		 return "Invite [FromUser=" + userFrom + ", ToUser=" + userTo + ", GameID=" + gameID + "]";
+		 return "Invite [FromUser=" + userFrom + ", ToUser=" + userTo + ", GameID=" + gameID + ", Status=" + status+ ", IsTorunament="+ isTournament +"]";
 	}
 	
 }

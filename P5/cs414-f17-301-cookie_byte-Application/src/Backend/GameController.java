@@ -27,7 +27,8 @@ public class GameController {
 	int kingLocationCol;
 	int kingLocationRow;
 	int gameID;
-
+	Tournament T;
+	boolean isTournament = false;
 	
 	Piece[][] pieces = new Piece[11][11];
 	
@@ -250,6 +251,22 @@ public class GameController {
 	}
 	
 	
+	public Tournament getTournament() {
+		return T;
+	}
+
+	public void setTournament(Tournament t) {
+		T = t;
+	}
+
+	public boolean isTournament() {
+		return isTournament;
+	}
+
+	public void setTournament(boolean isTournament) {
+		this.isTournament = isTournament;
+	}
+
 	// Checks if defence won
 	public boolean kingWinConditions(){
 		
@@ -638,7 +655,14 @@ public class GameController {
 				defence.removeCurrentGame(this);
 				// SDB
 				
-				
+				//checks to see if there's another round after this game or if the Tournament is over.
+				if (isTournament){
+					this.T.checkNextRound();
+				}
+				if ((isTournament == false) && (T != null)){
+					this.T.checkChampion();
+				}
+
 			}
 			else if(this.kingWinConditions())
 			{
@@ -659,6 +683,14 @@ public class GameController {
 				offence.addPastGame(this);
 				offence.removeCurrentGame(this);
 				// SDB
+				
+				//checks to see if there's another round after this game or if the Tournament is over.
+				if (isTournament){
+					this.T.checkNextRound();
+				}
+				if ((isTournament == false) && (T != null)){
+					this.T.checkChampion();
+				}
 			}
 			
 			//Check if we killed any enemies (capturePiece handles out of bounds checks)
@@ -696,6 +728,7 @@ public class GameController {
 		else
 			System.out.println("Invalid Move");
 	}
+
 	
 	
 	/*
