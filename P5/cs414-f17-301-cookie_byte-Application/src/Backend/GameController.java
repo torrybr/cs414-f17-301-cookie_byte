@@ -78,60 +78,39 @@ public class GameController {
 		// Pull down gameID
 		this.gameID = gmeID;
 		
-		// TODO set to 0 for testing. Fix this later (make it gameID)
-		BoardJavaObject pullGame = DatabaseManagerImpl.getGame(gameID);
-		
 		// Pull down player1
-		String temp1 = pullGame.getPlayer1();
-		UsersJavaObject tempUser = DatabaseManagerImpl.getUserByNickname(temp1);
-		User pl1 = new User(null, null, null);
-		pl1.userID = tempUser.getNickname();
-		pl1.email = tempUser.getEmail();
-		pl1.password = tempUser.getPassword();
-		
-		this.player1 = pl1;
+		this.player1 = DatabaseTranslator.getPlayerFromGame(1, gmeID);
 		
 		// Pull down player2
-		String temp2 = pullGame.getPlayer2();
-		UsersJavaObject tempUser2 = DatabaseManagerImpl.getUserByNickname(temp2);
-		User pl2 = new User(null, null, null);
-		pl2.userID = tempUser2.getNickname();
-		pl2.email = tempUser2.getEmail();
-		pl2.password = tempUser2.getPassword();
-		this.player2 = pl2;
+		this.player2 = DatabaseTranslator.getPlayerFromGame(2, gmeID);
 		
-		// Set offence
-		String tempoff = pullGame.getOffense();
-		UsersJavaObject tempUseroff = DatabaseManagerImpl.getUserByNickname(tempoff);
-		User off = new User(null, null, null);
-		off.userID = tempUseroff.getNickname();
-		off.email = tempUseroff.getEmail();
-		off.password = tempUseroff.getPassword();
-		this.offence = off;
-		
-		// Set defence
-		String tempdef = pullGame.getDefense();
-		UsersJavaObject tempUserdef = DatabaseManagerImpl.getUserByNickname(tempdef);
-		User def = new User(null, null, null);
-		def.userID = tempUserdef.getNickname();
-		def.email = tempUserdef.getEmail();
-		def.password = tempUserdef.getPassword();
-		this.defence = def; 
+		// Set offence and defense
+		if(player1.isOffence) 
+		{
+			this.offence = player1;
+			this.defence = player2;
+		}
+		if(player2.isOffence) 
+		{
+			this.offence = player2;
+			this.defence = player1;
+		}
 		
 		// Set the current turn
-		 String currTurn = pullGame.getCurrentTurn();
-		 UsersJavaObject tempUser3 = DatabaseManagerImpl.getUserByNickname(currTurn);
-		 User ct = new User(null, null, null);
-		 ct.userID = tempUser3.getNickname();
-		 ct.email = tempUser3.getEmail();
-		 ct.password = tempUser3.getPassword();
-		 setCurrentTurn(ct);
+		if(player1.isTurn) 
+		{
+			setCurrentTurn(player1);
+		}
+		if(player2.isTurn) 
+		{
+			setCurrentTurn(player2);
+		}
 	 
 		 // Retrieve board
 		 Board tempBoard = new Board();
 		 
 		 List<Database.Piece> dbPieces = new ArrayList<>();
-		 dbPieces = pullGame.getBoard().getPieces();
+		 dbPieces = DatabaseManagerImpl.getGame(gameID).getBoard().getPieces();
 		 
 		 int pullFrom = 0;
 		 for(int row = 0; row < 11; row++)

@@ -1,5 +1,6 @@
 package Drivers;
 
+import Backend.DatabaseTranslator;
 import Backend.InvitationStatus;
 import Backend.Invite;
 import Backend.User;
@@ -41,7 +42,6 @@ public class ClientDriver {
 	
 	public ClientDriver(String username, String password, String email) {
 		//Db create user profile
-		DatabaseManagerImpl.initializeDB();
 		DatabaseManagerImpl.createNewUser(username,password,email);
 	}
 	
@@ -57,7 +57,7 @@ public class ClientDriver {
 		//List<Integer> tempo = temp.getCurrentGames();
 		// = (List<Integer>) tempo.get(0);
 		gameIDs = temp.getCurrentGames();
-		inviteIDs = profile.getDbInvites();
+		inviteIDs = DatabaseTranslator.getDbInvites(profile);
 		findActiveInvites();
 		
 	}
@@ -65,7 +65,6 @@ public class ClientDriver {
 		
 	}
 	public boolean checkAuth(String username, String pass){
-		DatabaseManagerImpl.initializeDB();
 		UsersJavaObject temp = DatabaseManagerImpl.getUserByNickname(username);
 		if(temp.getPassword().equals(pass))
 			return true;
