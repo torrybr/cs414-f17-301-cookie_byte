@@ -543,8 +543,8 @@ public class GameController {
 		// Check to see if we are on an edge and if next to a corner, check if
 		// needs to be removed
 		if (row == 0 || row == 10) {
-			if (col != 1 && col != 9) {
-				return false;
+			//if (col != 1 && col != 9) {
+				//return false;
 			} else if (row == 0) {
 				// Checking next to top right corner
 				if (col == 1) {
@@ -571,10 +571,10 @@ public class GameController {
 						return true;
 					}
 				}
-			}
+			//}
 		} else if (col == 0 || col == 10) {
-			if (row != 1 && row != 9) {
-				return false;
+			//if (row != 1 && row != 9) {
+				//return false;
 			} else if (col == 0) {
 				// Checking next to top right corner
 				if (row == 1) {
@@ -601,7 +601,7 @@ public class GameController {
 						return true;
 					}
 				}
-			}
+			//}
 		}
 		// Do the general checks to see if something should be removed
 		if((row - 1) < 0 || (row + 1) > 10 || (col - 1) < 0 || (col + 1) > 10)

@@ -74,8 +74,8 @@ public class Tournament {
 				for (Invite i : inviteList){
 					//If the invitation is accecpted
 					if (i.status == InvitationStatus.ACCECPTED){
-						System.out.println("1 Tournament Invite Accecpted waiting on.... " + (3-RequestAccepted) +" more!");
 						RequestAccepted++;
+						System.out.println("1 Tournament Invite Accecpted waiting on.... " + (3-RequestAccepted) +" more!");
 					}
 					//removes all invites form other players if one is declined
 					else if (i.status == InvitationStatus.DECLINED){
