@@ -223,7 +223,7 @@ public abstract class DatabaseManagerImpl {
      *
      * @param nname the nickname of the user.
      */
-    private void getmyUserJson(String nname) {
+    public static void getmyUserJson(String nname) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
         System.out.println(collection.find(eq("nickname", nname)).first().toJson());
