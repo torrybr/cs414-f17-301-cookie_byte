@@ -136,6 +136,7 @@ public abstract class DatabaseManagerImpl {
 
 
     public static void addInvite(String nickname, Backend.Invite theInvite) {
+    	System.out.println(nickname);
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
 
@@ -144,24 +145,12 @@ public abstract class DatabaseManagerImpl {
         Document invite = new Document();
         invite.append("gameID", theInvite.getGameID());
 
-        Document InviteObj = new Document();
-        Document userTo = new Document();
-        userTo.append("userID", theInvite.getUserTo().getUserID());
-        userTo.append("password", theInvite.getUserTo().getPassword());
-        userTo.append("email", theInvite.getUserTo().getEmail());
-        invite.append("userTo", userTo);
+        invite.append("userFrom", theInvite.getUserFrom().getUserID());
 
-        Document userFrom = new Document();
-        userFrom.append("userID", theInvite.getUserFrom().getUserID());
-        userFrom.append("password", theInvite.getUserFrom().getPassword());
-        userFrom.append("email", theInvite.getUserFrom().getEmail());
-        invite.append("userFrom", userFrom);
+        invite.append("InvitationStatus", theInvite.getStatus().toString());
 
-        Document invitationStatus = new Document();
-        invitationStatus.append("invitationStatus", theInvite.getStatus().toString());
-        invite.append("InvitationStatus", invitationStatus);
-
-        Document query = new Document().parse("{ \"nickname\": \"" + nickname + "\" }");
+        new Document();
+		Document query = Document.parse("{ \"nickname\": \"" + nickname + "\" }");
 
         BasicDBObject data = new BasicDBObject();
         main.append("Invite",invite);
@@ -171,7 +160,6 @@ public abstract class DatabaseManagerImpl {
         command.put("$push", data);
 
         collection.findOneAndUpdate(query, command);
-
     }
 
     /**
@@ -235,7 +223,7 @@ public abstract class DatabaseManagerImpl {
      *
      * @param nname the nickname of the user.
      */
-    private void getmyUserJson(String nname) {
+    public static void getmyUserJson(String nname) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
         System.out.println(collection.find(eq("nickname", nname)).first().toJson());

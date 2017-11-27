@@ -10,6 +10,6 @@
 	<classpathentry kind="lib" path="cs414-f17-301-cookie_byte-Application/assets/mongodb-driver-3.5.0.jar"/>
 	<classpathentry kind="lib" path="cs414-f17-301-cookie_byte-Application/assets/mongodb-driver-async-3.5.0.jar"/>
 	<classpathentry kind="lib" path="cs414-f17-301-cookie_byte-Application/assets/mongodb-driver-core-3.5.0.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

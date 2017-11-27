@@ -1,4 +1,3 @@
-
 package Database;
 
 import java.util.HashMap;
@@ -12,43 +11,20 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "userTo",
-    "userFrom",
-    "gameID",
-    "InvitationStatus"
+        "gameID",
+        "userFrom",
+        "InvitationStatus"
 })
 public class Invite_ {
 
-    @JsonProperty("userTo")
-    private UserTo userTo;
-    @JsonProperty("userFrom")
-    private UserFrom userFrom;
     @JsonProperty("gameID")
     private Integer gameID;
+    @JsonProperty("userFrom")
+    private String userFrom;
     @JsonProperty("InvitationStatus")
-    private InvitationStatus invitationStatus;
+    private String invitationStatus;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-    @JsonProperty("userTo")
-    public UserTo getUserTo() {
-        return userTo;
-    }
-
-    @JsonProperty("userTo")
-    public void setUserTo(UserTo userTo) {
-        this.userTo = userTo;
-    }
-
-    @JsonProperty("userFrom")
-    public UserFrom getUserFrom() {
-        return userFrom;
-    }
-
-    @JsonProperty("userFrom")
-    public void setUserFrom(UserFrom userFrom) {
-        this.userFrom = userFrom;
-    }
 
     @JsonProperty("gameID")
     public Integer getGameID() {
@@ -60,13 +36,23 @@ public class Invite_ {
         this.gameID = gameID;
     }
 
+    @JsonProperty("userFrom")
+    public String getUserFrom() {
+        return userFrom;
+    }
+
+    @JsonProperty("userFrom")
+    public void setUserFrom(String userFrom) {
+        this.userFrom = userFrom;
+    }
+
     @JsonProperty("InvitationStatus")
-    public InvitationStatus getInvitationStatus() {
+    public String getInvitationStatus() {
         return invitationStatus;
     }
 
     @JsonProperty("InvitationStatus")
-    public void setInvitationStatus(InvitationStatus invitationStatus) {
+    public void setInvitationStatus(String invitationStatus) {
         this.invitationStatus = invitationStatus;
     }
 

@@ -1,4 +1,3 @@
-
 package Database;
 
 import java.util.HashMap;
@@ -12,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "Invite"
+        "Invite"
 })
 public class Invite {
 
