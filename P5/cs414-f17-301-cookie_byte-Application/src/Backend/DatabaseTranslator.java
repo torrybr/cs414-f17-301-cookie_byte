@@ -47,12 +47,16 @@ public abstract class DatabaseTranslator {
 		if(player == 1) 
 		{
 			thePlayer = DatabaseManagerImpl.getUserByNickname(DatabaseManagerImpl.getGame(gameID).getPlayer1());
-			playerToReturn = new User(thePlayer.getNickname(), thePlayer.getPassword(), thePlayer.getEmail());
+			playerToReturn = new User(thePlayer.getNickname(), 
+									  thePlayer.getPassword(), 
+									  thePlayer.getEmail());
 		}
 		else
 		{
 			thePlayer = DatabaseManagerImpl.getUserByNickname(DatabaseManagerImpl.getGame(gameID).getPlayer2());
-			playerToReturn = new User(thePlayer.getNickname(), thePlayer.getPassword(), thePlayer.getEmail());
+			playerToReturn = new User(thePlayer.getNickname(), 
+									  thePlayer.getPassword(), 
+									  thePlayer.getEmail());
 		}
 		
 		//check if player being returned is offence or defence

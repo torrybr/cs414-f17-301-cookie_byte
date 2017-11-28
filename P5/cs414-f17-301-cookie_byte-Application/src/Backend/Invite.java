@@ -1,7 +1,6 @@
 package Backend;
 
 import Database.DatabaseManagerImpl;
-import Database.UsersJavaObject;
 
 public class Invite {
 

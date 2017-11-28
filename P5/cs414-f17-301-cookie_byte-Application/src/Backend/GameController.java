@@ -1,11 +1,6 @@
 package Backend;
 
-import java.util.List;
-import java.util.ArrayList;
-
-import Database.BoardJavaObject;
 import Database.DatabaseManagerImpl;
-import Database.UsersJavaObject;
 
 public class GameController {
 	
