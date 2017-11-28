@@ -11,15 +11,15 @@ public class Invite {
 	boolean isTournament = false;
 	Tournament tournament;
 	
+	//Used for database to backend translation 
 	public Invite (User to, User from, int gmeID){
 		userTo = to;
 		this.userFrom = from;
 		this.gameID = gmeID;
-		// Set invite to pending
-		status = InvitationStatus.PENDING;	
-		// Add invite to userTo's list of invites
+		status = InvitationStatus.PENDING;
 	}
 	
+	//used to create a new invite and add to database
 	public Invite(User to, User from){
 		userTo = to;
 		this.userFrom = from;
@@ -50,14 +50,13 @@ public class Invite {
 		
 		if(!isTournament){
 			new GameController(gameID, userTo, userFrom);
-			// Remove invite from receiving user
 		}
 		else
 		{
 			this.tournament.checkTournamentStatus();
 		}
 		
-		userTo.removeInvite(this);
+		userTo.removeInvite(this); //do a database remove
 		//DBDriver.setInviteStatus(nickname, theInvite);
 		/**
 		 * WHen accepted save game to users table
