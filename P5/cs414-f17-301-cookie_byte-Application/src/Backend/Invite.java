@@ -12,23 +12,8 @@ public class Invite {
 	boolean isTournament = false;
 	Tournament tournament;
 	
-	
-	public Invite (String to, User from, int gmeID){
-		UsersJavaObject temp = DatabaseManagerImpl.getUserByNickname(to);
-		userTo = new User(temp.getNickname(),temp.getPassword(),temp.getEmail());
-		this.userFrom = from;
-		this.gameID = gmeID;
-		// Set invite to pending
-		status = InvitationStatus.PENDING;	
-		// Add invite to userTo's list of invites
-		userTo.addInvite(this);
-		DatabaseManagerImpl.addInvite(to, this);
-	}
-	
-	
-	public Invite (String to, User from, int gmeID, int a){
-		UsersJavaObject temp = DatabaseManagerImpl.getUserByNickname(to);
-		userTo = new User(temp.getNickname(),temp.getPassword(),temp.getEmail());
+	public Invite (User to, User from, int gmeID){
+		userTo = to;
 		this.userFrom = from;
 		this.gameID = gmeID;
 		// Set invite to pending
@@ -36,26 +21,11 @@ public class Invite {
 		// Add invite to userTo's list of invites
 	}
 	
-	
-	public Invite(String to, User from){
-		UsersJavaObject temp = DatabaseManagerImpl.getUserByNickname(to);
-		userTo = new User(temp.getNickname(),temp.getPassword(),temp.getEmail());
+	public Invite(User to, User from){
+		userTo = to;
 		this.userFrom = from;
 		status = InvitationStatus.PENDING;
-		DatabaseManagerImpl.addInvite(to, this);
-	}
-	
-	
-	public Invite(User to,User from, int game, String status){
-		userTo = to;
-		userFrom = from;
-		gameID = game;
-		if(status.equals("PENDING"))
-			this.status = InvitationStatus.PENDING;
-		if(status.equals("ACCEPTED"))
-			this.status = InvitationStatus.PENDING;
-		if(status.equals("DECLINED"))
-			this.status = InvitationStatus.PENDING;
+		DatabaseManagerImpl.addInvite(this);
 	}
 	
 	//Invitation constructor for Tournament
@@ -80,12 +50,7 @@ public class Invite {
 		//Actually creates the game with the two users
 		
 		if(!isTournament){
-			GameController gme = new GameController(gameID, userTo, userFrom);
-			// Sets game to active
-			gme.setStatus(GameStatus.ACTIVE);
-			// Add game to both users THIS IS NOW DONE IN DB
-			// userTo.addCurrentGame(gme);
-			// userFrom.addCurrentGame(gme);
+			new GameController(gameID, userTo, userFrom);
 			// Remove invite from receiving user
 		}
 		else

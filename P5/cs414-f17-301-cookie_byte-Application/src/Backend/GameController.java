@@ -32,7 +32,8 @@ public class GameController {
 	
 	Piece[][] pieces = new Piece[11][11];
 	
-	public GameController(int gmeID, User player1, User player2){
+	public GameController(int gmeID, User player1, User player2)
+	{
 		
 		board = new Board();
 		
@@ -112,8 +113,6 @@ public class GameController {
 		 
 		 // Set game status
 		 this.status = GameStatus.ACTIVE;
-		
-		
 	}
 	
 	public void quit(User quitter)
@@ -161,16 +160,19 @@ public class GameController {
 	public User getPlayer1() {
 		return player1;
 	}
-
+	
 	public User getPlayer2() {
 		return player2;
 	}
+	
 	public User getDefence(){
 		return defence;
 	}
+	
 	public User getOffence(){
 		return offence;
 	}
+	
 	public boolean isItMyTurn(User player)
 	{
 		if(currentTurn.equals(player))
@@ -203,7 +205,6 @@ public class GameController {
 	public void setWinner(User winn) {
 		winner = winn;
 	}
-	
 	
 	public Tournament getTournament() {
 		return T;

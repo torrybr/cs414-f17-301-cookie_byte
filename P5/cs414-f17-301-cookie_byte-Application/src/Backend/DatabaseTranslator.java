@@ -28,7 +28,7 @@ public abstract class DatabaseTranslator {
 			
 			int tempGameID = dbInvites.get(i).getInvite().getGameID();
 		
-			Invite invite = new Invite(u.userID, tempFrom, tempGameID, 12);
+			Invite invite = new Invite(getUser(u.userID), tempFrom, tempGameID);
 			String status = dbInvites.get(i).getInvite().getInvitationStatus();
 			invite.setStatus(InvitationStatus.valueOf(status));
 			
@@ -105,6 +105,12 @@ public abstract class DatabaseTranslator {
 			 }
 		 }
 		return backendBoard;
+	}
+	
+	public static User getUser(String userID) 
+	{
+		UsersJavaObject temp = DatabaseManagerImpl.getUserByNickname(userID);
+		return new User(temp.getNickname(),temp.getPassword(),temp.getEmail());
 	}
 	
 }

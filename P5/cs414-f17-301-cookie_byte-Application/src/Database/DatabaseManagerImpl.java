@@ -135,8 +135,7 @@ public abstract class DatabaseManagerImpl {
     }
 
 
-    public static void addInvite(String nickname, Backend.Invite theInvite) {
-    	System.out.println(nickname);
+    public static void addInvite(Backend.Invite theInvite) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
 
@@ -150,7 +149,7 @@ public abstract class DatabaseManagerImpl {
         invite.append("InvitationStatus", theInvite.getStatus().toString());
 
         new Document();
-		Document query = Document.parse("{ \"nickname\": \"" + nickname + "\" }");
+		Document query = Document.parse("{ \"nickname\": \"" + theInvite.getUserTo().getUserID() + "\" }");
 
         BasicDBObject data = new BasicDBObject();
         main.append("Invite",invite);
