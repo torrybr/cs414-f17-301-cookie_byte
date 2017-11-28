@@ -36,6 +36,8 @@ public class User {
 	{
 		return email;
 	}
+	
+	//set offence and turn
 	public void setOffence(boolean isOffence) 
 	{
 		this.isOffence = isOffence;

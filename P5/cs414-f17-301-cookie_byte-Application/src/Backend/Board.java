@@ -14,12 +14,11 @@ public class Board {
 
     Piece[][] pieces = new Piece[11][11];
     User none = new User("nullUser", "nullUser", "null@null.null");
-    // Array list var
     public List<Piece> pieces1DLayout;
     int gameID;
 
-    public Board() {
-
+    public Board() 
+    {
         // Initialize ArrayList here
         Piece empty = new Piece(PieceType.NONE, none);
         pieces1DLayout = new ArrayList<>(121);
@@ -27,10 +26,10 @@ public class Board {
             pieces1DLayout.add(empty);
         }
     }
+    
     public int getGameID(){
         return gameID;
     }
-    // Method to get a piece; returns Piece
 
     public Piece getPiece(int row, int col) {
         return pieces[row][col];
@@ -43,8 +42,7 @@ public class Board {
     public PieceType getPieceType(int row, int col) {
         return pieces[row][col].getType();
     }
-
-
+    
     // Method to get player who owns piece
     public User getPieceOwner(int row, int col) {
         return pieces[row][col].getPlayer();
@@ -57,7 +55,6 @@ public class Board {
 
         // Put the pieces in a 1D array for storing in Database, based on thier row/column positions
         pieces1DLayout.set((row * 11) + col, p);
-
 
         // Put the piece where it goes
         pieces[row][col] = p;
@@ -83,18 +80,14 @@ public class Board {
         pieces[rowFrom][colFrom].setType(PieceType.NONE);
         pieces[rowFrom][colFrom].setPlayer(none);
 
-
         // Put the piece back where it goes
         pieces[rowTo][colTo].setPlayer(pieceOwner);
         pieces[rowTo][colTo].setType(typeOfPiece);
 
-        
         // Put the pieces in a 1D array for storing in Database, based on thier row/column positions & remove moved piece
         Piece p = new Piece(typeOfPiece, pieceOwner);
         Piece nope = new Piece(PieceType.NONE, none);
         pieces1DLayout.set((rowTo * 11) + colTo, p);
         pieces1DLayout.set((rowFrom * 11) + colFrom, nope);
     }
-
-
 }
