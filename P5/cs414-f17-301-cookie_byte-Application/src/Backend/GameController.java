@@ -108,34 +108,9 @@ public class GameController {
 		}
 	 
 		 // Retrieve board
-		 Board tempBoard = new Board();
+		 this.board = DatabaseTranslator.getGameBoard(gameID);
 		 
-		 List<Database.Piece> dbPieces = new ArrayList<>();
-		 dbPieces = DatabaseManagerImpl.getGame(gameID).getBoard().getPieces();
-		 
-		 int pullFrom = 0;
-		 for(int row = 0; row < 11; row++)
-		 {
-			 for(int col = 0; col < 11; col++)
-			 {
-				 // Pull in pieceOwner user info
-				 User pieceOwner;
-				 // getUserID actually returns nickname here (getNickname() does it above)
-				 pieceOwner = new User(dbPieces.get(pullFrom).getUser().getNickname(), dbPieces.get(pullFrom).getUser().getPassword(), dbPieces.get(pullFrom).getUser().getEmail());
-				 // Pull in pieceType info
-				 String pt = dbPieces.get(pullFrom).getPieceType().getPieceType();
-				 // Make piece
-				 Piece p;
-				 p = new Backend.Piece(PieceType.valueOf(pt), pieceOwner);
-				 
-				 // Put piece on temp board
-				 tempBoard.addPieceToBoard(row, col, p.getType(), p.getPlayer());
-				 pullFrom++;
-			 }
-		 }
-		 this.board = tempBoard;
-		 
-		// Set game status
+		 // Set game status
 		 this.status = GameStatus.ACTIVE;
 		
 		

@@ -72,8 +72,39 @@ public abstract class DatabaseTranslator {
 		{
 			playerToReturn.setTurn(false);
 		}
-		
 		return playerToReturn;
+	}
+	
+	//return the board state of a specific game
+	public static Board getGameBoard(int gameID)
+	{
+		 List<Database.Piece> dbPieces = new ArrayList<>();
+		 dbPieces = DatabaseManagerImpl.getGame(gameID).getBoard().getPieces();
+		 
+		 Board backendBoard = new Board();
+		 
+		 int pullFrom = 0;
+		 for(int row = 0; row < 11; row++)
+		 {
+			 for(int col = 0; col < 11; col++)
+			 {
+				 // Pull in pieceOwner user info
+				 User pieceOwner = new User(dbPieces.get(pullFrom).getUser().getNickname(), 
+						 			   dbPieces.get(pullFrom).getUser().getPassword(), 
+						 			   dbPieces.get(pullFrom).getUser().getEmail());
+				 // Pull in pieceType info
+				 String pt = dbPieces.get(pullFrom).getPieceType().getPieceType();
+				 
+				 // Make piece
+				 Piece p;
+				 p = new Backend.Piece(PieceType.valueOf(pt), pieceOwner);
+				 
+				 // Put piece on board
+				 backendBoard.addPieceToBoard(row, col, p.getType(), p.getPlayer());
+				 pullFrom++;
+			 }
+		 }
+		return backendBoard;
 	}
 	
 }
