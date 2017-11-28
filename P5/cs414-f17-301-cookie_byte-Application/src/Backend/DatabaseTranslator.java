@@ -14,14 +14,11 @@ public abstract class DatabaseTranslator {
 		List<Invite> newList = new ArrayList<Invite>();
 		
 		UsersJavaObject temp = DatabaseManagerImpl.getUserByNickname(u.getUserID());
-		System.out.println(u.getUserID());
 		DatabaseManagerImpl.getmyUserJson("D");
 		List<Database.Invite> dbInvites = temp.getInvites();
-		System.out.println(dbInvites.size());
 		for(int i = 0; i < dbInvites.size(); i++) 
 		{	
 			String userFromId = dbInvites.get(i).getInvite().getUserFrom();
-			System.out.println(userFromId);
 			String fromEmail =  DatabaseManagerImpl.getUserByNickname(userFromId).getEmail();
 			String fromPassword = DatabaseManagerImpl.getUserByNickname(userFromId).getPassword();
 			User tempFrom = new User(userFromId, fromPassword, fromEmail);

@@ -219,7 +219,7 @@ public abstract class DatabaseManagerImpl {
     public static void getmyUserJson(String nname) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
-        System.out.println(collection.find(eq("nickname", nname)).first().toJson());
+        //System.out.println(collection.find(eq("nickname", nname)).first().toJson());
     }
 
     /**
