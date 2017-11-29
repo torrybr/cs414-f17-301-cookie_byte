@@ -14,21 +14,18 @@ public abstract class DatabaseTranslator {
 		List<Invite> newList = new ArrayList<Invite>();
 		
 		UsersJavaObject temp = DatabaseManagerImpl.getUserByNickname(u.getUserID());
-		System.out.println(u.getUserID());
 		DatabaseManagerImpl.getmyUserJson("D");
 		List<Database.Invite> dbInvites = temp.getInvites();
-		System.out.println(dbInvites.size());
 		for(int i = 0; i < dbInvites.size(); i++) 
 		{	
 			String userFromId = dbInvites.get(i).getInvite().getUserFrom();
-			System.out.println(userFromId);
 			String fromEmail =  DatabaseManagerImpl.getUserByNickname(userFromId).getEmail();
 			String fromPassword = DatabaseManagerImpl.getUserByNickname(userFromId).getPassword();
 			User tempFrom = new User(userFromId, fromPassword, fromEmail);
 			
 			int tempGameID = dbInvites.get(i).getInvite().getGameID();
 		
-			Invite invite = new Invite(u.userID, tempFrom, tempGameID, 12);
+			Invite invite = new Invite(getUser(u.userID), tempFrom, tempGameID);
 			String status = dbInvites.get(i).getInvite().getInvitationStatus();
 			invite.setStatus(InvitationStatus.valueOf(status));
 			
@@ -47,12 +44,16 @@ public abstract class DatabaseTranslator {
 		if(player == 1) 
 		{
 			thePlayer = DatabaseManagerImpl.getUserByNickname(DatabaseManagerImpl.getGame(gameID).getPlayer1());
-			playerToReturn = new User(thePlayer.getNickname(), thePlayer.getPassword(), thePlayer.getEmail());
+			playerToReturn = new User(thePlayer.getNickname(), 
+									  thePlayer.getPassword(), 
+									  thePlayer.getEmail());
 		}
 		else
 		{
 			thePlayer = DatabaseManagerImpl.getUserByNickname(DatabaseManagerImpl.getGame(gameID).getPlayer2());
-			playerToReturn = new User(thePlayer.getNickname(), thePlayer.getPassword(), thePlayer.getEmail());
+			playerToReturn = new User(thePlayer.getNickname(), 
+									  thePlayer.getPassword(), 
+									  thePlayer.getEmail());
 		}
 		
 		//check if player being returned is offence or defence
@@ -72,8 +73,45 @@ public abstract class DatabaseTranslator {
 		{
 			playerToReturn.setTurn(false);
 		}
-		
 		return playerToReturn;
+	}
+	
+	//return the board state of a specific game
+	public static Board getGameBoard(int gameID)
+	{
+		 List<Database.Piece> dbPieces = new ArrayList<>();
+		 dbPieces = DatabaseManagerImpl.getGame(gameID).getBoard().getPieces();
+		 
+		 Board backendBoard = new Board();
+		 
+		 int pullFrom = 0;
+		 for(int row = 0; row < 11; row++)
+		 {
+			 for(int col = 0; col < 11; col++)
+			 {
+				 // Pull in pieceOwner user info
+				 User pieceOwner = new User(dbPieces.get(pullFrom).getUser().getNickname(), 
+						 			   dbPieces.get(pullFrom).getUser().getPassword(), 
+						 			   dbPieces.get(pullFrom).getUser().getEmail());
+				 // Pull in pieceType info
+				 String pt = dbPieces.get(pullFrom).getPieceType().getPieceType();
+				 
+				 // Make piece
+				 Piece p;
+				 p = new Backend.Piece(PieceType.valueOf(pt), pieceOwner);
+				 
+				 // Put piece on board
+				 backendBoard.addPieceToBoard(row, col, p.getType(), p.getPlayer());
+				 pullFrom++;
+			 }
+		 }
+		return backendBoard;
+	}
+	
+	public static User getUser(String userID) 
+	{
+		UsersJavaObject temp = DatabaseManagerImpl.getUserByNickname(userID);
+		return new User(temp.getNickname(),temp.getPassword(),temp.getEmail());
 	}
 	
 }

@@ -1,5 +1,6 @@
 package UI;
 
+import Backend.DatabaseTranslator;
 import Backend.GameController;
 import Backend.Invite;
 import Drivers.ClientDriver;
@@ -114,7 +115,7 @@ public class CreateGame  extends Application {
 	
 	public void send() {
 		//create a new game with those sender reciever as player 1 player 2. How to create unique game ID?
-		Invite i = new Invite(reciever,client.getProfile());
+		new Invite(DatabaseTranslator.getUser(reciever),client.getProfile());
 	}
 	
 }

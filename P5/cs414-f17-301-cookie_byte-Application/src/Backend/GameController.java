@@ -1,11 +1,6 @@
 package Backend;
 
-import java.util.List;
-import java.util.ArrayList;
-
-import Database.BoardJavaObject;
 import Database.DatabaseManagerImpl;
-import Database.UsersJavaObject;
 
 public class GameController {
 	
@@ -27,11 +22,13 @@ public class GameController {
 	int kingLocationCol;
 	int kingLocationRow;
 	int gameID;
-
+	Tournament T;
+	boolean isTournament = false;
 	
 	Piece[][] pieces = new Piece[11][11];
 	
-	public GameController(int gmeID, User player1, User player2){
+	public GameController(int gmeID, User player1, User player2)
+	{
 		
 		board = new Board();
 		
@@ -107,37 +104,10 @@ public class GameController {
 		}
 	 
 		 // Retrieve board
-		 Board tempBoard = new Board();
+		 this.board = DatabaseTranslator.getGameBoard(gameID);
 		 
-		 List<Database.Piece> dbPieces = new ArrayList<>();
-		 dbPieces = DatabaseManagerImpl.getGame(gameID).getBoard().getPieces();
-		 
-		 int pullFrom = 0;
-		 for(int row = 0; row < 11; row++)
-		 {
-			 for(int col = 0; col < 11; col++)
-			 {
-				 // Pull in pieceOwner user info
-				 User pieceOwner;
-				 // getUserID actually returns nickname here (getNickname() does it above)
-				 pieceOwner = new User(dbPieces.get(pullFrom).getUser().getNickname(), dbPieces.get(pullFrom).getUser().getPassword(), dbPieces.get(pullFrom).getUser().getEmail());
-				 // Pull in pieceType info
-				 String pt = dbPieces.get(pullFrom).getPieceType().getPieceType();
-				 // Make piece
-				 Piece p;
-				 p = new Backend.Piece(PieceType.valueOf(pt), pieceOwner);
-				 
-				 // Put piece on temp board
-				 tempBoard.addPieceToBoard(row, col, p.getType(), p.getPlayer());
-				 pullFrom++;
-			 }
-		 }
-		 this.board = tempBoard;
-		 
-		// Set game status
+		 // Set game status
 		 this.status = GameStatus.ACTIVE;
-		
-		
 	}
 	
 	public void quit(User quitter)
@@ -185,16 +155,19 @@ public class GameController {
 	public User getPlayer1() {
 		return player1;
 	}
-
+	
 	public User getPlayer2() {
 		return player2;
 	}
+	
 	public User getDefence(){
 		return defence;
 	}
+	
 	public User getOffence(){
 		return offence;
 	}
+	
 	public boolean isItMyTurn(User player)
 	{
 		if(currentTurn.equals(player))
@@ -228,7 +201,22 @@ public class GameController {
 		winner = winn;
 	}
 	
-	
+	public Tournament getTournament() {
+		return T;
+	}
+
+	public void setTournament(Tournament t) {
+		T = t;
+	}
+
+	public boolean isTournament() {
+		return isTournament;
+	}
+
+	public void setTournament(boolean isTournament) {
+		this.isTournament = isTournament;
+	}
+
 	// Checks if defence won
 	public boolean kingWinConditions(){
 		
@@ -396,6 +384,20 @@ public class GameController {
 			System.out.println("Not inside board. ");
 			return false;
 		}
+		
+		//Can't move king into check
+		if (piece.getType() == PieceType.KING){
+			if(rowTo == 4 && colTo == 5 || rowTo == 5 && colTo == 4 || rowTo == 6 && colTo == 5 || rowTo == 5 && colTo == 6){
+				board.addPieceToBoard(rowTo, colTo, PieceType.KING, player);
+				board.removePiece(rowFrom, colFrom);
+				if (attackWinConditions()){
+					board.removePiece(rowTo, colTo);
+					board.addPieceToBoard(rowFrom, colFrom, PieceType.KING, player);
+					System.out.println("Can't move king into check");
+					return false;}
+			}
+		}		
+				
 		// Is the piece moving to a corner OR the center piece & not a king check
 		if (piece.getType() != PieceType.KING)
 		{
@@ -428,6 +430,9 @@ public class GameController {
 
 		// Is there a piece in the way check
 		// Left and right
+		System.out.println(rowFrom+" "+colFrom);
+		System.out.println(rowTo+" "+colTo);
+		//System.out.println("Here");
 		if(rowFrom == rowTo)
 		{
 			// Moving to the right
@@ -505,66 +510,92 @@ public class GameController {
 		// Check to see if we are on an edge and if next to a corner, check if
 		// needs to be removed
 		if (row == 0 || row == 10) {
-			if (col != 1 && col != 9) {
-				return false;
-			} else if (row == 0) {
-				// Checking next to top right corner
-				if (col == 1) {
-					if (board.pieces[0][2].getType() != PieceType.NONE && !board.pieces[0][2].getPlayer().equals(player)) {
-						return true;
-					}
-				}
-				// Checking next to top left corner
-				if (col == 9) {
-					if (board.pieces[0][8].getType() != PieceType.NONE && !board.pieces[0][8].getPlayer().equals(player)) {
-						return true;
-					}
-				}
-			} else if (row == 10) {
-				// Checking next to bottom right corner
-				if (col == 1) {
-					if (board.pieces[10][2].getType() != PieceType.NONE && !board.pieces[10][2].getPlayer().equals(player)) {
-						return true;
-					}
-				}
-				// Checking next to bottom left corner
-				if (col == 9) {
-					if (board.pieces[10][8].getType() != PieceType.NONE && !board.pieces[10][8].getPlayer().equals(player)) {
-						return true;
+			// if the piece is sandwiched on the top of bottom row it is capture. Note it can only be captured horizontally 
+			if (col > 1 && col < 9) {
+				if((col - 1) < 1  || (col + 1) > 9)
+					return false;
+				else{
+					if (board.pieces[row][col - 1].getType() != PieceType.NONE && board.pieces[row][col + 1].getType() != PieceType.NONE) {
+						if(!board.getPieceOwner(row, col-1).equals(board.getPieceOwner(row, col)) && !board.getPieceOwner(row, col+1).equals(board.getPieceOwner(row, col)))
+						{
+							return true;
+						}	
 					}
 				}
 			}
-		} else if (col == 0 || col == 10) {
-			if (row != 1 && row != 9) {
-				return false;
-			} else if (col == 0) {
+		   else if (row == 0) {
 				// Checking next to top right corner
-				if (row == 1) {
-					if (board.pieces[2][0].getType() != PieceType.NONE && !board.pieces[2][0].getPlayer().equals(player)) {
+				if (col == 1) {
+					if ((board.pieces[0][2].getType() != PieceType.NONE) && (board.pieces[row][col].getPlayer().equals(player) == false)) {
 						return true;
 					}
 				}
 				// Checking next to top left corner
-				if (row == 9) {
-					if (board.pieces[8][0].getType() != PieceType.NONE && !board.pieces[8][0].getPlayer().equals(player)) {
+				if (col == 9) {
+					if ((board.pieces[0][8].getType() != PieceType.NONE) && (board.pieces[row][col].getPlayer().equals(player)== false)) {
 						return true;
 					}
 				}
-			} else if (col == 10) {
+			} 
+		   else if (row == 10) {
 				// Checking next to bottom right corner
-				if (row == 1) {
-					if (board.pieces[2][10].getType() != PieceType.NONE && !board.pieces[2][10].getPlayer().equals(player)) {
+				if (col == 1) {
+					if ((board.pieces[10][2].getType() != PieceType.NONE) && (board.pieces[row][col].getPlayer().equals(player)== false)) {
 						return true;
 					}
 				}
 				// Checking next to bottom left corner
-				if (row == 9) {
-					if (board.pieces[8][10].getType() != PieceType.NONE && !board.pieces[8][10].getPlayer().equals(player)) {
+				if (col == 9) {
+					if ((board.pieces[10][8].getType() != PieceType.NONE) && (board.pieces[row][col].getPlayer().equals(player)== false)) {
 						return true;
 					}
 				}
 			}
 		}
+		else if (col == 0 || col == 10) {
+		// if the piece is sandwiched on the top of bottom row it is capture. Note it can only be captured vertically
+			if (row > 1 && row < 9) {
+				if((row - 1) < 1  || (row + 1) > 9){
+					return false;}
+				else{
+					if (board.pieces[row - 1][col].getType() != PieceType.NONE && board.pieces[row + 1][col].getType() != PieceType.NONE) {
+						if(!board.getPieceOwner(row-1, col).equals(board.getPieceOwner(row, col)) && !board.getPieceOwner(row+1, col).equals(board.getPieceOwner(row, col)))
+						{
+							return true;
+						}
+					}	
+				}
+			}
+			else if (col == 0) {
+				// Checking next to top right corner
+				if (row == 1) {
+					if ((board.pieces[2][0].getType() != PieceType.NONE) && (board.pieces[row][col].getPlayer().equals(player) == false)) {
+						return true;
+					}
+				}
+				// Checking next to top left corner
+				if (row == 9) {
+					if ((board.pieces[8][0].getType() != PieceType.NONE) && (board.pieces[row][col].getPlayer().equals(player) == false)) {
+						return true;
+					}
+				}
+			} 
+			else if (col == 10) {
+				// Checking next to bottom right corner
+				if (row == 1) {
+					if ((board.pieces[2][10].getType() != PieceType.NONE) && (board.pieces[row][col].getPlayer().equals(player) == false)) {
+						return true;
+					}
+				}
+				// Checking next to bottom left corner
+				if (row == 9) {
+					if ((board.pieces[8][10].getType() != PieceType.NONE) && (board.pieces[row][col].getPlayer().equals(player)== false)) {
+						return true;
+					}
+				}
+			}
+		}
+		
 		// Do the general checks to see if something should be removed
 		if((row - 1) < 0 || (row + 1) > 10 || (col - 1) < 0 || (col + 1) > 10)
 		{
@@ -617,7 +648,14 @@ public class GameController {
 				defence.removeCurrentGame(this);
 				// SDB
 				
-				
+				//checks to see if there's another round after this game or if the Tournament is over.
+				if (isTournament){
+					this.T.checkNextRound();
+				}
+				if ((isTournament == false) && (T != null)){
+					this.T.checkChampion();
+				}
+
 			}
 			else if(this.kingWinConditions())
 			{
@@ -638,6 +676,14 @@ public class GameController {
 				offence.addPastGame(this);
 				offence.removeCurrentGame(this);
 				// SDB
+				
+				//checks to see if there's another round after this game or if the Tournament is over.
+				if (isTournament){
+					this.T.checkNextRound();
+				}
+				if ((isTournament == false) && (T != null)){
+					this.T.checkChampion();
+				}
 			}
 			
 			//Check if we killed any enemies (capturePiece handles out of bounds checks)
@@ -675,6 +721,7 @@ public class GameController {
 		else
 			System.out.println("Invalid Move");
 	}
+
 	
 	
 	/*
