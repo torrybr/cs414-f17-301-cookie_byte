@@ -381,15 +381,21 @@ public abstract class DatabaseManagerImpl {
     public static List searchUser(String searchTerm) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
-        List<Document> matchedUsers = new ArrayList<>();
+        List<UsersJavaObject> matchedUsers = new ArrayList<>();
 
         BasicDBObject query = new BasicDBObject();
         Pattern regex = Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE); // should be m in your case
         query.put("nickname", regex);
 
-        for (Document user : collection.find(query)) {
-            matchedUsers.add(user);
-        }
+     	ObjectMapper objectMapper = new ObjectMapper();
+        	try {
+            		for (Document user : collection.find(query)) {
+                	UsersJavaObject myUser = objectMapper.readValue(user.toJson(), UsersJavaObject.class);
+                	matchedUsers.add(myUser);
+            		}
+        	} catch (IOException e) {
+            		log.error("error parsing user json to java pojo", e);
+        	}
 
         return matchedUsers;
     }
