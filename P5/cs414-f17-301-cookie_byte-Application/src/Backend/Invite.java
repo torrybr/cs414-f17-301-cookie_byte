@@ -13,17 +13,18 @@ public class Invite {
 	
 	//Used for database to backend translation 
 	public Invite (User to, User from, int gmeID){
-		userTo = to;
+		this.userTo = to;
 		this.userFrom = from;
 		this.gameID = gmeID;
-		status = InvitationStatus.PENDING;
+		this.status = InvitationStatus.PENDING;
 	}
 	
 	//used to create a new invite and add to database
 	public Invite(User to, User from){
-		userTo = to;
+		this.userTo = to;
 		this.userFrom = from;
-		status = InvitationStatus.PENDING;
+		this.status = InvitationStatus.PENDING;
+		this.gameID = DatabaseManagerImpl.createGameID();
 		DatabaseManagerImpl.addInvite(this);
 	}
 	

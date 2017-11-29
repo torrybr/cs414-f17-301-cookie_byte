@@ -3,6 +3,8 @@ package Backend;
 import java.util.ArrayList;
 import java.util.List;
 
+import Database.DatabaseManagerImpl;
+
 public class User {
 	
 	String userID; //unique nickname (userID)  
@@ -62,6 +64,7 @@ public class User {
 	public void removeInvite(Invite i)
 	{
 		invites.remove(i);
+		//DatabaseManagerImpl.removeInvite(this.userID, i);
 	}
 	
 	//get pastGames: getPastGames()
