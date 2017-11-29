@@ -8,6 +8,7 @@ import Backend.PieceType;
 import Backend.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -46,7 +48,7 @@ public abstract class DatabaseManagerImpl {
      * Connections to the MongoDatabase
      */
     public DatabaseManagerImpl() {
-        
+        initializeDB();
     }
 
     /**
@@ -95,11 +97,11 @@ public abstract class DatabaseManagerImpl {
         collection.insertOne(user);
     }
 
-    public void setInviteStatus(String nickname, Backend.Invite theInvite ) {
+    public void setInviteStatus(String nickname, Backend.Invite theInvite) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
 
-        Document match = Document.parse(" {\"nickname\": \"" + nickname +"\",\"invites\": { $elemMatch: {\"Invite.gameID\" : NumberInt("+theInvite.getGameID()+") }} }");
+        Document match = Document.parse(" {\"nickname\": \"" + nickname + "\",\"invites\": { $elemMatch: {\"Invite.gameID\" : NumberInt(" + theInvite.getGameID() + ") }} }");
 
         Document invitationStatus = new Document();
         invitationStatus.append("invitationStatus", theInvite.getStatus().toString());
@@ -113,9 +115,9 @@ public abstract class DatabaseManagerImpl {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
 
-        Document q = Document.parse(" {$pull: {\"Invite.gameID\" : NumberInt("+theInvite.getGameID()+") }}");
+        Document q = Document.parse(" {$pull: {\"Invite.gameID\" : NumberInt(" + theInvite.getGameID() + ") }}");
         //Document command =
-        Document match = Document.parse(" {\"nickname\": \"" + nickname +"\",\"invites\": { $elemMatch: {\"Invite.gameID\" : NumberInt("+theInvite.getGameID()+") }} }");
+        Document match = Document.parse(" {\"nickname\": \"" + nickname + "\",\"invites\": { $elemMatch: {\"Invite.gameID\" : NumberInt(" + theInvite.getGameID() + ") }} }");
 
         Document update = new Document().parse("{\"Invite.gameID\" : NumberInt(" + theInvite.getGameID() + ") }");
         //BasicDBObject update = new BasicDBObject();
@@ -136,7 +138,7 @@ public abstract class DatabaseManagerImpl {
 
 
     public static void addInvite(String nickname, Backend.Invite theInvite) {
-    	System.out.println(nickname);
+        System.out.println(nickname);
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
 
@@ -150,10 +152,10 @@ public abstract class DatabaseManagerImpl {
         invite.append("InvitationStatus", theInvite.getStatus().toString());
 
         new Document();
-		Document query = Document.parse("{ \"nickname\": \"" + nickname + "\" }");
+        Document query = Document.parse("{ \"nickname\": \"" + nickname + "\" }");
 
         BasicDBObject data = new BasicDBObject();
-        main.append("Invite",invite);
+        main.append("Invite", invite);
         data.put("invites", main);
 
         BasicDBObject command = new BasicDBObject();
@@ -169,7 +171,7 @@ public abstract class DatabaseManagerImpl {
      * @return a User object for that nickname.
      */
     public static UsersJavaObject getUserByNickname(String nname) {
-    	
+
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
 
@@ -254,9 +256,11 @@ public abstract class DatabaseManagerImpl {
         return randIntegers.get(randomInt);
 
     }
+
     /**
      * Update the status of the game from PENDING, ACTIVE, FINSIHED.
-     * @param gameID the id of the game you what to access.
+     *
+     * @param gameID    the id of the game you what to access.
      * @param theStatus the new status of the game.
      */
 
@@ -267,7 +271,7 @@ public abstract class DatabaseManagerImpl {
         collection.updateOne(eq("GameID", gameID), new Document("$set", new Document("GameStatus", theStatus.toString())));
 
     }
-    
+
 
     public static void addToCurrentGames(int gameID, User player) {
 
@@ -280,7 +284,7 @@ public abstract class DatabaseManagerImpl {
 
         BasicDBObject data = new BasicDBObject();
         //main.append("gameID",gameID);
-        data.put("current_games",gameID);
+        data.put("current_games", gameID);
 
         BasicDBObject command = new BasicDBObject();
         command.put("$push", data);
@@ -331,8 +335,8 @@ public abstract class DatabaseManagerImpl {
         myGame.append("Board", myBoard);
         collection.insertOne(myGame);
 
-        addToCurrentGames(theID,player1);
-        addToCurrentGames(theID,player2);
+        addToCurrentGames(theID, player1);
+        addToCurrentGames(theID, player2);
 
 
     }
@@ -374,9 +378,30 @@ public abstract class DatabaseManagerImpl {
         collection.updateOne(query, command);
     }
 
+    /**
+     * Return user search result. This method IS autocomplete compatible , all you have to do is on each new keypress call this method and pass in a string.
+     *
+     * @param searchTerm a search term in string format
+     */
+    public static List searchUser(String searchTerm) {
+        MongoDatabase db = mongoClient.getDatabase("cs414Application");
+        MongoCollection<Document> collection = db.getCollection("users");
+        List<Document> matchedUsers = new ArrayList<>();
+
+        BasicDBObject query = new BasicDBObject();
+        Pattern regex = Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE); // should be m in your case
+        query.put("nickname", regex);
+
+        for (Document user : collection.find(query)) {
+            matchedUsers.add(user);
+        }
+
+        return matchedUsers;
+    }
+
     public static void main(String args[]) {
-        DatabaseManagerImpl.getmyGameJson(0);
-        
+
+
     }
 
 
