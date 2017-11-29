@@ -1,10 +1,5 @@
 package Database;
 
-import Backend.*;
-import Backend.InvitationStatus;
-import Backend.Invite;
-import Backend.Piece;
-import Backend.PieceType;
 import Backend.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
@@ -20,7 +15,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -135,8 +129,7 @@ public abstract class DatabaseManagerImpl {
     }
 
 
-    public static void addInvite(String nickname, Backend.Invite theInvite) {
-    	System.out.println(nickname);
+    public static void addInvite(Backend.Invite theInvite) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
 
@@ -150,7 +143,7 @@ public abstract class DatabaseManagerImpl {
         invite.append("InvitationStatus", theInvite.getStatus().toString());
 
         new Document();
-		Document query = Document.parse("{ \"nickname\": \"" + nickname + "\" }");
+		Document query = Document.parse("{ \"nickname\": \"" + theInvite.getUserTo().getUserID() + "\" }");
 
         BasicDBObject data = new BasicDBObject();
         main.append("Invite",invite);
@@ -226,7 +219,7 @@ public abstract class DatabaseManagerImpl {
     public static void getmyUserJson(String nname) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
-        System.out.println(collection.find(eq("nickname", nname)).first().toJson());
+        //System.out.println(collection.find(eq("nickname", nname)).first().toJson());
     }
 
     /**

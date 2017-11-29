@@ -101,33 +101,15 @@ public class Login extends Application {
 			e.printStackTrace();
 		}
 	}
-	public void loginClick(String username, String password) {
-		Stage stage = new Stage();
-		VBox box = new VBox();
-		box.setPadding(new Insets(10));
-		box.setAlignment(Pos.CENTER);
-		Label label = new Label("Authenticating....");
-		//connect to server, wait for response. 
-		Button btnLogin = new Button();
-		btnLogin.setText("Continue");
-		btnLogin.setOnAction(new EventHandler<ActionEvent>() {
-			 @Override
-			 public void handle(ActionEvent event) {
-				 stage.hide();
-				 if(auth.checkAuth(username, password)) {
-					 loggedInUser = username;
-					 loginResult(true);
-				 }
-				 else
-					 loginResult(false);
-			 }
-		});
-		box.getChildren().add(label);
-		box.getChildren().add(btnLogin);
-		Scene scene = new Scene(box, 150, 100);
-		stage.setScene(scene);
-		stage.show();
-
+	public void loginClick(String username, String password) 
+	{
+		 if(auth.checkAuth(username, password)) 
+		 {
+			 loggedInUser = username;
+			 loginResult(true);
+		 }
+		 else
+			 loginResult(false);
 	}
 	
 	public void loginResult(boolean result) {

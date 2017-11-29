@@ -1,11 +1,6 @@
 package Backend;
 
-import java.util.List;
-import java.util.ArrayList;
-
-import Database.BoardJavaObject;
 import Database.DatabaseManagerImpl;
-import Database.UsersJavaObject;
 
 public class GameController {
 	
@@ -32,7 +27,8 @@ public class GameController {
 	
 	Piece[][] pieces = new Piece[11][11];
 	
-	public GameController(int gmeID, User player1, User player2){
+	public GameController(int gmeID, User player1, User player2)
+	{
 		
 		board = new Board();
 		
@@ -108,37 +104,10 @@ public class GameController {
 		}
 	 
 		 // Retrieve board
-		 Board tempBoard = new Board();
+		 this.board = DatabaseTranslator.getGameBoard(gameID);
 		 
-		 List<Database.Piece> dbPieces = new ArrayList<>();
-		 dbPieces = DatabaseManagerImpl.getGame(gameID).getBoard().getPieces();
-		 
-		 int pullFrom = 0;
-		 for(int row = 0; row < 11; row++)
-		 {
-			 for(int col = 0; col < 11; col++)
-			 {
-				 // Pull in pieceOwner user info
-				 User pieceOwner;
-				 // getUserID actually returns nickname here (getNickname() does it above)
-				 pieceOwner = new User(dbPieces.get(pullFrom).getUser().getNickname(), dbPieces.get(pullFrom).getUser().getPassword(), dbPieces.get(pullFrom).getUser().getEmail());
-				 // Pull in pieceType info
-				 String pt = dbPieces.get(pullFrom).getPieceType().getPieceType();
-				 // Make piece
-				 Piece p;
-				 p = new Backend.Piece(PieceType.valueOf(pt), pieceOwner);
-				 
-				 // Put piece on temp board
-				 tempBoard.addPieceToBoard(row, col, p.getType(), p.getPlayer());
-				 pullFrom++;
-			 }
-		 }
-		 this.board = tempBoard;
-		 
-		// Set game status
+		 // Set game status
 		 this.status = GameStatus.ACTIVE;
-		
-		
 	}
 	
 	public void quit(User quitter)
@@ -186,16 +155,19 @@ public class GameController {
 	public User getPlayer1() {
 		return player1;
 	}
-
+	
 	public User getPlayer2() {
 		return player2;
 	}
+	
 	public User getDefence(){
 		return defence;
 	}
+	
 	public User getOffence(){
 		return offence;
 	}
+	
 	public boolean isItMyTurn(User player)
 	{
 		if(currentTurn.equals(player))
@@ -228,7 +200,6 @@ public class GameController {
 	public void setWinner(User winn) {
 		winner = winn;
 	}
-	
 	
 	public Tournament getTournament() {
 		return T;
