@@ -5,6 +5,7 @@ import Backend.Piece;
 import Backend.PieceType;
 import Drivers.ClientDriver;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -32,7 +33,7 @@ public class Game extends Application{
 	
 	public ClientDriver clientDriver;
 	public GameController gameDriver;
-	
+	public Button buttonRefresh;
 	protected int gameID;
 	protected int piece1 = -1;
 	protected int piece2 = -1;
@@ -89,13 +90,7 @@ public class Game extends Application{
 		holder[10][10].setBackground(new Background(new BackgroundFill(Color.BLACK,CornerRadii.EMPTY,Insets.EMPTY)));;
 		
 		setGame();
-		/*ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
-		exec.scheduleAtFixedRate(new Runnable() {
-			@Override
-			public void run() {
-				refresh();
-			}
-		}, 0, 2, TimeUnit.SECONDS);*/
+		
 		return root;
 	}
 	
@@ -148,7 +143,7 @@ public class Game extends Application{
 	    Button buttonHome = new Button("Home");
 	    buttonHome.setPrefSize(100, 20);
 
-		Button buttonRefresh= new Button("Refresh");
+		buttonRefresh= new Button("Refresh");
 		buttonHome.setPrefSize(100, 20);
 
 		Button buttonQuit = new Button("Quit this game");
@@ -486,7 +481,7 @@ public class Game extends Application{
 		}
 	}
 	
-	public void refresh(){
+	public synchronized void refresh(){
 		gameDriver = new GameController(gameID);
 		setGame();
 		changeTurn();
@@ -506,12 +501,24 @@ public class Game extends Application{
 	    Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		
+		ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
+		exec.scheduleAtFixedRate(new Runnable() {
+			@Override
+			public void run() {
+				Platform.runLater(new Runnable() {
+					@Override public void run() {
+						buttonRefresh.fire();
+					}
+				});
+			}
+		}, 0, 1, TimeUnit.SECONDS);
 	}
 	
 	
 	
 	public static void main(String[] args) {
 		launch(args);
+		
+		
 	}
 }
