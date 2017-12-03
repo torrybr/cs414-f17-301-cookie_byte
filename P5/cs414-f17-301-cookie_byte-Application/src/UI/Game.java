@@ -517,6 +517,8 @@ public class Game extends Application{
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
+		new Thread(() ->  buttonRefresh.fire()).start();
+		/*
 		exec.scheduleAtFixedRate(new Runnable() {
 			@Override
 			public void run() {
@@ -527,6 +529,7 @@ public class Game extends Application{
 				});
 			}
 		}, 0, 1, TimeUnit.SECONDS);
+		*/
 	}
 	
 	

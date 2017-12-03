@@ -3,7 +3,6 @@ package Database;
 import Backend.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
@@ -16,7 +15,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -27,16 +25,11 @@ import static com.mongodb.client.model.Filters.eq;
  */
 public abstract class DatabaseManagerImpl {
 
-    /* The location of the remote Database. */
-    private static MongoClientURI uri;
-
     /* The mongoDB client. */
     private static MongoClient mongoClient;
 
     /* Logs system exceptions */
     final static Logger log = Logger.getLogger(DatabaseManagerImpl.class);
-
-    /*The Database connection*/
 
 
     /**
@@ -53,7 +46,7 @@ public abstract class DatabaseManagerImpl {
      */
     public static boolean initializeDB() {
         try {
-            uri = new MongoClientURI(
+            MongoClientURI uri = new MongoClientURI(
                     "mongodb://app:tsM6N8irlTgHNzMa@cluster0-shard-00-00-u3hx4.mongodb.net:27017,cluster0-shard-00-01-u3hx4.mongodb.net:27017,cluster0-shard-00-02-u3hx4.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&&connectTimeoutMS=200000");
             mongoClient = new MongoClient(uri);
             return true;
@@ -92,6 +85,12 @@ public abstract class DatabaseManagerImpl {
         collection.insertOne(user);
     }
 
+    /**
+     * Sets the invitation status.
+     *
+     * @param nickname  the nickname of the user who sent the invite.
+     * @param theInvite the invite object.
+     */
     public void setInviteStatus(String nickname, Backend.Invite theInvite) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
@@ -106,33 +105,12 @@ public abstract class DatabaseManagerImpl {
 
     }
 
-    public void removeInvite(String nickname, Backend.Invite theInvite) {
-        MongoDatabase db = mongoClient.getDatabase("cs414Application");
-        MongoCollection<Document> collection = db.getCollection("users");
 
-        Document q = Document.parse(" {$pull: {\"Invite.gameID\" : NumberInt(" + theInvite.getGameID() + ") }}");
-        //Document command =
-        Document match = Document.parse(" {\"nickname\": \"" + nickname + "\",\"invites\": { $elemMatch: {\"Invite.gameID\" : NumberInt(" + theInvite.getGameID() + ") }} }");
-
-        Document update = new Document().parse("{\"Invite.gameID\" : NumberInt(" + theInvite.getGameID() + ") }");
-        //BasicDBObject update = new BasicDBObject();
-        //update.put(match, new BasicDBObject("$pull", q));
-        //Document invite = new Document();
-        //collection.findOneAndDelete(q);
-        //collection.updateOne(p, new BasicDBObject("$pull", update));
-        //collection.updateOne(match,q);
-
-        //BasicDBObject data = new BasicDBObject();
-        //data.put("Board.pieces", array);
-
-        //BasicDBObject command = new BasicDBObject();
-        //command.put("$set", data);
-        //Document query = Document.parse("{ \"GameID\": NumberInt(" + gameID + ")}");
-        //collection.updateOne(query, command);
-    }
-
-
-
+    /**
+     * Adds an invite to a specific user.
+     *
+     * @param theInvite the invite object that was created.
+     */
     public static void addInvite(Backend.Invite theInvite) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
@@ -147,7 +125,7 @@ public abstract class DatabaseManagerImpl {
         invite.append("InvitationStatus", theInvite.getStatus().toString());
 
         new Document();
-		    Document query = Document.parse("{ \"nickname\": \"" + theInvite.getUserTo().getUserID() + "\" }");
+        Document query = Document.parse("{ \"nickname\": \"" + theInvite.getUserTo().getUserID() + "\" }");
 
         BasicDBObject data = new BasicDBObject();
         main.append("Invite", invite);
@@ -223,14 +201,14 @@ public abstract class DatabaseManagerImpl {
     public static void getmyUserJson(String nname) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
-        //System.out.println(collection.find(eq("nickname", nname)).first().toJson());
+        System.out.println(collection.find(eq("nickname", nname)).first().toJson());
     }
 
     /**
      * Update the players turn in the game.
      *
-     * @param gameID
-     * @param playerTurn
+     * @param gameID     the game ID of the game to update.
+     * @param playerTurn the player whos turn is getting updated.
      */
     public static void updatePlayerTurn(int gameID, String playerTurn) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
@@ -240,7 +218,11 @@ public abstract class DatabaseManagerImpl {
 
     }
 
-
+    /**
+     * Creates a unique random gameID
+     *
+     * @return a random INT
+     */
     public static int createGameID() {
 
         Random randomGenerator = new Random();
@@ -267,7 +249,12 @@ public abstract class DatabaseManagerImpl {
 
     }
 
-
+    /**
+     * Adds a game to the list of users current games.
+     *
+     * @param gameID the gameID to be added.
+     * @param player the player that it gets added to.
+     */
     public static void addToCurrentGames(int gameID, User player) {
 
 
@@ -297,16 +284,21 @@ public abstract class DatabaseManagerImpl {
     public static void createGame(Backend.Board theBoard, User player1, User player2, User offence, User defence) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
-//        final GameController gameController = new GameController(theBoard.getGameID(),player1,player2);
         int theID = createGameID();
-        Document myGame = new Document();
-        myGame.put("GameID", theID); //1234322
 
+        Document myGame = new Document();
+        myGame.put("GameID", theID);
+
+        Document gameStatus = new Document();
+        gameStatus.put("gameStatus", "Active");
+
+        myGame.put("GameStatus", gameStatus);
         myGame.put("Player1", player1.getUserID());
         myGame.put("Player2", player2.getUserID());
         myGame.put("Offense", offence.getUserID());
         myGame.put("Defense", defence.getUserID());
         myGame.put("CurrentTurn", "A"); //need to finish this
+
 
         Document myBoard = new Document();
 
@@ -387,15 +379,15 @@ public abstract class DatabaseManagerImpl {
         Pattern regex = Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE); // should be m in your case
         query.put("nickname", regex);
 
-     	ObjectMapper objectMapper = new ObjectMapper();
-        	try {
-            		for (Document user : collection.find(query)) {
-                	UsersJavaObject myUser = objectMapper.readValue(user.toJson(), UsersJavaObject.class);
-                	matchedUsers.add(myUser);
-            		}
-        	} catch (IOException e) {
-            		log.error("error parsing user json to java pojo", e);
-        	}
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            for (Document user : collection.find(query)) {
+                UsersJavaObject myUser = objectMapper.readValue(user.toJson(), UsersJavaObject.class);
+                matchedUsers.add(myUser);
+            }
+        } catch (IOException e) {
+            log.error("error parsing user json to java pojo", e);
+        }
 
         return matchedUsers;
     }
