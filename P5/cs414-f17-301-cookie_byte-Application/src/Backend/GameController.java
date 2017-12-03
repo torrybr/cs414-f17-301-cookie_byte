@@ -705,14 +705,18 @@ public class GameController {
 			}
 		
 			// Make sure to set the other player as the one to take a turn next
-			if(this.getCurrentTurn().equals(offence))
-			{
-				this.setCurrentTurn(defence);
-			}
-			else
-			{
-				this.setCurrentTurn(offence);
-			}
+			if(!this.status.equals(GameStatus.FINISHED))
+  			{
+ 				this.setCurrentTurn(offence);
+ 				if(this.getCurrentTurn().equals(offence))
+ 				{
+ 					this.setCurrentTurn(defence);
+ 				}
+ 				else
+ 				{
+ 					this.setCurrentTurn(offence);
+ 				}
+  			}
 			
 			//Save to DB here after each move
 			DatabaseManagerImpl.updateGame(this.gameID, this.board);

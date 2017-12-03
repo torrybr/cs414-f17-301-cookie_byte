@@ -220,7 +220,7 @@ public class Game extends Application{
 	    HBox.setHgrow(spacer, Priority.ALWAYS);
 	    spacer.setMinSize(10, 1);
 	    hbox.getChildren().addAll(p1,p2,movetext);
-		hbox.getChildren().addAll(buttonQuit,buttonRefresh,buttonHome);
+		hbox.getChildren().addAll(buttonQuit,buttonHome);
 
 	    return hbox;
 	}
