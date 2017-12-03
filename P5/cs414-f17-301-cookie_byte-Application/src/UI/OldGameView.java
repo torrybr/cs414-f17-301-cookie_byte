@@ -1,7 +1,6 @@
 package UI;
 
 import Backend.GameController;
-import Backend.GameStatus;
 import Backend.Piece;
 import Backend.PieceType;
 import Drivers.ClientDriver;
@@ -24,33 +23,25 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+public class OldGameView extends Application{
 
-public class Game extends Application{
-	
 	public ClientDriver clientDriver;
 	public GameController gameDriver;
-	
+
 	protected int gameID;
-	protected int piece1 = -1;
-	protected int piece2 = -1;
 	protected String user1 = "?";
 	protected String user2 = "?";
-	protected String move = "?";
-
-	protected Text movetext;
+	protected String winner;
+	protected Text winnerText;
 	protected Stage main;
 	Tile[][] holder;
-	
-	 public Game(ClientDriver client,GameController game){
+
+	 public OldGameView(ClientDriver client, GameController game){
 	 	this.clientDriver = client;
 	 	this.gameDriver = game;
 	 	user1 = gameDriver.getPlayer1().getUserID();
 	 	user2 = gameDriver.getPlayer2().getUserID();
-	 	move = gameDriver.getCurrentTurn().getUserID();
+	 	winner = "?";//fix
 	 	this.gameID = gameDriver.getGameID();
 	 }
 	
@@ -68,7 +59,6 @@ public class Game extends Application{
 					holder[i][j].setTranslateX(50 + (50 * i));
 					holder[i][j].setTranslateY(50 + (50 * j));
 					holder[i][j].setBackground(new Background(new BackgroundFill(Color.GRAY,CornerRadii.EMPTY,Insets.EMPTY)));
-					holder[i][j].setOrigBackground(new Background(new BackgroundFill(Color.GRAY,CornerRadii.EMPTY,Insets.EMPTY)));
 					holder[i][j].setLocationButton(i, j);
 					root.getChildren().add(holder[i][j]);
 				}
@@ -77,7 +67,6 @@ public class Game extends Application{
 					holder[i][j].setTranslateX(50 + (50 * i));
 					holder[i][j].setTranslateY(50 + (50 * j));
 					holder[i][j].setBackground(new Background(new BackgroundFill(Color.WHITE,CornerRadii.EMPTY,Insets.EMPTY)));
-					holder[i][j].setOrigBackground(new Background(new BackgroundFill(Color.WHITE,CornerRadii.EMPTY,Insets.EMPTY)));
 					holder[i][j].setLocationButton(i, j);
 					root.getChildren().add(holder[i][j]);
 				}
@@ -90,20 +79,12 @@ public class Game extends Application{
 		holder[10][10].setBackground(new Background(new BackgroundFill(Color.BLACK,CornerRadii.EMPTY,Insets.EMPTY)));;
 		
 		setGame();
-		/*ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
-		exec.scheduleAtFixedRate(new Runnable() {
-			@Override
-			public void run() {
-				refresh();
-			}
-		}, 0, 2, TimeUnit.SECONDS);*/
 		return root;
 	}
 	
 	private class Tile extends StackPane {
 		
 		protected BoardPiece tempB;
-		protected Background origBackground;
 
 		public Tile(String value) {
 			Rectangle border = new Rectangle(50, 50);
@@ -114,12 +95,6 @@ public class Game extends Application{
 			tempB.setStyle("-fx-background-color: transparent;");
 			tempB.setPrefWidth(50);
 			tempB.setPrefHeight(50);
-			tempB.setOnAction(new EventHandler<ActionEvent>() {
-				
-				public void handle(ActionEvent e) {
-					 movePieces(tempB.getX(),tempB.getY());
-				 }
-			});
 			
 			Text text = new Text(value);
 			text.setFont(Font.font(30));
@@ -131,10 +106,6 @@ public class Game extends Application{
 		protected void setLocationButton(int x, int y) {
 			tempB.setX(x);
 			tempB.setY(y);
-		}
-
-		protected void setOrigBackground(Background background){
-			origBackground = background;
 		}
 
 		
@@ -149,9 +120,6 @@ public class Game extends Application{
 	    Button buttonHome = new Button("Home");
 	    buttonHome.setPrefSize(100, 20);
 
-		Button buttonRefresh= new Button("Refresh");
-		buttonHome.setPrefSize(100, 20);
-
 		Button buttonQuit = new Button("Quit this game");
 		buttonHome.setPrefSize(100, 20);
 
@@ -160,9 +128,9 @@ public class Game extends Application{
 		
 		Text p2 = new Text("Blue: " + user2);
 		p2.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
-		
-		movetext = new Text("Current Turn: " + move);
-		movetext.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
+
+		winnerText = new Text("Winner: " + winner);
+		winnerText.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
 		
 	    buttonHome.setOnAction(new EventHandler<ActionEvent>() {
        	 
@@ -178,54 +146,12 @@ public class Game extends Application{
             }
         });
 
-		buttonRefresh.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent e) {
-					refresh();
-
-			}
-		});
-
-		buttonQuit.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent e) {
-				Stage stage = new Stage();
-				VBox box = new VBox();
-				box.setPadding(new Insets(10));
-				box.setAlignment(Pos.CENTER);
-				Label label = new Label("You just quit this game....LOSER");
-				//connect to server, wait for response. 
-				Button btnLogin = new Button();
-				btnLogin.setText("Home");
-				btnLogin.setOnAction(new EventHandler<ActionEvent>() {
-					 @Override
-					 public void handle(ActionEvent event) {
-						 stage.hide();
-						 Home home = new Home(clientDriver);
-							try {
-								home.start(main);
-							} catch (Exception e1) {
-								e1.printStackTrace();
-							}
-					 }
-				});
-				box.getChildren().add(label);
-				box.getChildren().add(btnLogin);
-				Scene scene = new Scene(box, 150, 100);
-				stage.setScene(scene);
-				stage.show();
-
-			}
-		});
-	  
 	    
 	    final Pane spacer = new Pane();
 	    HBox.setHgrow(spacer, Priority.ALWAYS);
 	    spacer.setMinSize(10, 1);
-	    hbox.getChildren().addAll(p1,p2,movetext);
-		hbox.getChildren().addAll(buttonQuit,buttonRefresh,buttonHome);
+	    hbox.getChildren().addAll(p1,p2,winnerText);
+		hbox.getChildren().addAll(buttonHome);
 
 	    return hbox;
 	}
@@ -440,76 +366,7 @@ public class Game extends Application{
 
 	}
 	
-	protected void movePieces(int oldx, int oldy) {
-		if(piece1 == -1) {
-			piece1 = oldx;
-			piece2 = oldy;
-			//highlight square
-			holder[oldx][oldy].setBackground(new Background(new BackgroundFill(Color.YELLOW,CornerRadii.EMPTY,Insets.EMPTY)));
-		}
-		else {
-			if(gameDriver.isMoveValid(gameDriver.getBoard().getPiece(piece1,piece2),clientDriver.getProfile(),piece1,piece2,oldx,oldy)){
-				//old code
-				gameDriver.movePiece(piece1,piece2,oldx,oldy);
-				if((piece1+piece2)%2 == 0){
-					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.GRAY,CornerRadii.EMPTY,Insets.EMPTY)));
-				}
-				else{
-					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.WHITE,CornerRadii.EMPTY,Insets.EMPTY)));
-				}
-				piece1 = -1;
-				piece2 = -1;
-				setGame();
-				changeTurn();
-			}
-			else{
-				Stage stage = new Stage();
-				VBox box = new VBox();
-				box.setPadding(new Insets(10));
-				box.setAlignment(Pos.CENTER);
-				Label label = new Label("Bad Move");
-				box.getChildren().add(label);
-				Scene scene = new Scene(box, 150, 100);
-				stage.setScene(scene);
-				stage.show();
-				
-				if((piece1+piece2)%2 == 0){
-					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.GRAY,CornerRadii.EMPTY,Insets.EMPTY)));
-				}
-				else{
-					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.WHITE,CornerRadii.EMPTY,Insets.EMPTY)));
-				}
-				piece1 = -1;
-				piece2 = -1;
-				
-			}
-		}
-	}
-	
-	public void refresh(){
-		gameDriver = new GameController(gameID);
-		setGame();
-		changeTurn();
-		if(gameDriver.getStatus() == GameStatus.FINISHED){
-			Stage stage = new Stage();
-			VBox box = new VBox();
-			box.setPadding(new Insets(10));
-			box.setAlignment(Pos.CENTER);
-			String status = "error";
-			if(gameDriver.getWinner() != null) {
-				status = gameDriver.getWinner().getUserID();
-			}
-			Label label = new Label(status + " has won the game!");
-			box.getChildren().add(label);
-			Scene scene = new Scene(box, 150, 100);
-			stage.setScene(scene);
-			stage.show();
-		}
-	}
 
-	public void changeTurn(){
-		movetext.setText("Current Turn: "+gameDriver.getCurrentTurn().getUserID());
-	}
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		main = primaryStage;

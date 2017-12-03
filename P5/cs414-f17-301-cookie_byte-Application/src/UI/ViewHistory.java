@@ -15,13 +15,15 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class CreateGame  extends Application {
+import java.util.List;
+
+public class ViewHistory extends Application {
 	protected String sender;
 	protected String reciever;
-	protected Stage main; 
+	protected Stage main;
 	public ClientDriver client;
-	
-	public CreateGame(ClientDriver driver){
+
+	public ViewHistory(ClientDriver driver){
 	 	this.client = driver;
 	}
 	@Override
@@ -32,15 +34,15 @@ public class CreateGame  extends Application {
 		String other = "D";
 		if(client.getProfile().getUserID().equals("D"))
 			other = "A";
-		border.setLeft(addVBox("Create game with....",other));
+		border.setLeft(addVBox("Select a past game to view it.",client.getGameIDs()));
 		Scene scene = new Scene(border,635,375);
-		primaryStage.setTitle("Creating a game");
+		primaryStage.setTitle("History of "+client.getProfile().getUserID());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	
 	}
 
-	public VBox addVBox(String label,String sub1) {
+	public VBox addVBox(String label,List<Integer> pastGames) {
 	    VBox vbox = new VBox();
 	    vbox.setPadding(new Insets(10));
 	    vbox.setSpacing(8);
@@ -49,25 +51,28 @@ public class CreateGame  extends Application {
 	    title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 	    vbox.getChildren().add(title);
 
-	    Button options[] = new Button[] {
-	        new Button(sub1)};
-	    
-	    options[0].setOnAction(new EventHandler<ActionEvent>() {
-       	 
-            @Override
-            public void handle(ActionEvent e) {
-            		reciever = options[0].getText();
-            		send();
-            		String name = client.getProfile().getUserID();
-            		client = new ClientDriver(name);
-            		Home home = new Home(client);
-            		try {
-						home.start(main);
+		Button options[] = new Button[pastGames.size()];
+		for(int i = 0;i < pastGames.size();i++) {
+			options[i] = new Button(Integer.toString(pastGames.get(i)));
+			options[i].setPrefSize(100, 20);
+			int tempi = i;
+			options[i].setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent e) {
+					GameController gameD = new GameController(Integer.parseInt((options[tempi].getText())));
+					try {
+						OldGameView game = new OldGameView(client,gameD);
+						game.start(main);
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
-            }
-        });
+
+				}
+			});
+			VBox.setMargin(options[i], new Insets(0, 0, 0, 8));
+			vbox.getChildren().add(options[i]);
+		}
 	    
 	    
 	    VBox.setMargin(options[0], new Insets(0, 0, 0, 8));

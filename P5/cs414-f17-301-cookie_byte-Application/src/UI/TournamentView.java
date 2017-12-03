@@ -1,6 +1,5 @@
 package UI;
 
-import Backend.GameController;
 import Backend.Invite;
 import Drivers.ClientDriver;
 import javafx.application.Application;
@@ -15,13 +14,13 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class CreateGame  extends Application {
-	protected String sender;
-	protected String reciever;
-	protected Stage main; 
+public class TournamentView extends Application {
+
+	protected Stage main;
 	public ClientDriver client;
-	
-	public CreateGame(ClientDriver driver){
+	//public TournamentDriver tournyDriver;
+
+	public TournamentView(ClientDriver driver){
 	 	this.client = driver;
 	}
 	@Override
@@ -29,12 +28,10 @@ public class CreateGame  extends Application {
 		main = primaryStage;
 		BorderPane border = new BorderPane();
 		border.setTop(addHBox());
-		String other = "D";
-		if(client.getProfile().getUserID().equals("D"))
-			other = "A";
-		border.setLeft(addVBox("Create game with....",other));
+
+		//border.setLeft(addVBox("Create game with....",other));
 		Scene scene = new Scene(border,635,375);
-		primaryStage.setTitle("Creating a game");
+		primaryStage.setTitle("Tournament"+"fixname");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	
@@ -56,16 +53,7 @@ public class CreateGame  extends Application {
        	 
             @Override
             public void handle(ActionEvent e) {
-            		reciever = options[0].getText();
-            		send();
-            		String name = client.getProfile().getUserID();
-            		client = new ClientDriver(name);
-            		Home home = new Home(client);
-            		try {
-						home.start(main);
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}
+
             }
         });
 	    
@@ -110,11 +98,6 @@ public class CreateGame  extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
-	}
-	
-	public void send() {
-		//create a new game with those sender reciever as player 1 player 2. How to create unique game ID?
-		Invite i = new Invite(reciever,client.getProfile());
 	}
 	
 }
