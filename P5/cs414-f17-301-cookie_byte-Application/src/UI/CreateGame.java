@@ -35,7 +35,7 @@ public class CreateGame  extends Application {
 			other = "A";
 		border.setLeft(addVBox("Create game with....",other));
 		Scene scene = new Scene(border,635,375);
-		primaryStage.setTitle("Login");
+		primaryStage.setTitle("Creating a game");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	

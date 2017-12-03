@@ -1,6 +1,7 @@
 package UI;
 
 import Backend.GameController;
+import Backend.GameStatus;
 import Backend.Piece;
 import Backend.PieceType;
 import Drivers.ClientDriver;
@@ -462,7 +463,6 @@ public class Game extends Application{
 				box.setPadding(new Insets(10));
 				box.setAlignment(Pos.CENTER);
 				Label label = new Label("Bad Move");
-				//connect to server, wait for response. 
 				box.getChildren().add(label);
 				Scene scene = new Scene(box, 150, 100);
 				stage.setScene(scene);
@@ -485,6 +485,21 @@ public class Game extends Application{
 		gameDriver = new GameController(gameID);
 		setGame();
 		changeTurn();
+		if(gameDriver.getStatus() == GameStatus.FINISHED){
+			Stage stage = new Stage();
+			VBox box = new VBox();
+			box.setPadding(new Insets(10));
+			box.setAlignment(Pos.CENTER);
+			String status = "error";
+			if(gameDriver.getWinner() != null){
+				status = gameDriver.getWinner().getUserID();
+			}
+			Label label = new Label(status + " has won the game!");
+			box.getChildren().add(label);
+			Scene scene = new Scene(box, 150, 100);
+			stage.setScene(scene);
+			stage.show();
+		}
 	}
 
 	public void changeTurn(){
