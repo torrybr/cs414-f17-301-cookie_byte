@@ -59,7 +59,6 @@ public class InviteView extends Application {
 
             @Override
             public void handle(ActionEvent e) {
-            	//accept invite in db
             	inviteDriver.acceptInvite();
             	String name = driver.getProfile().getUserID();
         		driver = new ClientDriver(name);
@@ -67,7 +66,6 @@ public class InviteView extends Application {
             		try {
 						home.start(main);
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 
@@ -78,13 +76,13 @@ public class InviteView extends Application {
 
             @Override
             public void handle(ActionEvent e) {
-            		//decline invite in db
             		inviteDriver.declineInvite();
+					String name = driver.getProfile().getUserID();
+					driver = new ClientDriver(name);
             		Home home = new Home(driver);
             		try {
 						home.start(main);
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 

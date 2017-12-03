@@ -46,6 +46,7 @@ public class Home extends Application {
 		BorderPane border = new BorderPane();
 		HBox hbox = addHBox();
 		border.setTop(hbox);
+		clientDriver.findActiveInvites();
 		border.setLeft(addVBoxGames("Current Games",clientDriver.getGameIDs()));
 		border.setRight(addVBoxInvites("Invites",clientDriver.getActiveInvites()));
 		Scene scene = new Scene(border,500,400);
