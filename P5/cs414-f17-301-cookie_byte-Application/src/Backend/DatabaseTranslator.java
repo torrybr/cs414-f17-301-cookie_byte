@@ -108,6 +108,7 @@ public abstract class DatabaseTranslator {
 		return backendBoard;
 	}
 	
+	//get a user from database and translate it to backend
 	public static User getUser(String userID) 
 	{
 		UsersJavaObject temp = DatabaseManagerImpl.getUserByNickname(userID);
