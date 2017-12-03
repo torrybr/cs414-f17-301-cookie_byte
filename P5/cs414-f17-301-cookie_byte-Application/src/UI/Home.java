@@ -5,6 +5,7 @@ import Backend.Invite;
 import Backend.User;
 import Drivers.ClientDriver;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -17,6 +18,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
 
 public class Home extends Application {
@@ -48,6 +52,19 @@ public class Home extends Application {
 		primaryStage.setTitle(clientDriver.profile.getUserID()+" Home");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		
+		ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
+		exec.scheduleAtFixedRate(new Runnable() {
+			@Override
+			public void run() {
+				Platform.runLater(new Runnable() {
+					@Override public void run() {
+						border.setLeft(addVBoxGames("Current Games",clientDriver.getGameIDs()));
+						border.setRight(addVBoxInvites("Invites",clientDriver.getActiveInvites()));
+					}
+				});
+			}
+		}, 0, 2, TimeUnit.SECONDS);
 		
 	}
 	

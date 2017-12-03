@@ -95,8 +95,16 @@ public class Profile extends Application{
 		Label past = new Label("Past Games:  ");
 		grid.add(past, 0, 6);
 
-		Text pastgames = new Text("");
-		pastgames.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
+		Button pastgames = new Button("");
+		pastgames.setPrefSize(100,20);
+		pastgames.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				//old games window
+			}
+		});
+
 		grid.add(pastgames, 1, 6);
 		
 		Button buttonCurrent = new Button("Home");
