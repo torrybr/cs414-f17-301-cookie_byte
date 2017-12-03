@@ -7,6 +7,7 @@ import Backend.User;
 import Database.DatabaseManagerImpl;
 import Database.UsersJavaObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,16 +82,20 @@ public class ClientDriver {
 		returnable[5] = "Your games here.";
 		return returnable;
 	}
-	
-	//public ArrayList<Invite> seeInvite(){
-		//get invite from db by inviteID
-	//	return invites;
-	//}
-	
-	//method to get user from db
-	//public User getUser(String username){
-		//get user from db by username
-	//}
+
+
+	public ArrayList<User> searchPlayers(String searchIn){
+		List<UsersJavaObject> check = DatabaseManagerImpl.searchUser(searchIn);
+		ArrayList<User> returnable = new ArrayList<User>();
+		for(int i = 0; i < check.size(); i++)
+		{
+			returnable.add(DatabaseTranslator.getUser(check.get(i).getNickname()));
+		}
+
+		return returnable;
+
+	}
+
 	public User getProfile(){
 		return profile;
 	}
