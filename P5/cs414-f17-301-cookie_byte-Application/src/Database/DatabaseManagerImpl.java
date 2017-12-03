@@ -91,7 +91,7 @@ public abstract class DatabaseManagerImpl {
      * @param nickname  the nickname of the user who sent the invite.
      * @param theInvite the invite object.
      */
-    public void setInviteStatus(String nickname, Backend.Invite theInvite) {
+    public static void setInviteStatus(String nickname, Backend.Invite theInvite) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
 
