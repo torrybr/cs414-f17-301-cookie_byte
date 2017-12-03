@@ -209,11 +209,26 @@ public class Login extends Application {
             		String email = userTextField.getText();
             		String nickname = userNickameField.getText();
             		String password = pwBox.getText();
-            		if(email.length() > 0 && nickname.length() > 0 && password.length() > 0) {
+            		boolean exist = true;
+            		try 
+            		{
+            			DatabaseManagerImpl.getUserByNickname(nickname).getNickname();
+            		}catch (NullPointerException x)
+            		{
+            			exist = false;
+            		}
+            		if(exist) 
+            		{
+            			final Text actiontarget = new Text("Username already taken.");
+            			grid.add(actiontarget, 1, 6);
+            		}
+            		else if(email.length() > 0 && nickname.length() > 0 && password.length() > 0)
+            		{
             			createAccountClicked(email, nickname, password);
             			stage.close();
             		}
-            		else {
+            		else 
+            		{
             			final Text actiontarget = new Text("You must fill out all fields!");
             			grid.add(actiontarget, 1, 6);
             		}
