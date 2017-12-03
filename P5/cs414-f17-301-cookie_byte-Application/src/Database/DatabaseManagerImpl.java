@@ -307,6 +307,7 @@ public abstract class DatabaseManagerImpl {
         myGame.put("Offense", offence.getUserID());
         myGame.put("Defense", defence.getUserID());
         myGame.put("CurrentTurn", "A"); //need to finish this
+        myGame.put("GameStatus" , "Active");
 
         Document myBoard = new Document();
 
@@ -398,6 +399,18 @@ public abstract class DatabaseManagerImpl {
         	}
 
         return matchedUsers;
+    }
+
+    /**
+     *
+     * @param GameID
+     */
+    public static void removeGame(int GameID) {
+        MongoDatabase db = mongoClient.getDatabase("cs414Application");
+        MongoCollection<Document> collection = db.getCollection("game");
+
+
+
     }
 
     public static void main(String args[]) {
