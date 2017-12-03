@@ -240,7 +240,10 @@ public abstract class DatabaseManagerImpl {
 
     }
 
-
+    /**
+     * Creates a unique random gameID
+     * @return a random INT
+     */
     public static int createGameID() {
 
         Random randomGenerator = new Random();
@@ -267,7 +270,11 @@ public abstract class DatabaseManagerImpl {
 
     }
 
-
+    /**
+     * Adds a game to the list of users current games.
+     * @param gameID the gameID to be added.
+     * @param player the player that it gets added to.
+     */
     public static void addToCurrentGames(int gameID, User player) {
 
 
@@ -303,15 +310,14 @@ public abstract class DatabaseManagerImpl {
         myGame.put("GameID", theID);
 
         Document gameStatus = new Document();
-        gameStatus.put("gameStatus","Active");
+        gameStatus.put("gameStatus", "Active");
 
-        myGame.put("GameStatus",gameStatus);
+        myGame.put("GameStatus", gameStatus);
         myGame.put("Player1", player1.getUserID());
         myGame.put("Player2", player2.getUserID());
         myGame.put("Offense", offence.getUserID());
         myGame.put("Defense", defence.getUserID());
         myGame.put("CurrentTurn", "A"); //need to finish this
-
 
 
         Document myBoard = new Document();
@@ -404,16 +410,6 @@ public abstract class DatabaseManagerImpl {
         }
 
         return matchedUsers;
-    }
-
-    /**
-     * @param GameID
-     */
-    public static void removeGame(int GameID) {
-        MongoDatabase db = mongoClient.getDatabase("cs414Application");
-        MongoCollection<Document> collection = db.getCollection("game");
-
-
     }
 
     public static void main(String args[]) {
