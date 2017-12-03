@@ -2,19 +2,24 @@ package UI;
 
 import Backend.DatabaseTranslator;
 import Backend.GameController;
+import Backend.User;
 import Backend.Invite;
 import Drivers.ClientDriver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import java.util.ArrayList;
 
 public class CreateGame  extends Application {
 	protected String sender;
@@ -30,10 +35,7 @@ public class CreateGame  extends Application {
 		main = primaryStage;
 		BorderPane border = new BorderPane();
 		border.setTop(addHBox());
-		String other = "D";
-		if(client.getProfile().getUserID().equals("D"))
-			other = "A";
-		border.setLeft(addVBox("Create game with....",other));
+		border.setLeft(addVBox());
 		Scene scene = new Scene(border,635,375);
 		primaryStage.setTitle("Creating a game");
 		primaryStage.setScene(scene);
@@ -41,39 +43,52 @@ public class CreateGame  extends Application {
 	
 	}
 
-	public VBox addVBox(String label,String sub1) {
+	public VBox addVBox() {
 	    VBox vbox = new VBox();
 	    vbox.setPadding(new Insets(10));
 	    vbox.setSpacing(8);
 
-	    Text title = new Text(label);
+	    Text title = new Text("Search for a user to create a game with!");
 	    title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 	    vbox.getChildren().add(title);
 
-	    Button options[] = new Button[] {
-	        new Button(sub1)};
-	    
-	    options[0].setOnAction(new EventHandler<ActionEvent>() {
-       	 
-            @Override
-            public void handle(ActionEvent e) {
-            		reciever = options[0].getText();
-            		send();
-            		String name = client.getProfile().getUserID();
-            		client = new ClientDriver(name);
-            		Home home = new Home(client);
-            		try {
+	    TextField userSearch = new TextField();
+	    vbox.getChildren().add(userSearch);
+
+		Button btn = new Button("Search");
+		btn.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+				ArrayList<User> tobecreatedwith = client.searchPlayers(userSearch.getText());
+				if(tobecreatedwith.size() != 0){
+					/*reciever = tobecreatedwith.getUserID();
+					send();
+					String name = client.getProfile().getUserID();
+					client = new ClientDriver(name);
+					Home home = new Home(client);
+					try {
 						home.start(main);
 					} catch (Exception e1) {
 						e1.printStackTrace();
-					}
-            }
-        });
-	    
-	    
-	    VBox.setMargin(options[0], new Insets(0, 0, 0, 8));
-	    vbox.getChildren().add(options[0]);
+					}*/
 
+					//create another VBox with those users, make them buttons that create games
+				}
+				else{
+					Stage stage = new Stage();
+					VBox box = new VBox();
+					box.setPadding(new Insets(10));
+					box.setAlignment(Pos.CENTER);
+					Label label = new Label("Unknown User");
+					box.getChildren().add(label);
+					Scene scene = new Scene(box, 150, 100);
+					stage.setScene(scene);
+					stage.show();
+				}
+			}
+		});
+		vbox.getChildren().add(btn);
 	    return vbox;
 	}
 	

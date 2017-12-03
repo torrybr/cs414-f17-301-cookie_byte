@@ -378,7 +378,7 @@ public abstract class DatabaseManagerImpl {
      *
      * @param searchTerm a search term in string format
      */
-    public static List searchUser(String searchTerm) {
+    public static List<UsersJavaObject> searchUser(String searchTerm) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
         List<UsersJavaObject> matchedUsers = new ArrayList<>();

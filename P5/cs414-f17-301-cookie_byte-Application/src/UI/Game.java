@@ -68,8 +68,8 @@ public class Game extends Application{
 					gray = false;
 					holder[i][j].setTranslateX(50 + (50 * i));
 					holder[i][j].setTranslateY(50 + (50 * j));
-					holder[i][j].setBackground(new Background(new BackgroundFill(Color.GRAY,CornerRadii.EMPTY,Insets.EMPTY)));
-					holder[i][j].setOrigBackground(new Background(new BackgroundFill(Color.GRAY,CornerRadii.EMPTY,Insets.EMPTY)));
+					holder[i][j].setBackground(new Background(new BackgroundFill(Color.web("0xa48555"), CornerRadii.EMPTY,Insets.EMPTY)));
+					holder[i][j].setOrigBackground(new Background(new BackgroundFill(Color.web("0xa48555"),CornerRadii.EMPTY,Insets.EMPTY)));
 					holder[i][j].setLocationButton(i, j);
 					root.getChildren().add(holder[i][j]);
 				}
@@ -77,18 +77,19 @@ public class Game extends Application{
 					gray = true;
 					holder[i][j].setTranslateX(50 + (50 * i));
 					holder[i][j].setTranslateY(50 + (50 * j));
-					holder[i][j].setBackground(new Background(new BackgroundFill(Color.WHITE,CornerRadii.EMPTY,Insets.EMPTY)));
-					holder[i][j].setOrigBackground(new Background(new BackgroundFill(Color.WHITE,CornerRadii.EMPTY,Insets.EMPTY)));
+					holder[i][j].setBackground(new Background(new BackgroundFill(Color.web("0xddab5f"),CornerRadii.EMPTY,Insets.EMPTY)));
+					holder[i][j].setOrigBackground(new Background(new BackgroundFill(Color.web("0xddab5f"),CornerRadii.EMPTY,Insets.EMPTY)));
 					holder[i][j].setLocationButton(i, j);
 					root.getChildren().add(holder[i][j]);
 				}
 			}
 		}
 		
-		holder[0][0].setBackground(new Background(new BackgroundFill(Color.BLACK,CornerRadii.EMPTY,Insets.EMPTY)));;
-		holder[0][10].setBackground(new Background(new BackgroundFill(Color.BLACK,CornerRadii.EMPTY,Insets.EMPTY)));;
-		holder[10][0].setBackground(new Background(new BackgroundFill(Color.BLACK,CornerRadii.EMPTY,Insets.EMPTY)));;
-		holder[10][10].setBackground(new Background(new BackgroundFill(Color.BLACK,CornerRadii.EMPTY,Insets.EMPTY)));;
+		holder[0][0].setBackground(new Background(new BackgroundFill(Color.web("0x4286c4"),CornerRadii.EMPTY,Insets.EMPTY)));;
+		holder[0][10].setBackground(new Background(new BackgroundFill(Color.web("0x4286c4"),CornerRadii.EMPTY,Insets.EMPTY)));;
+		holder[10][0].setBackground(new Background(new BackgroundFill(Color.web("0x4286c4"),CornerRadii.EMPTY,Insets.EMPTY)));;
+		holder[10][10].setBackground(new Background(new BackgroundFill(Color.web("0x4286c4"),CornerRadii.EMPTY,Insets.EMPTY)));;
+		holder[5][5].setBackground(new Background(new BackgroundFill(Color.web("0x4286c4"),CornerRadii.EMPTY,Insets.EMPTY)));;
 		
 		setGame();
 		
@@ -150,10 +151,10 @@ public class Game extends Application{
 		Button buttonQuit = new Button("Quit this game");
 		buttonHome.setPrefSize(100, 20);
 
-	    Text p1 = new Text("Red: " + user1);
+	    Text p1 = new Text("Black: " + user1);
 		p1.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
 		
-		Text p2 = new Text("Blue: " + user2);
+		Text p2 = new Text("White: " + user2);
 		p2.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
 		
 		movetext = new Text("Current Turn: " + move);

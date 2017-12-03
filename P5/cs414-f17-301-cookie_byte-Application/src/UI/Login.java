@@ -16,6 +16,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -40,10 +41,12 @@ public class Login extends Application {
 			
 			Text scenetitle = new Text("Welcome");
 			scenetitle.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+			scenetitle.setFill(Color.WHITE);
 			grid.add(scenetitle, 0, 0, 2, 1);
 
 			Label userName = new Label("Username:");
 			userName.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
+			userName.setTextFill(Color.WHITE);
 			grid.add(userName, 0, 1);
 
 			TextField userTextField = new TextField();
@@ -51,6 +54,7 @@ public class Login extends Application {
 
 			Label pw = new Label("Password:");
 			pw.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
+			pw.setTextFill(Color.WHITE);
 			grid.add(pw, 0, 2);
 
 			PasswordField pwBox = new PasswordField();
@@ -156,10 +160,12 @@ public class Login extends Application {
 		
 		Text scenetitle = new Text("Welcome");
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+		scenetitle.setFill(Color.WHITE);
 		grid.add(scenetitle, 0, 0, 2, 1);
 
 		Label userName = new Label("Email:");
 		userName.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
+		userName.setTextFill(Color.WHITE);
 		grid.add(userName, 0, 1);
 
 		TextField userTextField = new TextField();
@@ -167,6 +173,7 @@ public class Login extends Application {
 		
 		Label nickName = new Label("Username:");
 		nickName.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
+		nickName.setTextFill(Color.WHITE);
 		grid.add(nickName, 0, 2);
 
 		TextField userNickameField = new TextField();
@@ -174,6 +181,7 @@ public class Login extends Application {
 
 		Label pw = new Label("Password:");
 		pw.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
+		pw.setTextFill(Color.WHITE);
 		grid.add(pw, 0, 3);
 
 		PasswordField pwBox = new PasswordField();
