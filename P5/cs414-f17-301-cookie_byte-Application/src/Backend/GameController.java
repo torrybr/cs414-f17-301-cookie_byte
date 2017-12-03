@@ -45,7 +45,7 @@ public class GameController {
 		
 		// TODO remove comment block below after testing
 		//Selects player1 or player2 at random to start and set up board accordingly so each player is assigned either defence or offense
-	//	if (rand % 2 == 0){
+		if (rand % 2 == 0){
 			this.currentTurn = player1;
 			offence = player1;
 			defence = player2;
@@ -55,7 +55,7 @@ public class GameController {
 			player1.addCurrentGame(this);
 			player2.addCurrentGame(this);
 			
-	/*	}
+		}
 		else{
 			this.currentTurn = player2;
 			offence = player2;
@@ -63,7 +63,7 @@ public class GameController {
 			SetBoard setupGame = new SetBoard(board, player2, player1);
 			setupGame.setBoard();
 			this.setStatus(GameStatus.ACTIVE);
-		} */	
+		}
 		
 			DatabaseManagerImpl.createGame(board, player1, player2, offence, defence);
 			
