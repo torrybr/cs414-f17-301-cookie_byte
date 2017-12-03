@@ -11,6 +11,7 @@ import com.mongodb.client.MongoDatabase;
 import org.apache.log4j.Logger;
 import org.bson.Document;
 
+import javax.print.Doc;
 import javax.xml.ws.http.HTTPException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -132,7 +133,6 @@ public abstract class DatabaseManagerImpl {
     }
 
 
-
     public static void addInvite(Backend.Invite theInvite) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
@@ -147,7 +147,7 @@ public abstract class DatabaseManagerImpl {
         invite.append("InvitationStatus", theInvite.getStatus().toString());
 
         new Document();
-		    Document query = Document.parse("{ \"nickname\": \"" + theInvite.getUserTo().getUserID() + "\" }");
+        Document query = Document.parse("{ \"nickname\": \"" + theInvite.getUserTo().getUserID() + "\" }");
 
         BasicDBObject data = new BasicDBObject();
         main.append("Invite", invite);
@@ -297,17 +297,22 @@ public abstract class DatabaseManagerImpl {
     public static void createGame(Backend.Board theBoard, User player1, User player2, User offence, User defence) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
-//        final GameController gameController = new GameController(theBoard.getGameID(),player1,player2);
         int theID = createGameID();
-        Document myGame = new Document();
-        myGame.put("GameID", theID); //1234322
 
+        Document myGame = new Document();
+        myGame.put("GameID", theID);
+
+        Document gameStatus = new Document();
+        gameStatus.put("gameStatus","Active");
+
+        myGame.put("GameStatus",gameStatus);
         myGame.put("Player1", player1.getUserID());
         myGame.put("Player2", player2.getUserID());
         myGame.put("Offense", offence.getUserID());
         myGame.put("Defense", defence.getUserID());
         myGame.put("CurrentTurn", "A"); //need to finish this
-        myGame.put("GameStatus" , "Active");
+
+
 
         Document myBoard = new Document();
 
@@ -388,27 +393,25 @@ public abstract class DatabaseManagerImpl {
         Pattern regex = Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE); // should be m in your case
         query.put("nickname", regex);
 
-     	ObjectMapper objectMapper = new ObjectMapper();
-        	try {
-            		for (Document user : collection.find(query)) {
-                	UsersJavaObject myUser = objectMapper.readValue(user.toJson(), UsersJavaObject.class);
-                	matchedUsers.add(myUser);
-            		}
-        	} catch (IOException e) {
-            		log.error("error parsing user json to java pojo", e);
-        	}
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            for (Document user : collection.find(query)) {
+                UsersJavaObject myUser = objectMapper.readValue(user.toJson(), UsersJavaObject.class);
+                matchedUsers.add(myUser);
+            }
+        } catch (IOException e) {
+            log.error("error parsing user json to java pojo", e);
+        }
 
         return matchedUsers;
     }
 
     /**
-     *
      * @param GameID
      */
     public static void removeGame(int GameID) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
-
 
 
     }
