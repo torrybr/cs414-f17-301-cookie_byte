@@ -220,6 +220,7 @@ public class Login extends Application {
             		if(exist) 
             		{
             			final Text actiontarget = new Text("Username already taken.");
+            			actiontarget.setFill(Color.WHITE);
             			grid.add(actiontarget, 1, 6);
             		}
             		else if(email.length() > 0 && nickname.length() > 0 && password.length() > 0)
