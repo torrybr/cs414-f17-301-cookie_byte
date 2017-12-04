@@ -118,8 +118,8 @@ public class Login extends Application {
 	
 	public void loginResult(boolean result) {
 		if(result) {//succesful login
-			ClientDriver driver = new ClientDriver(loggedInUser);
-			Home nextPage = new Home(driver);
+			//ClientDriver driver = new ClientDriver(loggedInUser);
+			Home nextPage = new Home(loggedInUser);
 			try {
 				nextPage.start(primary);
 			} catch (Exception e) {

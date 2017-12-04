@@ -132,7 +132,8 @@ public class GameController {
 		player2.addPastGame(this);
 		
 		// Do a database save here
-		
+		this.setStatus(GameStatus.FINISHED);
+		DatabaseManagerImpl.updateGameStatus(gameID, this.status);
 	}
 	
 	// Send game to database method
@@ -396,6 +397,8 @@ public class GameController {
 					System.out.println("Can't move king into check");
 					return false;}
 			}
+			board.addPieceToBoard(rowFrom, colFrom, PieceType.KING, player);
+			board.removePiece(rowTo, colTo);
 		}		
 				
 		// Is the piece moving to a corner OR the center piece & not a king check
@@ -632,6 +635,7 @@ public class GameController {
 			{
 				// TODO Attacker wins. Save game (winner, games history, etc)
 				this.setStatus(GameStatus.FINISHED);
+				DatabaseManagerImpl.updateGameStatus(gameID, this.status);
 				this.setWinner(offence);
 				offence.removeCurrentGame(this);
 				defence.removeCurrentGame(this);
@@ -673,9 +677,9 @@ public class GameController {
 				defence.addPastGame(this);
 				defence.removeCurrentGame(this);
 				
-				offence.addLoss();
+				offence.addLoss(); 
 				offence.addPastGame(this);
-				offence.removeCurrentGame(this);
+				offence.removeCurrentGame(this); 
 				// SDB
 				
 				//checks to see if there's another round after this game or if the Tournament is over.
@@ -707,7 +711,6 @@ public class GameController {
 		
 			// Make sure to set the other player as the one to take a turn next
 			String stat = DatabaseManagerImpl.getGame(gameID).getGameStatus().getGameStatus();
-			System.out.println(stat);
 			if(!stat.equals("FINISHED"))
   			{
  				if(this.getCurrentTurn().equals(offence))

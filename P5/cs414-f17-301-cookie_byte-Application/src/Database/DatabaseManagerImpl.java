@@ -361,7 +361,7 @@ public abstract class DatabaseManagerImpl {
         }
 
         BasicDBObject data = new BasicDBObject();
-        data.put("Board.pieces", array);
+        data.put("Board.pieces", array);  
 
         BasicDBObject command = new BasicDBObject();
         command.put("$set", data);

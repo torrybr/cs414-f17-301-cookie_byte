@@ -4,6 +4,7 @@ import Backend.GameController;
 import Backend.GameStatus;
 import Backend.Piece;
 import Backend.PieceType;
+import Database.DatabaseManagerImpl;
 import Drivers.ClientDriver;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -41,7 +42,7 @@ public class Game extends Application{
 	protected String user1 = "?";
 	protected String user2 = "?";
 	protected String move = "?";
-
+	public boolean active = true;
 	protected Text movetext;
 	protected Stage main;
 	Tile[][] holder;
@@ -52,7 +53,7 @@ public class Game extends Application{
 	 	user1 = gameDriver.getPlayer1().getUserID();
 	 	user2 = gameDriver.getPlayer2().getUserID();
 	 	move = gameDriver.getCurrentTurn().getUserID();
-	 	this.gameID = gameDriver.getGameID();
+	 	this.gameID = gameDriver.getGameID(); 
 	 }
 	
 	private Parent createContent() {
@@ -447,11 +448,14 @@ public class Game extends Application{
 			if(gameDriver.isMoveValid(gameDriver.getBoard().getPiece(piece1,piece2),clientDriver.getProfile(),piece1,piece2,oldx,oldy)){
 				//old code
 				gameDriver.movePiece(piece1,piece2,oldx,oldy);
-				if((piece1+piece2)%2 == 0){
-					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.GRAY,CornerRadii.EMPTY,Insets.EMPTY)));
+				if(piece1 == 5 && piece2 == 5){
+					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.web("0x4286c4"),CornerRadii.EMPTY,Insets.EMPTY)));
+				}
+				else if((piece1+piece2)%2 == 0){
+					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.web("0xa48555"),CornerRadii.EMPTY,Insets.EMPTY)));
 				}
 				else{
-					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.WHITE,CornerRadii.EMPTY,Insets.EMPTY)));
+					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.web("0xddab5f"),CornerRadii.EMPTY,Insets.EMPTY)));
 				}
 				piece1 = -1;
 				piece2 = -1;
@@ -469,11 +473,14 @@ public class Game extends Application{
 				stage.setScene(scene);
 				stage.show();
 				
-				if((piece1+piece2)%2 == 0){
-					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.GRAY,CornerRadii.EMPTY,Insets.EMPTY)));
+				if(piece1 == 5 && piece2 == 5){
+					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.web("0x4286c4"),CornerRadii.EMPTY,Insets.EMPTY)));
+				}
+				else if((piece1+piece2)%2 == 0){
+					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.web("0xa48555"),CornerRadii.EMPTY,Insets.EMPTY)));
 				}
 				else{
-					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.WHITE,CornerRadii.EMPTY,Insets.EMPTY)));
+					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.web("0xddab5f"),CornerRadii.EMPTY,Insets.EMPTY)));
 				}
 				piece1 = -1;
 				piece2 = -1;
@@ -486,18 +493,32 @@ public class Game extends Application{
 		gameDriver = new GameController(gameID);
 		setGame();
 		changeTurn();
-		if(gameDriver.getStatus() == GameStatus.FINISHED){
+		String stat = DatabaseManagerImpl.getGame(gameID).getGameStatus().getGameStatus();
+		if(stat.equals("FINISHED")){
+			active = false;
 			Stage stage = new Stage();
 			VBox box = new VBox();
-			box.setPadding(new Insets(10));
+			box.setPadding(new Insets(20));
 			box.setAlignment(Pos.CENTER);
-			String status = "error";
-			if(gameDriver.getWinner() != null){
-				status = gameDriver.getWinner().getUserID();
-			}
-			Label label = new Label(status + " has won the game!");
+			String status =  DatabaseManagerImpl.getGame(gameID).getCurrentTurn();
+			Label label = new Label(status+" has won the game!");
+			Button btnLogin = new Button();
+			btnLogin.setText("Home");
+			btnLogin.setOnAction(new EventHandler<ActionEvent>() {
+				 @Override
+				 public void handle(ActionEvent event) {
+					 stage.hide();
+					 Home home = new Home(clientDriver);
+						try {
+							home.start(main);
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+				 }
+			});
 			box.getChildren().add(label);
-			Scene scene = new Scene(box, 150, 100);
+			box.getChildren().add(btnLogin);
+			Scene scene = new Scene(box, 250, 200);
 			stage.setScene(scene);
 			stage.show();
 		}
@@ -524,7 +545,10 @@ public class Game extends Application{
 			public void run() {
 				Platform.runLater(new Runnable() {
 					@Override public void run() {
-						buttonRefresh.fire();
+						if(!movetext.equals(clientDriver.getProfile().getUserID())){
+							if(active == true)
+								buttonRefresh.fire();
+						}
 					}
 				});
 			}
