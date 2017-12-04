@@ -7,6 +7,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.oracle.tools.packager.Log;
 import org.apache.log4j.Logger;
 import org.bson.Document;
 
@@ -244,11 +245,11 @@ public abstract class DatabaseManagerImpl {
     public static void updateGameStatus(int gameID, Backend.GameStatus theStatus) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
-        
+
         Document gameStatus = new Document();
         gameStatus.put("gameStatus", theStatus.toString());
-        	
-        collection.updateOne(eq("GameID", gameID), new Document("$set", new Document("GameStatus",gameStatus)));
+
+        collection.updateOne(eq("GameID", gameID), new Document("$set", new Document("GameStatus", gameStatus)));
 
     }
 
@@ -393,6 +394,21 @@ public abstract class DatabaseManagerImpl {
         }
 
         return matchedUsers;
+    }
+
+
+    /**
+     * Remove a user from the database by nickname. Prints info message to the console for easier debugging.
+     *
+     * @param nickname the nickname of the user to remove.
+     */
+    public static void removeUser(String nickname) {
+        MongoDatabase db = mongoClient.getDatabase("cs414Application");
+        MongoCollection<Document> collection = db.getCollection("users");
+
+        collection.deleteOne(collection.find(eq("nickname", nickname)).first());
+        Log.info("Successfully deleted /" + nickname + "/ from the database.. ");
+
     }
 
     public static void main(String args[]) {
