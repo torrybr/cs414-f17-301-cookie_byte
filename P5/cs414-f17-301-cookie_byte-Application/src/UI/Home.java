@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -27,7 +28,7 @@ public class Home extends Application {
 	protected Stage main;
 	private BorderPane rootPane;
 	protected ClientDriver clientDriver;
-	
+	BorderPane border;
 	public Home(String name) {
 		rootPane = new BorderPane();
 		this.clientDriver= new ClientDriver(name);
@@ -43,15 +44,19 @@ public class Home extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		main = primaryStage;
-		BorderPane border = new BorderPane();
+		border = new BorderPane();
 		HBox hbox = addHBox();
 		border.setTop(hbox);
-		String name = clientDriver.getProfile().getUserID();
-		clientDriver = new ClientDriver(name);
-		//clientDriver.findActiveInvites();
-		border.setLeft(addVBoxGames("Current Games",clientDriver.getActiveGames()));
-		border.setRight(addVBoxInvites("Invites",clientDriver.getActiveInvites()));
-		Scene scene = new Scene(border,500,400);
+		clientDriver.findActiveGames();
+		clientDriver.findActiveGames();
+		ScrollPane sp = new ScrollPane();
+		ScrollPane sp2 = new ScrollPane();
+		sp.setContent(addVBoxGames("Current Games",clientDriver.getActiveGames()));
+		sp2.setContent(addVBoxInvites("Invites",clientDriver.getActiveInvites()));
+		border.setLeft(sp);
+		border.setRight(sp2);
+		border.setMargin(sp2, new Insets(10));
+		Scene scene = new Scene(border,600,400);
 		primaryStage.setTitle(clientDriver.profile.getUserID()+" Home");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -134,13 +139,16 @@ public class Home extends Application {
 	    hbox.setStyle("-fx-background-color: #336699;");
 
 	    Button buttonGame = new Button("Create Game");
-	    buttonGame.setPrefSize(100, 20);
+	    buttonGame.setPrefSize(120, 20);
 
 	    Button buttonLogout = new Button("Logout");
-	    buttonLogout.setPrefSize(100, 20);
+	    buttonLogout.setPrefSize(120, 20);
+	    
+	    Button buttonRefresh = new Button("Refresh");
+	    buttonLogout.setPrefSize(120, 20);
 	    
 	    Button buttonProfile = new Button("Profile");
-	    buttonProfile.setPrefSize(100, 20);
+	    buttonProfile.setPrefSize(120, 20);
 	    
 	    buttonGame.setOnAction(new EventHandler<ActionEvent>() {
        	 
@@ -149,6 +157,25 @@ public class Home extends Application {
             		CreateGame create = new CreateGame(clientDriver);
             		try {
 						create.start(main);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+                
+            }
+        });
+	    
+	    buttonRefresh.setOnAction(new EventHandler<ActionEvent>() {
+	       	 
+            @Override
+            public void handle(ActionEvent e) {
+            		border.getChildren().clear();
+            		try {
+            			String name = clientDriver.getProfile().getUserID();
+            			clientDriver = new ClientDriver(name);
+            			HBox hbox = addHBox();
+            			border.setTop(hbox);
+            			border.setLeft(addVBoxGames("Current Games",clientDriver.getActiveGames()));
+            			border.setRight(addVBoxInvites("Invites",clientDriver.getActiveInvites()));
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
@@ -191,7 +218,7 @@ public class Home extends Application {
 	    final Pane spacer = new Pane();
 	    HBox.setHgrow(spacer, Priority.ALWAYS);
 	    spacer.setMinSize(10, 1);
-	    hbox.getChildren().addAll(spacer,buttonProfile,buttonGame, buttonLogout);
+	    hbox.getChildren().addAll(spacer,buttonProfile,buttonGame, buttonRefresh, buttonLogout);
 
 	    return hbox;
 	}
