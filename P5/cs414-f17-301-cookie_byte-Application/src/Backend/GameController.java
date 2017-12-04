@@ -661,6 +661,7 @@ public class GameController {
 			{
 				// TODO Defender wins. Save game (winner, games history, etc)
 				this.setStatus(GameStatus.FINISHED);
+				DatabaseManagerImpl.updateGameStatus(gameID, this.status);
 				this.setWinner(defence);
 				offence.removeCurrentGame(this);
 				defence.removeCurrentGame(this);
@@ -705,9 +706,10 @@ public class GameController {
 			}
 		
 			// Make sure to set the other player as the one to take a turn next
-			if(!this.status.equals(GameStatus.FINISHED))
+			String stat = DatabaseManagerImpl.getGame(gameID).getGameStatus().getGameStatus();
+			System.out.println(stat);
+			if(!stat.equals("FINISHED"))
   			{
- 				this.setCurrentTurn(offence);
  				if(this.getCurrentTurn().equals(offence))
  				{
  					this.setCurrentTurn(defence);

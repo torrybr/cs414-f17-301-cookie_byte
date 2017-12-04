@@ -63,6 +63,16 @@ public class BoardJavaObject {
     public void setGameID(Integer gameID) {
         this.gameID = gameID;
     }
+    
+    @JsonProperty("GameStatus")
+    public GameStatus getGameStatus() {
+        return gameStatus;
+    }
+    
+    @JsonProperty("GameStatus")
+    public void setGameStatus(GameStatus gameStatus) {
+        this.gameStatus = gameStatus;
+    }
 
     @JsonProperty("Player1")
     public String getPlayer1() {
