@@ -241,11 +241,14 @@ public abstract class DatabaseManagerImpl {
      * @param theStatus the new status of the game.
      */
 
-    public void updateGameStatus(int gameID, GameStatus theStatus) {
+    public static void updateGameStatus(int gameID, Backend.GameStatus theStatus) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
-
-        collection.updateOne(eq("GameID", gameID), new Document("$set", new Document("GameStatus", theStatus.toString())));
+        
+        Document gameStatus = new Document();
+        gameStatus.put("gameStatus", theStatus.toString());
+        	
+        collection.updateOne(eq("GameID", gameID), new Document("$set", new Document("GameStatus",gameStatus)));
 
     }
 
