@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "invites",
         "current_games"
 })
-public class User {
+public class User { 
 
     @JsonProperty("_id")
     private Id id;

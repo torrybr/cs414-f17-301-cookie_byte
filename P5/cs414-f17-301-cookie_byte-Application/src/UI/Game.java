@@ -449,10 +449,10 @@ public class Game extends Application{
 				//old code
 				gameDriver.movePiece(piece1,piece2,oldx,oldy);
 				if((piece1+piece2)%2 == 0){
-					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.GRAY,CornerRadii.EMPTY,Insets.EMPTY)));
+					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.web("0xa48555"),CornerRadii.EMPTY,Insets.EMPTY)));
 				}
 				else{
-					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.WHITE,CornerRadii.EMPTY,Insets.EMPTY)));
+					holder[piece1][piece2].setBackground(new Background(new BackgroundFill(Color.web("0xddab5f"),CornerRadii.EMPTY,Insets.EMPTY)));
 				}
 				piece1 = -1;
 				piece2 = -1;
