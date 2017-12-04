@@ -46,26 +46,15 @@ public class Home extends Application {
 		BorderPane border = new BorderPane();
 		HBox hbox = addHBox();
 		border.setTop(hbox);
-		clientDriver.findActiveInvites();
-		border.setLeft(addVBoxGames("Current Games",clientDriver.getGameIDs()));
+		String name = clientDriver.getProfile().getUserID();
+		clientDriver = new ClientDriver(name);
+		//clientDriver.findActiveInvites();
+		border.setLeft(addVBoxGames("Current Games",clientDriver.getActiveGames()));
 		border.setRight(addVBoxInvites("Invites",clientDriver.getActiveInvites()));
 		Scene scene = new Scene(border,500,400);
 		primaryStage.setTitle(clientDriver.profile.getUserID()+" Home");
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		
-		ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
-		exec.scheduleAtFixedRate(new Runnable() {
-			@Override
-			public void run() {
-				Platform.runLater(new Runnable() {
-					@Override public void run() {
-						border.setLeft(addVBoxGames("Current Games",clientDriver.getGameIDs()));
-						border.setRight(addVBoxInvites("Invites",clientDriver.getActiveInvites()));
-					}
-				});
-			}
-		}, 0, 2, TimeUnit.SECONDS);
 		
 	}
 	
@@ -161,7 +150,6 @@ public class Home extends Application {
             		try {
 						create.start(main);
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
                 

@@ -149,7 +149,7 @@ public class Profile extends Application{
 			@Override
 			public void handle(ActionEvent e) {
 				LoginAuth la = new LoginAuth();
-				//la.deleteUser(driver);
+				driver.deleteUser();
 				Login newLogin = new Login();
 				try {
 					newLogin.start(main);

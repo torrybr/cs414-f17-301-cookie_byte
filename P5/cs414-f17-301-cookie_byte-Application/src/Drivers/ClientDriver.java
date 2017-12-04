@@ -23,9 +23,19 @@ public class ClientDriver {
 		this.inviteIDs = inviteIDs;
 	}
 	public void findActiveInvites(){
+		activeInvites.clear();
 		for(int i = 0;i<inviteIDs.size();i++){
 			if(inviteIDs.get(i).getStatus() == InvitationStatus.PENDING){
 				activeInvites.add(inviteIDs.get(i));
+			}
+		}
+	}
+	public void findActiveGames(){
+		activeGameIDs.clear();
+		for(int i = 0;i<gameIDs.size();i++){
+			String stat = DatabaseManagerImpl.getGame(gameIDs.get(i)).getGameStatus().getGameStatus();
+			if(stat.equals("Active")){
+				activeGameIDs.add(gameIDs.get(i));
 			}
 		}
 	}
@@ -35,10 +45,13 @@ public class ClientDriver {
 	public List<Invite> getActiveInvites(){
 		return activeInvites;
 	}
+	public List<Integer> getActiveGames(){
+		return activeGameIDs;
+	}
 	public void setGameIDs(List<Integer> gameIDs) {
 		this.gameIDs = gameIDs;
 	}
-
+	public List<Integer> activeGameIDs = new ArrayList<Integer>();
 	public List<Integer> gameIDs = new ArrayList<Integer>();//only using one gameID rn for testing, will be a list
 	
 	public ClientDriver(String username, String password, String email) {
@@ -60,6 +73,7 @@ public class ClientDriver {
 		gameIDs = temp.getCurrentGames();
 		inviteIDs = DatabaseTranslator.getDbInvites(profile);
 		findActiveInvites();
+		findActiveGames();
 		
 	}
 	public ClientDriver(){
@@ -84,18 +98,29 @@ public class ClientDriver {
 	}
 
 
-	public ArrayList<User> searchPlayers(String searchIn){
-		List<UsersJavaObject> check = DatabaseManagerImpl.searchUser(searchIn);
+	public boolean searchPlayers(String searchIn){
+		/*List<UsersJavaObject> check = DatabaseManagerImpl.searchUser(searchIn);
 		ArrayList<User> returnable = new ArrayList<User>();
 		for(int i = 0; i < check.size(); i++)
 		{
 			returnable.add(DatabaseTranslator.getUser(check.get(i).getNickname()));
 		}
 
-		return returnable;
+		return returnable;*/
+		boolean b = true;
+		try{
+			DatabaseManagerImpl.getUserByNickname(searchIn).getNickname();
+		}
+		catch(NullPointerException x){
+			b = false;
+		}
+		
+		return b;
 
 	}
-
+	public void deleteUser(){
+		//DatabaseManagerImpl.
+	}
 	public User getProfile(){
 		return profile;
 	}
