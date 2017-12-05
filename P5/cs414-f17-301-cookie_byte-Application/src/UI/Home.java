@@ -172,10 +172,10 @@ public class Home extends Application {
             		try {
             			String name = clientDriver.getProfile().getUserID();
             			clientDriver = new ClientDriver(name);
-            			/*ScrollPane sp = new ScrollPane();
+            			ScrollPane sp = new ScrollPane();
             			ScrollPane sp2 = new ScrollPane();
             			sp.setContent(addVBoxGames("Current Games",clientDriver.getActiveGames()));
-            			sp2.setContent(addVBoxInvites("Invites",clientDriver.getActiveInvites()));*/
+            			sp2.setContent(addVBoxInvites("Invites",clientDriver.getActiveInvites()));
             			border.setTop(hbox);
             			border.setLeft(addVBoxGames("Current Games",clientDriver.getActiveGames()));
             			border.setRight(addVBoxInvites("Invites",clientDriver.getActiveInvites()));
