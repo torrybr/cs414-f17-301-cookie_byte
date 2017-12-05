@@ -46,14 +46,14 @@ public class CreateGame  extends Application {
 	    vbox.setPadding(new Insets(10));
 	    vbox.setSpacing(8);
 
-	    Text title = new Text("Search for a user to create a game with.");
+	    Text title = new Text("Specify which user you'd like to play against. ");
 	    title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 	    vbox.getChildren().add(title);
 
 	    TextField userSearch = new TextField();
 	    vbox.getChildren().add(userSearch);
 	    
-	    Button btn = new Button("Search");
+	    Button btn = new Button("Send Invite");
 	    btn.setOnAction(new EventHandler<ActionEvent>() {
        	 
             @Override
@@ -79,6 +79,15 @@ public class CreateGame  extends Application {
             			} catch (Exception e1) {
             				e1.printStackTrace();
             			}
+            			Stage stage = new Stage();
+            			VBox box = new VBox();
+            			box.setPadding(new Insets(10));
+            			box.setAlignment(Pos.CENTER);
+            			Label label = new Label("Your invite has been sent.");
+            			box.getChildren().add(label);
+            			Scene scene = new Scene(box, 350, 100);
+            			stage.setScene(scene);
+            			stage.show();
             		}
             		else{
             			Stage stage = new Stage();
