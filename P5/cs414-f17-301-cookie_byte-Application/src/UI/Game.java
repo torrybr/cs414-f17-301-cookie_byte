@@ -43,6 +43,7 @@ public class Game extends Application{
 	protected String user2 = "?";
 	protected String move = "?";
 	public boolean active = true;
+	public boolean hasQuit = false;
 	protected Text movetext;
 	protected Stage main;
 	Tile[][] holder;
@@ -188,11 +189,21 @@ public class Game extends Application{
 
 			@Override
 			public void handle(ActionEvent e) {
+				hasQuit = true;
+				String Loser, Winner;
 				Stage stage = new Stage();
 				VBox box = new VBox();
+				gameDriver.quit(clientDriver.getProfile());
+				Loser =  clientDriver.getProfile().getUserID();
+				if (clientDriver.getProfile().getUserID().compareTo(DatabaseManagerImpl.getGame(gameID).getPlayer1()) == 0){
+					Winner =  DatabaseManagerImpl.getGame(gameID).getPlayer2();
+				}
+				else
+					Winner =  DatabaseManagerImpl.getGame(gameID).getPlayer1();
+					
 				box.setPadding(new Insets(10));
 				box.setAlignment(Pos.CENTER);
-				Label label = new Label("You just quit this game....LOSER");
+				Label label = new Label("Player " + Loser +" has quit! Player " + Winner + " has won the game!");
 				//connect to server, wait for response. 
 				Button btnLogin = new Button();
 				btnLogin.setText("Home");
@@ -210,7 +221,7 @@ public class Game extends Application{
 				});
 				box.getChildren().add(label);
 				box.getChildren().add(btnLogin);
-				Scene scene = new Scene(box, 150, 100);
+				Scene scene = new Scene(box, 350, 100);
 				stage.setScene(scene);
 				stage.show();
 
@@ -546,7 +557,7 @@ public class Game extends Application{
 				Platform.runLater(new Runnable() {
 					@Override public void run() {
 						if(!movetext.equals(clientDriver.getProfile().getUserID())){
-							if(active == true)
+							if(active == true && hasQuit == false)
 								buttonRefresh.fire();
 						}
 					}

@@ -7,7 +7,6 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.oracle.tools.packager.Log;
 import org.apache.log4j.Logger;
 import org.bson.Document;
 
@@ -151,7 +150,7 @@ public abstract class DatabaseManagerImpl {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        UsersJavaObject usr = null;
+       UsersJavaObject usr = null;
         try {
             usr = objectMapper.readValue(collection.find(eq("nickname", nname)).first().toJson(), UsersJavaObject.class);
             return usr;
@@ -285,7 +284,7 @@ public abstract class DatabaseManagerImpl {
      * @param player1  A User who is player 1
      * @param player2  A User who is player 2
      */
-    public static void createGame(Backend.Board theBoard, User player1, User player2, User offence, User defence) {
+    public static void createGame(Backend.Board theBoard, User player1, User player2, User offence, User defence, User currTurn) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("game");
         int theID = createGameID();
@@ -301,7 +300,7 @@ public abstract class DatabaseManagerImpl {
         myGame.put("Player2", player2.getUserID());
         myGame.put("Offense", offence.getUserID());
         myGame.put("Defense", defence.getUserID());
-        myGame.put("CurrentTurn", "A"); //need to finish this
+        myGame.put("CurrentTurn", currTurn.getUserID());
 
 
         Document myBoard = new Document();
@@ -407,7 +406,7 @@ public abstract class DatabaseManagerImpl {
         MongoCollection<Document> collection = db.getCollection("users");
 
         collection.deleteOne(collection.find(eq("nickname", nickname)).first());
-        Log.info("Successfully deleted /" + nickname + "/ from the database.. ");
+       // Log.info("Successfully deleted /" + nickname + "/ from the database.. ");
 
     }
 

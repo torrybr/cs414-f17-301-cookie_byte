@@ -80,11 +80,16 @@ public class ClientDriver {
 		
 	}
 	public boolean checkAuth(String username, String pass){
-		UsersJavaObject temp = DatabaseManagerImpl.getUserByNickname(username);
-		if(temp.getPassword().equals(pass))
-			return true;
-		else 
+		try{
+			UsersJavaObject temp = DatabaseManagerImpl.getUserByNickname(username);
+			if(temp.getPassword().equals(pass))
+				return true;
+			else 
+				return false;
+		}
+		catch(NullPointerException x){
 			return false;
+		}
 	}
 	public String[] viewProfile() {
 		String[] returnable = new String[6];
@@ -119,7 +124,7 @@ public class ClientDriver {
 
 	}
 	public void deleteUser(){
-		//DatabaseManagerImpl.
+		DatabaseManagerImpl.removeUser(this.profile.getUserID());
 	}
 	public User getProfile(){
 		return profile;

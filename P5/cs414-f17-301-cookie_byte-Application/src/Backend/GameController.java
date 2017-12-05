@@ -65,7 +65,8 @@ public class GameController {
 			this.setStatus(GameStatus.ACTIVE);
 		}
 		
-			DatabaseManagerImpl.createGame(board, player1, player2, offence, defence);
+			DatabaseManagerImpl.createGame(board, player1, player2, offence, defence, this.getCurrentTurn());
+			DatabaseManagerImpl.updatePlayerTurn(this.gameID, this.getCurrentTurn().userID);
 			
 	}
 	
@@ -117,12 +118,15 @@ public class GameController {
 			this.setWinner(player2);
 			player2.addWin();
 			player1.addLoss();
+			this.setCurrentTurn(player2);
+
 		}
 		else
 		{
 			this.setWinner(player1);
 			player1.addWin();
 			player2.addLoss();
+			this.setCurrentTurn(player1);
 		}
 		
 		player1.removeCurrentGame(this);
@@ -134,6 +138,7 @@ public class GameController {
 		// Do a database save here
 		this.setStatus(GameStatus.FINISHED);
 		DatabaseManagerImpl.updateGameStatus(gameID, this.status);
+		DatabaseManagerImpl.updatePlayerTurn(this.gameID, this.getWinner().getUserID());
 	}
 	
 	// Send game to database method
