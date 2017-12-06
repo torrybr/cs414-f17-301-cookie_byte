@@ -2,5 +2,5 @@ package Backend;
 
 public enum InvitationStatus {
 
-	PENDING, ACCECPTED, DECLINED
+	PENDING, ACCEPTED, DECLINED
 }

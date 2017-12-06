@@ -1,9 +1,6 @@
 package Backend;
 import java.util.*;
 
-import Database.DatabaseManagerImpl;
-import Database.UsersJavaObject;
-
 public class Tournament {
 
 	//4 users involved in the tournament
@@ -73,7 +70,7 @@ public class Tournament {
 			if (status == TournamentStatus.PENDING){
 				for (Invite i : inviteList){
 					//If the invitation is accecpted
-					if (i.status == InvitationStatus.ACCECPTED){
+					if (i.status == InvitationStatus.ACCEPTED){
 						RequestAccepted++;
 						System.out.println("1 Tournament Invite Accecpted waiting on.... " + (3-RequestAccepted) +" more!");
 					}

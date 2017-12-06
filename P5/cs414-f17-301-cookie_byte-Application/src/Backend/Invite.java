@@ -46,7 +46,7 @@ public class Invite {
 	public void acceptInvite()
 	{
 		// Set invite to accepted
-		status = InvitationStatus.ACCECPTED;
+		status = InvitationStatus.ACCEPTED;
 		DatabaseManagerImpl.setInviteStatus(userFrom.userID, this);
 		//Actually creates the game with the two users
 		
