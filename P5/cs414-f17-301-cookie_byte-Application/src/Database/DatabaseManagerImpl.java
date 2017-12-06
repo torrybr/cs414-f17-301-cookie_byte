@@ -30,7 +30,7 @@ public abstract class DatabaseManagerImpl {
     private static MongoClient mongoClient;
 
     /* Logs system exceptions */
-    final static Logger log = Logger.getLogger(DatabaseManagerImpl.class);
+    private final static Logger log = Logger.getLogger(DatabaseManagerImpl.class);
 
 
     /**
@@ -89,7 +89,7 @@ public abstract class DatabaseManagerImpl {
     /**
      * Remove an invite by sending me the invite object to remove and the nickname of the user to which the invite belongs.
      *
-     * @param nickname the nickname of the user who has the invite in their list of invites.
+     * @param nickname  the nickname of the user who has the invite in their list of invites.
      * @param theInvite the invite you want removed.
      */
     public static void removeInvite(String nickname, Backend.Invite theInvite) {
@@ -186,7 +186,7 @@ public abstract class DatabaseManagerImpl {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        UsersJavaObject usr = null;
+        UsersJavaObject usr;
         try {
             usr = objectMapper.readValue(collection.find(eq("nickname", nname)).first().toJson(), UsersJavaObject.class);
             return usr;
