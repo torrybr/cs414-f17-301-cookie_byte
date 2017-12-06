@@ -37,6 +37,10 @@ public class UsersJavaObject {
     private List<Invite> invites = null;
     @JsonProperty("current_games")
     private List<Integer> currentGames = null;
+    @JsonProperty("wins")
+    private int wins;
+    @JsonProperty("loses");
+    private  int loses;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -109,6 +113,18 @@ public class UsersJavaObject {
     public void setCurrentGames(List<Integer> currentGames) {
         this.currentGames = currentGames;
     }
+
+    @JsonProperty("wins")
+    public void setWins(int wins) {this.wins = wins;}
+
+    @JsonProperty("wins")
+    public int getWins(){return wins;}
+
+    @JsonProperty("loses")
+    public void setLoses(int loses){this.loses = loses;}
+
+    @JsonProperty("loses")
+    public int getLoses(){return loses;}
 
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
