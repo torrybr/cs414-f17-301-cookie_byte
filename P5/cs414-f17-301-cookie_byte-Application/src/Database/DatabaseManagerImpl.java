@@ -1,6 +1,7 @@
 package Database;
 
 import Backend.DatabaseTranslator;
+import Backend.InvitationStatus;
 import Backend.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
@@ -123,13 +124,21 @@ public abstract class DatabaseManagerImpl {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
 
+
+        Document main = new Document();
+        Document invite = new Document();
+        invite.append("gameID", theInvite.getGameID());
+
+        invite.append("userFrom", theInvite.getUserFrom().getUserID());
+        invite.append("InvitationStatus", theInvite.getStatus().toString());
+
         Document match = Document.parse(" {\"nickname\": \"" + nickname + "\",\"invites\": { $elemMatch: {\"Invite.gameID\" : NumberInt(" + theInvite.getGameID() + ") }} }");
 
-        Document invitationStatus = new Document();
-        invitationStatus.append("invitationStatus", theInvite.getStatus().toString());
-        //invite.append("InvitationStatus", invitationStatus);
+        BasicDBObject data = new BasicDBObject();
+        main.append("Invite", invite);
+        data.put("invites", main);
 
-        collection.updateOne(match, new Document("$set", new Document("InvitationStatus", invitationStatus)));
+        collection.findOneAndUpdate(match, new Document("$set", data));
 
     }
 
@@ -458,7 +467,7 @@ public abstract class DatabaseManagerImpl {
             log.error("error parsing user json to java pojo", e);
         }
 
-        collection.deleteOne(collection.find(eq("nickname", nickname)).first());
+        //collection.deleteOne(collection.find(eq("nickname", nickname)).first());
         log.info("Successfully deleted /" + nickname + "/ from the database.. ");
 
     }
