@@ -206,7 +206,7 @@ public class Home extends Application {
 	       	 
             @Override
             public void handle(ActionEvent e) {
-            		Profile prof = new Profile(clientDriver);
+            		Profile prof = new Profile(clientDriver); 
             		try {
 						prof.start(main);
 					} catch (Exception e1) {

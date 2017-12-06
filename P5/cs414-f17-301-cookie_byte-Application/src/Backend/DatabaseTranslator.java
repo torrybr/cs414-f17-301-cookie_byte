@@ -14,6 +14,7 @@ public abstract class DatabaseTranslator {
 		List<Invite> newList = new ArrayList<Invite>();
 		
 		UsersJavaObject temp = DatabaseManagerImpl.getUserByNickname(u.getUserID());
+		
 		List<Database.Invite> dbInvites = temp.getInvites();
 		for(int i = 0; i < dbInvites.size(); i++) 
 		{	

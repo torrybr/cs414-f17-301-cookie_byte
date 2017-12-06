@@ -72,7 +72,7 @@ public class InviteView extends Application {
             }
         });
 
-	    buttonHome.setOnAction(new EventHandler<ActionEvent>() {
+	    buttonDecline.setOnAction(new EventHandler<ActionEvent>() { 
 
             @Override
             public void handle(ActionEvent e) {
@@ -89,6 +89,21 @@ public class InviteView extends Application {
             }
         });
 
+	    buttonHome.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+            	String name = driver.getProfile().getUserID();
+        		driver = new ClientDriver(name);
+				Home home = new Home(driver);
+            		try {
+						home.start(main);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+
+            }
+        });
 
 
 	    final Pane spacer = new Pane();
