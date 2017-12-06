@@ -464,7 +464,7 @@ public abstract class DatabaseManagerImpl {
             log.error("error parsing user json to java pojo", e);
         }
 
-        //collection.deleteOne(collection.find(eq("nickname", nickname)).first());
+        collection.deleteOne(collection.find(eq("nickname", nickname)).first());
         log.info("Successfully deleted /" + nickname + "/ from the database.. ");
 
     }
