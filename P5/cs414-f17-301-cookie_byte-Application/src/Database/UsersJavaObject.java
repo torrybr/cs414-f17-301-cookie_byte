@@ -39,7 +39,7 @@ public class UsersJavaObject {
     private List<Integer> currentGames = null;
     @JsonProperty("wins")
     private int wins;
-    @JsonProperty("loses");
+    @JsonProperty("loses")
     private  int loses;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
