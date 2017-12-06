@@ -4,6 +4,7 @@ package Database;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,13 +14,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "_id",
-    "nickname",
-    "email",
-    "password",
-    "game_history",
-    "invites",
-    "current_games"
+        "_id",
+        "nickname",
+        "email",
+        "password",
+        "game_history",
+        "invites",
+        "current_games"
 })
 public class UsersJavaObject {
 
@@ -40,7 +41,7 @@ public class UsersJavaObject {
     @JsonProperty("wins")
     private int wins;
     @JsonProperty("loses")
-    private  int loses;
+    private int loses;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -115,16 +116,24 @@ public class UsersJavaObject {
     }
 
     @JsonProperty("wins")
-    public void setWins(int wins) {this.wins = wins;}
+    public void setWins(int wins) {
+        this.wins = wins;
+    }
 
     @JsonProperty("wins")
-    public int getWins(){return wins;}
+    public int getWins() {
+        return wins;
+    }
 
     @JsonProperty("loses")
-    public void setLoses(int loses){this.loses = loses;}
+    public void setLoses(int loses) {
+        this.loses = loses;
+    }
 
     @JsonProperty("loses")
-    public int getLoses(){return loses;}
+    public int getLoses() {
+        return loses;
+    }
 
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {

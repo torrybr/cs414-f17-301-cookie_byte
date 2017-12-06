@@ -474,6 +474,40 @@ public abstract class DatabaseManagerImpl {
 
     }
 
+    /**
+     * A method that updates either the win or lose column by passing in the type of score you want to update. Updates by 1.
+     * @param scoreType either "wins" or "loses" that gets updated.
+     * @param nickname the nickname of the user to update.
+     */
+    public static void updateScore(String nickname,String scoreType) {
+        MongoDatabase db = mongoClient.getDatabase("cs414Application");
+        MongoCollection<Document> collection = db.getCollection("users");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        int theScore = 0;
+        try {
+            UsersJavaObject myUser = objectMapper.readValue(collection.find(eq("nickname", nickname)).first().toJson(), UsersJavaObject.class);
+            if(scoreType.equals("wins")) {
+                 theScore = myUser.getWins();
+                 theScore++;
+
+            } else if(scoreType.equals("loses")) {
+                 theScore = myUser.getLoses();
+                 theScore++;
+            }
+            Document score = new Document();
+            score.put(scoreType, theScore);
+
+            collection.updateOne(eq("nickname", nickname), new Document("$set", score));
+            log.info("Successfully updated the score of user /*" + nickname + " */");
+
+        } catch (IOException e) {
+            log.error("could not parse java POJO");
+        }
+
+
+    }
+
     public static void main(String args[]) {
 
     }
