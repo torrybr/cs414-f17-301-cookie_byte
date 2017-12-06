@@ -1,7 +1,6 @@
 package Database;
 
 import Backend.DatabaseTranslator;
-import Backend.InvitationStatus;
 import Backend.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
@@ -44,7 +43,7 @@ public abstract class DatabaseManagerImpl {
     /**
      * Initializes the MongoDB, creates the database if it is not present and sets the Connection string so its available to other methods in the class.
      *
-     * @return true or false if the connection to the database was successful
+     * @return true or false if the connection to the database was successful.
      */
     public static boolean initializeDB() {
         try {
@@ -60,11 +59,11 @@ public abstract class DatabaseManagerImpl {
 
     /**
      * Method to insert a NEW user. This method does not validate input. It takes the exact string and inputs into DB.
-     * Creates empty list of game_history , invites , and current games
+     * Creates empty list of game_history , invites , and current games.
      *
-     * @param nickname the unique name a user is identified by
-     * @param email    the unique email a user uses to receive notifications
-     * @param password Pass me a PRE-HASHED String
+     * @param nickname the unique name a user is identified by.
+     * @param email    the unique email a user uses to receive notifications.
+     * @param password Pass me a PRE-HASHED String.
      */
     public static void createNewUser(String nickname, String email, String password) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
@@ -91,7 +90,7 @@ public abstract class DatabaseManagerImpl {
      * Remove an invite by sending me the invite object to remove and the nickname of the user to which the invite belongs.
      *
      * @param nickname the nickname of the user who has the invite in their list of invites.
-     * @param
+     * @param theInvite the invite you want removed.
      */
     public static void removeInvite(String nickname, Backend.Invite theInvite) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
@@ -118,7 +117,7 @@ public abstract class DatabaseManagerImpl {
      * Sets the invitation status.
      *
      * @param nickname  the nickname of the user who sent the invite.
-     * @param theInvite the invite object.
+     * @param theInvite the invite you want changed.
      */
     public static void setInviteStatus(String nickname, Backend.Invite theInvite) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
@@ -261,7 +260,6 @@ public abstract class DatabaseManagerImpl {
      * @return a random INT
      */
     public static int createGameID() {
-
         Random randomGenerator = new Random();
 
         List<Integer> randIntegers = new Random().ints(1, 100000).distinct().limit(10000).boxed().collect(Collectors.toList());
@@ -296,8 +294,6 @@ public abstract class DatabaseManagerImpl {
      * @param player the player that it gets added to.
      */
     public static void addToCurrentGames(int gameID, User player) {
-
-
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
 
@@ -305,7 +301,6 @@ public abstract class DatabaseManagerImpl {
         Document query = new Document().parse("{ \"nickname\": \"" + player.getUserID() + "\" }");
 
         BasicDBObject data = new BasicDBObject();
-        //main.append("gameID",gameID);
         data.put("current_games", gameID);
 
         BasicDBObject command = new BasicDBObject();
@@ -317,9 +312,12 @@ public abstract class DatabaseManagerImpl {
     /**
      * Create an initial game and set the default board layout.
      *
-     * @param theBoard the board object
-     * @param player1  A User who is player 1
-     * @param player2  A User who is player 2
+     * @param theBoard the board object.
+     * @param player1  A User who is player 1.
+     * @param player2  A User who is player 2.
+     * @param offence  the user on offence.
+     * @param defence  the user on defence.
+     * @param currTurn the current turn.
      */
     public static void createGame(Backend.Board theBoard, User player1, User player2, User offence, User defence, User currTurn) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
@@ -338,7 +336,6 @@ public abstract class DatabaseManagerImpl {
         myGame.put("Offense", offence.getUserID());
         myGame.put("Defense", defence.getUserID());
         myGame.put("CurrentTurn", currTurn.getUserID());
-
 
         Document myBoard = new Document();
 
@@ -372,7 +369,8 @@ public abstract class DatabaseManagerImpl {
      * When a piece has been moved, use this method to save the new piece location to the database.
      * This should be called after every piece has been moved in order to save the state of the game.
      *
-     * @param gameID the ID of game we need to update
+     * @param gameID   the ID of game we need to update.
+     * @param theBoard the new board object to be saved.
      */
     public static void updateGame(int gameID, Backend.Board theBoard) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
