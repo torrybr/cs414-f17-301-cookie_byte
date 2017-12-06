@@ -86,6 +86,31 @@ public abstract class DatabaseManagerImpl {
     }
 
     /**
+     * Remove an invite by sending me the invite object to remove and the nickname of the user to which the invite belongs.
+     * @param nickname the nickname of the user who has the invite in their list of invites.
+     * @param
+     */
+    public static void removeInvite(String nickname , Backend.Invite theInvite) {
+        MongoDatabase db = mongoClient.getDatabase("cs414Application");
+        MongoCollection<Document> collection = db.getCollection("users");
+
+        Document main = new Document();
+        Document invite = new Document();
+        invite.append("gameID", theInvite.getGameID());
+
+        invite.append("userFrom", theInvite.getUserFrom());
+        invite.append("InvitationStatus", theInvite.getStatus());
+
+        Document matchTest = Document.parse(" {\"nickname\": \"" + nickname + "\",\"invites\": { $elemMatch: {\"Invite.gameID\" : NumberInt("+theInvite.getGameID()+") }} }");
+
+        BasicDBObject data = new BasicDBObject();
+        main.append("Invite", invite);
+        data.put("invites", main);
+
+        collection.findOneAndUpdate(matchTest, new Document("$pull",data));
+    }
+
+    /**
      * Sets the invitation status.
      *
      * @param nickname  the nickname of the user who sent the invite.
