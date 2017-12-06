@@ -447,7 +447,6 @@ public abstract class DatabaseManagerImpl {
 
         try {
             for (Document user : collection.find(match)) {
-                System.out.println(user.toJson());
                 UsersJavaObject theInvite = objectMapper.readValue(user.toJson(), UsersJavaObject.class);
                 List<Database.Invite> invitesList = theInvite.getInvites();
                 for (Database.Invite inv : invitesList) {
