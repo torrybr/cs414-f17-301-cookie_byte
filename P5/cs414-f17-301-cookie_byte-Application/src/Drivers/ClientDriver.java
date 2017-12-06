@@ -56,7 +56,7 @@ public class ClientDriver {
 	
 	public ClientDriver(String username, String password, String email) {
 		//Db create user profile
-		DatabaseManagerImpl.createNewUser(username,password,email);
+		DatabaseManagerImpl.createNewUser(username,email,password);
 	}
 	
 	public ClientDriver(User profile, List<String> inviteIDs, List<Integer> gameIDs) {
