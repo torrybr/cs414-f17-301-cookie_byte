@@ -123,7 +123,7 @@ public abstract class DatabaseManagerImpl {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
 
-
+        
         Document main = new Document();
         Document invite = new Document();
         invite.append("gameID", theInvite.getGameID());
@@ -132,7 +132,6 @@ public abstract class DatabaseManagerImpl {
         invite.append("InvitationStatus", theInvite.getStatus().toString());
 
         Document match = Document.parse(" {\"nickname\": \"" + nickname + "\",\"invites\": { $elemMatch: {\"Invite.gameID\" : NumberInt(" + theInvite.getGameID() + ") }} }");
-
         BasicDBObject data = new BasicDBObject();
         main.append("Invite", invite);
         data.put("invites", main);
