@@ -113,7 +113,10 @@ public abstract class DatabaseTranslator {
 	public static User getUser(String userID) 
 	{
 		UsersJavaObject temp = DatabaseManagerImpl.getUserByNickname(userID);
-		return new User(temp.getNickname(),temp.getPassword(),temp.getEmail());
+		User tempuser = new User(temp.getNickname(),temp.getPassword(),temp.getEmail());
+		tempuser.setLosses(temp.getLoses());
+		tempuser.setWins(temp.getWins());
+		return tempuser;
 	}
 	
 }

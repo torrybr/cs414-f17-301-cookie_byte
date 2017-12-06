@@ -59,6 +59,7 @@ public class Invite {
 		}
 		
 		userTo.removeInvite(this); //do a database remove
+		Database.DatabaseManagerImpl.removeInvite(userTo.userID, this);
 		//DBDriver.setInviteStatus(nickname, theInvite);
 		/**
 		 * WHen accepted save game to users table
@@ -78,9 +79,9 @@ public class Invite {
 		{
 			this.tournament.checkTournamentStatus();
 		}
-		
 		// Remove invite from receiving user
 		userTo.removeInvite(this);
+		Database.DatabaseManagerImpl.removeInvite(userTo.userID, this);
 		/**
 		 * remove the user invite from <invites></invites>
 		 */

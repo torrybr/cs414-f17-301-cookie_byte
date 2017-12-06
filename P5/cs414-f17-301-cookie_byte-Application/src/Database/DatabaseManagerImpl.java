@@ -128,10 +128,8 @@ public abstract class DatabaseManagerImpl {
     public static void setInviteStatus(String nickname, Backend.Invite theInvite) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
-
         ArrayList<Document> array = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
-
 
         UsersJavaObject usr;
         try {

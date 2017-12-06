@@ -29,6 +29,7 @@ public class Home extends Application {
 	private BorderPane rootPane;
 	protected ClientDriver clientDriver;
 	BorderPane border;
+	HBox hbox;
 	public Home(String name) {
 		rootPane = new BorderPane();
 		this.clientDriver= new ClientDriver(name);
@@ -45,7 +46,7 @@ public class Home extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		main = primaryStage;
 		border = new BorderPane();
-		HBox hbox = addHBox();
+		hbox = addHBox();
 		border.setTop(hbox);
 		clientDriver.findActiveGames();
 		clientDriver.findActiveGames();
@@ -60,7 +61,18 @@ public class Home extends Application {
 		primaryStage.setTitle(clientDriver.profile.getUserID()+" Home");
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		
+		ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
+
+		exec.scheduleAtFixedRate(new Runnable() {
+			@Override
+			public void run() {
+				Platform.runLater(new Runnable() {
+					@Override public void run() {
+							//refresh();
+					}
+				});
+			}
+		}, 0, 5, TimeUnit.SECONDS);
 	}
 	
 	
@@ -144,9 +156,6 @@ public class Home extends Application {
 	    Button buttonLogout = new Button("Logout");
 	    buttonLogout.setPrefSize(120, 20);
 	    
-	    Button buttonRefresh = new Button("Refresh");
-	    buttonLogout.setPrefSize(120, 20);
-	    
 	    Button buttonProfile = new Button("Profile");
 	    buttonProfile.setPrefSize(120, 20);
 	    
@@ -157,28 +166,6 @@ public class Home extends Application {
             		CreateGame create = new CreateGame(clientDriver);
             		try {
 						create.start(main);
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}
-                
-            }
-        });
-	    
-	    buttonRefresh.setOnAction(new EventHandler<ActionEvent>() {
-	       	 
-            @Override
-            public void handle(ActionEvent e) {
-            		border.getChildren().clear();
-            		try {
-            			String name = clientDriver.getProfile().getUserID();
-            			clientDriver = new ClientDriver(name);
-            			ScrollPane sp = new ScrollPane();
-            			ScrollPane sp2 = new ScrollPane();
-            			sp.setContent(addVBoxGames("Current Games",clientDriver.getActiveGames()));
-            			sp2.setContent(addVBoxInvites("Invites",clientDriver.getActiveInvites()));
-            			border.setTop(hbox);
-            			border.setLeft(addVBoxGames("Current Games",clientDriver.getActiveGames()));
-            			border.setRight(addVBoxInvites("Invites",clientDriver.getActiveInvites()));
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
@@ -221,9 +208,27 @@ public class Home extends Application {
 	    final Pane spacer = new Pane();
 	    HBox.setHgrow(spacer, Priority.ALWAYS);
 	    spacer.setMinSize(10, 1);
-	    hbox.getChildren().addAll(spacer,buttonProfile,buttonGame, buttonRefresh, buttonLogout);
+	    hbox.getChildren().addAll(spacer,buttonProfile,buttonGame, buttonLogout);
 
 	    return hbox;
+	}
+	public synchronized void refresh(){
+		border.getChildren().clear();
+		try {
+			String name = clientDriver.getProfile().getUserID();
+			clientDriver = new ClientDriver(name);
+			ScrollPane sp = new ScrollPane();
+			ScrollPane sp2 = new ScrollPane();
+			sp.setContent(addVBoxGames("Current Games",clientDriver.getActiveGames()));
+			sp2.setContent(addVBoxInvites("Invites",clientDriver.getActiveInvites()));
+			hbox = addHBox();
+			border.setTop(hbox);
+			border.setLeft(sp);
+			border.setRight(sp2);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
 	}
 	public static void main(String[] args) {
 		launch(args);

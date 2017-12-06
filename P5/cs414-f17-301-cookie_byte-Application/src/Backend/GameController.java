@@ -118,6 +118,8 @@ public class GameController {
 			this.setWinner(player2);
 			player2.addWin();
 			player1.addLoss();
+			DatabaseManagerImpl.updateScore(player2.getUserID(), "wins");
+			DatabaseManagerImpl.updateScore(player1.getUserID(), "loses");
 			this.setCurrentTurn(player2);
 
 		}
@@ -126,6 +128,8 @@ public class GameController {
 			this.setWinner(player1);
 			player1.addWin();
 			player2.addLoss();
+			DatabaseManagerImpl.updateScore(player1.getUserID(), "wins");
+			DatabaseManagerImpl.updateScore(player2.getUserID(), "loses");
 			this.setCurrentTurn(player1);
 		}
 		
@@ -655,7 +659,9 @@ public class GameController {
 				defence.addLoss();
 				defence.addPastGame(this);
 				defence.removeCurrentGame(this);
-				// SDB
+				
+				DatabaseManagerImpl.updateScore(offence.getUserID(), "wins");
+				DatabaseManagerImpl.updateScore(defence.getUserID(), "loses");
 				
 				//checks to see if there's another round after this game or if the Tournament is over.
 				if (isTournament){
@@ -685,7 +691,9 @@ public class GameController {
 				offence.addLoss(); 
 				offence.addPastGame(this);
 				offence.removeCurrentGame(this); 
-				// SDB
+				
+				DatabaseManagerImpl.updateScore(defence.getUserID(), "wins");
+				DatabaseManagerImpl.updateScore(offence.getUserID(), "loses");
 				
 				//checks to see if there's another round after this game or if the Tournament is over.
 				if (isTournament){

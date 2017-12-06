@@ -85,28 +85,13 @@ public class Profile extends Application{
 		else{
 			winpct = driver.getProfile().getWins()/(driver.getProfile().getLosses()+driver.getProfile().getWins());
 		}
-		Label winp = new Label("Win %: "+winpct);
+		Label winp = new Label("Win %: ");
 		grid.add(winp, 0, 5);
 
-		Text winpercentage = new Text(Float.toString(winpct));
+		Text winpercentage = new Text(Float.toString(winpct*100));
 		winpercentage.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
 		grid.add(winpercentage, 1, 5);
-		
-		Label past = new Label("Past Games:  ");
-		grid.add(past, 0, 6);
 
-		Button pastgames = new Button("");
-		pastgames.setPrefSize(100,20);
-		pastgames.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				//old games window
-			}
-		});
-
-		grid.add(pastgames, 1, 6);
-		
 		Button buttonCurrent = new Button("Home");
 	    buttonCurrent.setPrefSize(100, 20);
 		
