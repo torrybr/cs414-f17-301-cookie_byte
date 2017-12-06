@@ -1,6 +1,7 @@
 package Database;
 
-import Backend.DatabaseTranslator;
+import Backend.*;
+import Backend.InvitationStatus;
 import Backend.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
@@ -128,21 +129,40 @@ public abstract class DatabaseManagerImpl {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
 
+        ArrayList<Document> array = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        Document main = new Document();
-        Document invite = new Document();
-        invite.append("gameID", theInvite.getGameID());
 
-        invite.append("userFrom", theInvite.getUserFrom().getUserID());
-        invite.append("InvitationStatus", theInvite.getStatus().toString());
+        UsersJavaObject usr;
+        try {
+            usr = objectMapper.readValue(collection.find(eq("nickname", nickname)).first().toJson(), UsersJavaObject.class);
+            List<Backend.Invite> invitesList = DatabaseTranslator.getDbInvites(DatabaseTranslator.getUser(nickname));
 
-        Document match = Document.parse(" {\"nickname\": \"" + nickname + "\",\"invites\": { $elemMatch: {\"Invite.gameID\" : NumberInt(" + theInvite.getGameID() + ") }} }");
+            for(Backend.Invite inv : invitesList) {
+                Document main = new Document();
+                Document invite = new Document();
+                invite.append("gameID", theInvite.getGameID());
+                invite.append("userFrom", theInvite.getUserFrom().getUserID());
+                if(inv.getGameID() == theInvite.getGameID()) {
+                    invite.append("InvitationStatus", theInvite.getStatus().toString());
+                } else {
+                    invite.append("InvitationStatus",inv.getStatus().toString());
+                }
+                main.append("Invite",invite);
+                array.add(main);
+            }
 
-        BasicDBObject data = new BasicDBObject();
-        main.append("Invite", invite);
-        data.put("invites", main);
+            BasicDBObject data = new BasicDBObject();
+            data.put("invites", array);
 
-        collection.findOneAndUpdate(match, new Document("$set", data));
+            BasicDBObject command = new BasicDBObject();
+            command.put("$set", data);
+            Document query = Document.parse("{ \"nickname\": \"" + nickname + "\"}");
+            collection.updateOne(query, command);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
 
     }
 

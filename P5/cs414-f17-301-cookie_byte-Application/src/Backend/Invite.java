@@ -47,7 +47,7 @@ public class Invite {
 	{
 		// Set invite to accepted
 		status = InvitationStatus.ACCEPTED;
-		DatabaseManagerImpl.setInviteStatus(userFrom.userID, this);
+		DatabaseManagerImpl.setInviteStatus(userTo.userID, this);
 		//Actually creates the game with the two users
 		
 		if(!isTournament){
@@ -72,7 +72,7 @@ public class Invite {
 	{
 		//Set invite to declined
 		status = InvitationStatus.DECLINED;
-		DatabaseManagerImpl.setInviteStatus(userFrom.userID, this);
+		DatabaseManagerImpl.setInviteStatus(userTo.userID, this);
 		//if it is a tournament invite check the status of the tournament
 		if (isTournament)
 		{
