@@ -46,7 +46,7 @@ public class Invite {
 	public void acceptInvite()
 	{
 		// Set invite to accepted
-		status = InvitationStatus.ACCEPTED;
+		this.status = InvitationStatus.ACCEPTED;
 		DatabaseManagerImpl.setInviteStatus(userFrom.userID, this);
 		//Actually creates the game with the two users
 		
@@ -59,6 +59,7 @@ public class Invite {
 		}
 		
 		userTo.removeInvite(this); //do a database remove
+		Database.DatabaseManagerImpl.removeInvite(userTo.userID, this);
 		//DBDriver.setInviteStatus(nickname, theInvite);
 		/**
 		 * WHen accepted save game to users table
@@ -71,16 +72,16 @@ public class Invite {
 	public void declineInvite()
 	{
 		//Set invite to declined
-		status = InvitationStatus.DECLINED;
+		this.status = InvitationStatus.DECLINED;
 		DatabaseManagerImpl.setInviteStatus(userFrom.userID, this);
 		//if it is a tournament invite check the status of the tournament
 		if (isTournament)
 		{
 			this.tournament.checkTournamentStatus();
 		}
-		
 		// Remove invite from receiving user
 		userTo.removeInvite(this);
+		Database.DatabaseManagerImpl.removeInvite(userTo.userID, this);
 		/**
 		 * remove the user invite from <invites></invites>
 		 */
