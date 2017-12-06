@@ -442,8 +442,8 @@ public class GameController {
 
 		// Is there a piece in the way check
 		// Left and right
-		System.out.println(rowFrom+" "+colFrom);
-		System.out.println(rowTo+" "+colTo);
+		//System.out.println(rowFrom+" "+colFrom);
+		//System.out.println(rowTo+" "+colTo);
 		//System.out.println("Here");
 		if(rowFrom == rowTo)
 		{

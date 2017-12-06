@@ -68,7 +68,7 @@ public class Home extends Application {
 			public void run() {
 				Platform.runLater(new Runnable() {
 					@Override public void run() {
-							//refresh();
+							refresh();
 					}
 				});
 			}

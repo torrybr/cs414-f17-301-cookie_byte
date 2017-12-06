@@ -66,7 +66,7 @@ public abstract class DatabaseTranslator {
 		}
 		
 		//check if it is the players turn
-		System.out.println(DatabaseManagerImpl.getGame(gameID).getCurrentTurn());
+		//System.out.println(DatabaseManagerImpl.getGame(gameID).getCurrentTurn());
 		if(DatabaseManagerImpl.getGame(gameID).getCurrentTurn().equals(thePlayer.getNickname()))
 		{
 			playerToReturn.setTurn(true);
