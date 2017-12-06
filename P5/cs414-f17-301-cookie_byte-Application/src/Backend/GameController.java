@@ -391,20 +391,20 @@ public class GameController {
 			return false;
 		}
 		
-		//Can't move king into check
-		if (piece.getType() == PieceType.KING){
-			if(rowTo == 4 && colTo == 5 || rowTo == 5 && colTo == 4 || rowTo == 6 && colTo == 5 || rowTo == 5 && colTo == 6){
-				board.addPieceToBoard(rowTo, colTo, PieceType.KING, player);
-				board.removePiece(rowFrom, colFrom);
-				if (attackWinConditions()){
-					board.removePiece(rowTo, colTo);
-					board.addPieceToBoard(rowFrom, colFrom, PieceType.KING, player);
-					System.out.println("Can't move king into check");
-					return false;}
-			}
-			board.addPieceToBoard(rowFrom, colFrom, PieceType.KING, player);
-			board.removePiece(rowTo, colTo);
-		}		
+//		//Can't move king into check
+//		if (piece.getType() == PieceType.KING){
+//			if(rowTo == 4 && colTo == 5 || rowTo == 5 && colTo == 4 || rowTo == 6 && colTo == 5 || rowTo == 5 && colTo == 6){
+//				board.addPieceToBoard(rowTo, colTo, PieceType.KING, player);
+//				board.removePiece(rowFrom, colFrom);
+//				if (attackWinConditions()){
+//					board.removePiece(rowTo, colTo);
+//					board.addPieceToBoard(rowFrom, colFrom, PieceType.KING, player);
+//					System.out.println("Can't move king into check");
+//					return false;}
+//			}
+//			board.addPieceToBoard(rowFrom, colFrom, PieceType.KING, player);
+//			board.removePiece(rowTo, colTo);
+//		}		
 				
 		// Is the piece moving to a corner OR the center piece & not a king check
 		if (piece.getType() != PieceType.KING)
