@@ -111,23 +111,6 @@ public abstract class DatabaseManagerImpl {
         data.put("invites", main);
 
         collection.findOneAndUpdate(match, new Document("$pull", data));
-
-        /*
-        Document main = new Document();
-        Document invite = new Document();
-        invite.append("gameID", 6969);
-
-        invite.append("userFrom", "XX");
-        invite.append("InvitationStatus", "ACCEPTED");
-
-        Document match = Document.parse(" {\"nickname\": \"" + nickname + "\",\"invites\": { $elemMatch: {\"Invite.gameID\" : NumberInt(" + 6969 + ") }} }");
-
-        BasicDBObject data = new BasicDBObject();
-        main.append("Invite", invite);
-        data.put("invites", main);
-
-        collection.findOneAndUpdate(match, new Document("$pull", data));
-        */
     }
 
     /**
@@ -467,11 +450,8 @@ public abstract class DatabaseManagerImpl {
                         Backend.Invite deleteThisInvite = new Backend.Invite(myUserTo, myUserFrom, inv.getInvite().getGameID());
                         deleteThisInvite.setStatus(Backend.InvitationStatus.valueOf(inv.getInvite().getInvitationStatus()));
                         removeInvite(theInvite.getNickname(), deleteThisInvite);
-
                     }
                 }
-                //Backend.Invite myDeletedInvite = new Backend.Invite(theInvite.);
-
             }
 
         } catch (IOException e) {
