@@ -83,8 +83,13 @@ public abstract class DatabaseManagerImpl {
 
         user.append("current_games", current_games);
 
+        user.append("wins", 0);
+
+        user.append("loses",0);
+
         collection.insertOne(user);
     }
+
 
     /**
      * Remove an invite by sending me the invite object to remove and the nickname of the user to which the invite belongs.
