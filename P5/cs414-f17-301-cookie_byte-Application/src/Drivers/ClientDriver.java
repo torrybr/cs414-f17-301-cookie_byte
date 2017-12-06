@@ -68,6 +68,8 @@ public class ClientDriver {
 		//get user info from DB
 		UsersJavaObject temp = DatabaseManagerImpl.getUserByNickname(username);
 		profile = new User(temp.getNickname(),temp.getPassword(),temp.getEmail());
+		profile.setLosses(temp.getLoses());
+		profile.setWins(temp.getWins());
 		//List<Integer> tempo = temp.getCurrentGames();
 		// = (List<Integer>) tempo.get(0);
 		gameIDs = temp.getCurrentGames();
