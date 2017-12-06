@@ -1,5 +1,6 @@
 package Database;
 
+import Backend.DatabaseTranslator;
 import Backend.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
@@ -87,27 +88,29 @@ public abstract class DatabaseManagerImpl {
 
     /**
      * Remove an invite by sending me the invite object to remove and the nickname of the user to which the invite belongs.
+     *
      * @param nickname the nickname of the user who has the invite in their list of invites.
      * @param
      */
-    public static void removeInvite(String nickname , Backend.Invite theInvite) {
+    public static void removeInvite(String nickname, Backend.Invite theInvite) {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
+
 
         Document main = new Document();
         Document invite = new Document();
         invite.append("gameID", theInvite.getGameID());
 
-        invite.append("userFrom", theInvite.getUserFrom());
-        invite.append("InvitationStatus", theInvite.getStatus());
+        invite.append("userFrom", theInvite.getUserFrom().getUserID());
+        invite.append("InvitationStatus", theInvite.getStatus().toString());
 
-        Document matchTest = Document.parse(" {\"nickname\": \"" + nickname + "\",\"invites\": { $elemMatch: {\"Invite.gameID\" : NumberInt("+theInvite.getGameID()+") }} }");
+        Document match = Document.parse(" {\"nickname\": \"" + nickname + "\",\"invites\": { $elemMatch: {\"Invite.gameID\" : NumberInt(" + theInvite.getGameID() + ") }} }");
 
         BasicDBObject data = new BasicDBObject();
         main.append("Invite", invite);
         data.put("invites", main);
 
-        collection.findOneAndUpdate(matchTest, new Document("$pull",data));
+        collection.findOneAndUpdate(match, new Document("$pull", data));
     }
 
     /**
@@ -175,7 +178,7 @@ public abstract class DatabaseManagerImpl {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-       UsersJavaObject usr = null;
+        UsersJavaObject usr = null;
         try {
             usr = objectMapper.readValue(collection.find(eq("nickname", nname)).first().toJson(), UsersJavaObject.class);
             return usr;
@@ -385,7 +388,7 @@ public abstract class DatabaseManagerImpl {
         }
 
         BasicDBObject data = new BasicDBObject();
-        data.put("Board.pieces", array);  
+        data.put("Board.pieces", array);
 
         BasicDBObject command = new BasicDBObject();
         command.put("$set", data);
@@ -422,7 +425,7 @@ public abstract class DatabaseManagerImpl {
 
 
     /**
-     * Remove a user from the database by nickname. Prints info message to the console for easier debugging.
+     * Remove a user from the database by nickname. This also Deletes all invites this user has pending to any other user in the system. Prints info message to the console for easier debugging.
      *
      * @param nickname the nickname of the user to remove.
      */
@@ -430,13 +433,37 @@ public abstract class DatabaseManagerImpl {
         MongoDatabase db = mongoClient.getDatabase("cs414Application");
         MongoCollection<Document> collection = db.getCollection("users");
 
+        //Find all the invites in the system the nickname has.
+        Document match = Document.parse(" {\"invites\": { $elemMatch: {\"Invite.userFrom\" : \"" + nickname + "\" }} }");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            for (Document user : collection.find(match)) {
+                System.out.println(user.toJson());
+                UsersJavaObject theInvite = objectMapper.readValue(user.toJson(), UsersJavaObject.class);
+                List<Database.Invite> invitesList = theInvite.getInvites();
+                for (Database.Invite inv : invitesList) {
+                    if (inv.getInvite().getUserFrom().equals(nickname)) {
+                        Backend.User myUserTo = DatabaseTranslator.getUser(theInvite.getNickname());
+                        Backend.User myUserFrom = DatabaseTranslator.getUser(inv.getInvite().getUserFrom());
+                        Backend.Invite deleteThisInvite = new Backend.Invite(myUserTo, myUserFrom, inv.getInvite().getGameID());
+                        deleteThisInvite.setStatus(Backend.InvitationStatus.valueOf(inv.getInvite().getInvitationStatus()));
+                        removeInvite(theInvite.getNickname(), deleteThisInvite);
+                    }
+                }
+            }
+
+        } catch (IOException e) {
+            log.error("error parsing user json to java pojo", e);
+        }
+
         collection.deleteOne(collection.find(eq("nickname", nickname)).first());
-       // Log.info("Successfully deleted /" + nickname + "/ from the database.. ");
+        log.info("Successfully deleted /" + nickname + "/ from the database.. ");
 
     }
 
     public static void main(String args[]) {
-
 
     }
 
